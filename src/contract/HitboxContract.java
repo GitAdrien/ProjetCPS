@@ -1,12 +1,12 @@
 package contract;
 
-import interfaceservice.Hitbox;
+import interfaceservice.HitboxService;
 import contract.decorator.HitboxDecorator;
 import contract.errors.PostConditionError;
 
 public class HitboxContract extends HitboxDecorator {
 
-	public HitboxContract(Hitbox service) {
+	public HitboxContract(HitboxService service) {
 		super(service);
 	}
 
@@ -18,7 +18,7 @@ public class HitboxContract extends HitboxDecorator {
 	}
 	
 	@Override
-	public Hitbox init(int x, int y) {
+	public HitboxService init(int x, int y) {
 		// No pre
 		
 		super.init(x, y);
@@ -38,7 +38,7 @@ public class HitboxContract extends HitboxDecorator {
 	
 	
 	@Override
-	public Hitbox moveTo(int x, int y) {
+	public HitboxService moveTo(int x, int y) {
 		// No pre
 		
 		// pre invariant
@@ -58,6 +58,9 @@ public class HitboxContract extends HitboxDecorator {
 			throw new PostConditionError("y != positionY");
 		// \post : \exists u, v, BelongsTo(MoveTo(h, x, y), u, v) = 
 		//							BelongsTo(h, u-(x-PositionX(h)), v-(y-PositionY(h))
+		
+		
+		// Vérifie si il y a collision.
 		// TODO
 		
 		return this;

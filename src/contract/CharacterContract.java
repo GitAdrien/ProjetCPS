@@ -4,12 +4,13 @@ import contract.decorator.CharacterDecorator;
 import contract.errors.InvariantError;
 import contract.errors.PostConditionError;
 import contract.errors.PreconditionError;
-import interfaceservice.Character;
-import interfaceservice.Engine;
+import interfaceservice.CharacterService;
+import interfaceservice.EngineService;
+import interfaceservice.HitboxService;
 
 public class CharacterContract extends CharacterDecorator {
 
-	public CharacterContract(Character service) {
+	public CharacterContract(CharacterService service) {
 		super(service);
 	}
 	
@@ -37,7 +38,7 @@ public class CharacterContract extends CharacterDecorator {
 
 	
 	@Override
-	public Character init(int l, int s, boolean f, Engine e) {
+	public CharacterService init(int l, int s, boolean f, EngineService e) {
 		// \pre init(l, s, f, e) \with l > 0 \and s > 0
 		if (!(l > 0))
 			throw new PreconditionError("l <= 0");
@@ -70,7 +71,7 @@ public class CharacterContract extends CharacterDecorator {
 	}
 	
 	@Override
-	public Character switchSide() {
+	public CharacterService switchSide() {
 		// No pre
 		
 		// Pre invariant
@@ -98,7 +99,7 @@ public class CharacterContract extends CharacterDecorator {
 	
 
 	@Override
-	public Character moveLeft() {
+	public CharacterService moveLeft() {
 		
 		
 		// Pre invariant
@@ -118,22 +119,38 @@ public class CharacterContract extends CharacterDecorator {
 		checkInvariant();
 
 		
+		CharacterService other;
+		HitboxService newHb;
+		
+		if (engine().character(0).equals(this))
+			other = engine().character(1);
+		else
+			other = engine().character(0);
+		
+		newHb = charBox().clone();
+		
+		newHb.moveTo(x_pre - speed(), y_pre);
+
 		// \post : (\exists i \with Engine::player(engine(c),i) != c \and  
 		//				Hitbox::collidesWith(charBox(moveLeft(c)), charBox(Engine::player(engine(c), i)))
 		//				\implique positionX(moveLeft(c)) = positionX(c)
-		// TODO ne pas bouger quand il y a collision avec un autre joueur.
+		if (!(newHb.collidesWith(other.charBox()) && (positionX() == (x_pre)))) // TODO vérifier ça.
+			throw new PostConditionError("moved while there was collision");
 		
 		// \post positionX(c) <= speed(c) \and
 		//			(\exists i \with Engine::player(engine(c), i) != c \implique  
 		//				non(Hitbox::collidesWith(hitbox(moveLeft(c)),charBox(Engine::player(engine(c),i))))
 		//			\implique positionX(moveLeft(c)) = positionX(c) - speed(c)
-		// TODO bouger quand il n'y a pas de collision.
+		if (!(!newHb.collidesWith(other.charBox()) && (positionX() == (x_pre - speed())))) // TODO vérifier ça.
+				throw new PostConditionError("hasn't moved while there was no collision");
+		
 		
 		// \post positionX(c) > speed(c) \and
 		//			(\exists i \with Engine::player(engine(c), i) != c \implique  
 		//				non(Hitbox::collidesWith(hitbox(moveLeft(c)),charBox(Engine::player(engine(c),i))))
 		//			\implique positionX(moveLeft(c)) = 0
-		// TODO Se bloquer à 0 losque le mouvement nous fait se déplacer à une valeur < 0.
+		if (!((x_pre - speed() > 0) && (positionX() == 0))) // TODO vérifier ça.
+			throw new PostConditionError("position x < 0 : out of bounds");
 		
 		
 		// \post faceRight(moveLeft(c)) = faceRight(c) \and life(moveLeft(c)) = life(c)

@@ -1,11 +1,11 @@
 package contract.decorator;
 
-import interfaceservice.Hitbox;
+import interfaceservice.HitboxService;
 
-public class HitboxDecorator implements Hitbox {
-	private Hitbox delegate;
+public class HitboxDecorator implements HitboxService {
+	private HitboxService delegate;
 	
-	public HitboxDecorator(Hitbox delegate) {
+	public HitboxDecorator(HitboxService delegate) {
 		this.delegate = delegate;
 	}
 
@@ -25,22 +25,27 @@ public class HitboxDecorator implements Hitbox {
 	}
 
 	@Override
-	public boolean collidesWith(Hitbox h) {
+	public boolean collidesWith(HitboxService h) {
 		return delegate.collidesWith(h);
 	}
 
 	@Override
-	public boolean equalsTo(Hitbox h) {
+	public boolean equalsTo(HitboxService h) {
 		return delegate.equalsTo(h);
 	}
 
 	@Override
-	public Hitbox init(int x, int y) {
+	public HitboxService init(int x, int y) {
 		return delegate.init(x, y);
 	}
 
 	@Override
-	public Hitbox moveTo(int x, int y) {
+	public HitboxService moveTo(int x, int y) {
 		return delegate.moveTo(x, y);
+	}
+	
+	@Override
+	public HitboxService clone() {
+		return delegate.clone();
 	}
 }

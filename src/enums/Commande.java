@@ -1,6 +1,6 @@
 package enums;
 
 public enum Commande {
-	LEFT, RiGHT, NEUTRAL;
+	LEFT, RIGHT, NEUTRAL;
 
 }

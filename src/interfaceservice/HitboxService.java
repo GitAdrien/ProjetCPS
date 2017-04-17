@@ -1,12 +1,12 @@
 package interfaceservice;
 
-public interface Hitbox {
+public interface HitboxService {
 	/* Observator */
 	public int positionX();
 	public int positionY();
 	public boolean belongsTo(int x, int y);
-	public boolean collidesWith(Hitbox h);
-	public boolean equalsTo(Hitbox h);
+	public boolean collidesWith(HitboxService h);
+	public boolean equalsTo(HitboxService h);
 
 	/* Invariants */
 	// \inv : (min) CollidesWith(h1, h2) = \exists x, y \in BelongsTo(h1, x, y) \and BelongsTo(h2, x, y)
@@ -15,12 +15,16 @@ public interface Hitbox {
 	/* Constructors */
 	// \post PositionX(init(x, y)) = x
 	// \post PositionY(init(x, y)) = y
-	public Hitbox init(int x, int y);
+	public HitboxService init(int x, int y);
 
 	/* Operators */
 	// \post : PositionX(MoveTo(h, x, y)) = x
 	// \post : PositionY(MoveTo(h, x, y)) = y
 	// \post : \exists u, v, BelongsTo(MoveTo(h, x, y), u, v) = 
 	//							BelongsTo(h, u-(x-PositionX(h)), v-(y-PositionY(h))
-	public Hitbox moveTo(int x, int y);	
+	public HitboxService moveTo(int x, int y);	
+	
+	
+	
+	public HitboxService clone();
 }

@@ -1,7 +1,7 @@
 package contract;
 
-import interfaceservice.Engine;
-import interfaceservice.Player;
+import interfaceservice.EngineService;
+import interfaceservice.PlayerService;
 import contract.decorator.EngineDecorator;
 import contract.errors.InvariantError;
 import contract.errors.PostConditionError;
@@ -9,7 +9,7 @@ import contract.errors.PreconditionError;
 
 public class EngineContract extends EngineDecorator {
 
-	public EngineContract(Engine service) {
+	public EngineContract(EngineService service) {
 		super(service);
 	}
 	
@@ -21,7 +21,7 @@ public class EngineContract extends EngineDecorator {
 
 	
 	@Override
-	public Engine init(int h, int w, int s, Player p1, Player p2) {
+	public EngineService init(int h, int w, int s, PlayerService p1, PlayerService p2) {
 		// \pre : init(h, w, s, p1, p2) \with h > 0 \and s > 0 \and w > s \and p1 != p2 
 		if (!(h > 0))
 			throw new PreconditionError("h <= 0");

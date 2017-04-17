@@ -1,14 +1,14 @@
 package contract.decorator;
 
 import enums.Commande;
-import interfaceservice.Character;
-import interfaceservice.Engine;
-import interfaceservice.Player;
+import interfaceservice.CharacterService;
+import interfaceservice.EngineService;
+import interfaceservice.PlayerService;
 
-public class EngineDecorator implements Engine {
-	private Engine delegate;
+public class EngineDecorator implements EngineService {
+	private EngineService delegate;
 	
-	public EngineDecorator(Engine delegate) {
+	public EngineDecorator(EngineService delegate) {
 		this.delegate = delegate;
 	}
 
@@ -23,12 +23,12 @@ public class EngineDecorator implements Engine {
 	}
 
 	@Override
-	public Character character(int i) {
+	public CharacterService character(int i) {
 		return delegate.character(i);
 	}
 
 	@Override
-	public Player player(int i) {
+	public PlayerService player(int i) {
 		return delegate.player(i);
 	}
 
@@ -38,12 +38,12 @@ public class EngineDecorator implements Engine {
 	}
 
 	@Override
-	public Engine init(int h, int w, int s, Player p1, Player p2) {
+	public EngineService init(int h, int w, int s, PlayerService p1, PlayerService p2) {
 		return delegate.init(h, w, s, p1, p2);
 	}
 
 	@Override
-	public Engine step(Commande C1, Commande C2) {
+	public EngineService step(Commande C1, Commande C2) {
 		return delegate.step(C1, C2);
 	}
 }

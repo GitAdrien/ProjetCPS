@@ -1,5 +1,5 @@
 package interfaceservice;
 
-public interface Player {
+public interface PlayerService {
 	// TODO
 }

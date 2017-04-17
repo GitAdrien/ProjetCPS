@@ -1,13 +1,13 @@
 package contract.decorator;
 
-import interfaceservice.Character;
-import interfaceservice.Engine;
-import interfaceservice.Hitbox;
+import interfaceservice.CharacterService;
+import interfaceservice.EngineService;
+import interfaceservice.HitboxService;
 
-public class CharacterDecorator implements Character {
-	private Character delegate;
+public class CharacterDecorator implements CharacterService {
+	private CharacterService delegate;
 
-	public CharacterDecorator(Character delegate) {
+	public CharacterDecorator(CharacterService delegate) {
 		this.delegate = delegate;
 	}
 
@@ -22,12 +22,12 @@ public class CharacterDecorator implements Character {
 	}
 
 	@Override
-	public Engine engine() {
+	public EngineService engine() {
 		return delegate.engine();
 	}
 
 	@Override
-	public Hitbox charBox() {
+	public HitboxService charBox() {
 		return delegate.charBox();
 	}
 
@@ -52,22 +52,22 @@ public class CharacterDecorator implements Character {
 	}
 
 	@Override
-	public Character init(int l, int s, boolean f, Engine e) {
+	public CharacterService init(int l, int s, boolean f, EngineService e) {
 		return delegate.init(l, s, f, e);
 	}
 
 	@Override
-	public Character moveLeft() {
+	public CharacterService moveLeft() {
 		return delegate.moveLeft();
 	}
 
 	@Override
-	public Character moveRight() {
+	public CharacterService moveRight() {
 		return delegate.moveRight();
 	}
 
 	@Override
-	public Character switchSide() {
+	public CharacterService switchSide() {
 		return delegate.switchSide();
 	}
 	

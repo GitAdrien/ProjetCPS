@@ -1,11 +1,11 @@
 package interfaceservice;
 
-public interface Character {
+public interface CharacterService {
 	/* Observator */
 	public int positionX();
 	public int positionY();
-	public Engine engine();
-	public Hitbox charBox();
+	public EngineService engine();
+	public HitboxService charBox();
 	public int life();
 	public int speed();
 	public boolean faceRight();
@@ -29,7 +29,7 @@ public interface Character {
 	 * @param f faceRight
 	 * @param e engine
 	 */
-	public Character init(int l, int s, boolean f, Engine e);
+	public CharacterService init(int l, int s, boolean f, EngineService e);
 
 	/* Operators */
 	// \post : (\exists i \with Engine::player(engine(c),i) != c \and  
@@ -45,14 +45,14 @@ public interface Character {
 	//			\implique positionX(moveLeft(c)) = 0
 	// \post faceRight(moveLeft(c)) = faceRight(c) \and life(moveLeft(c)) = life(c)
 	// \post positionY(moveLeft(c)) = positionY(c)
-	public Character moveLeft();
+	public CharacterService moveLeft();
 	
 	//TODO
-	public Character moveRight();
+	public CharacterService moveRight();
 	
 	// \post faceRight(switchSide(c)) != faceRight(c)
 	// \post positionX(switchSide(c)) = positionX(c)
-	public Character switchSide();
+	public CharacterService switchSide();
 	
 	// \post step(c, LEFT) = moveLeft(c)
 	// \post step(c, RIGHT) = moveRight(c)
