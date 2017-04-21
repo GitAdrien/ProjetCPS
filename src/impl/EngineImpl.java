@@ -16,6 +16,7 @@ public class EngineImpl implements EngineService {
 	public EngineService init(int h, int w, int s, PlayerService p1, PlayerService p2) {
 		width = w;
 		height = h;
+		// TODO s: espace entre les deux joueurs au départ
 		players = new PlayerService[]{p1, p2};
 		characters = new CharacterService[2];
 		

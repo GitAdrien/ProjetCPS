@@ -13,7 +13,6 @@ public class PlayerDecorator implements PlayerService {
 		this.delegate = delegate;
 	}
 	
-	
 	@Override
 	public int window() {
 		return delegate.window();
@@ -27,6 +26,11 @@ public class PlayerDecorator implements PlayerService {
 	@Override
 	public CharacterService character() {
 		return delegate.character();
+	}
+
+	@Override
+	public PlayerService init(int w, CharacterService c) {
+		return delegate.init(w, c);
 	}
 
 }

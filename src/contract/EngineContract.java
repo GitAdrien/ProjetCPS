@@ -5,7 +5,7 @@ import interfaceservice.PlayerService;
 import contract.decorator.EngineDecorator;
 import contract.errors.InvariantError;
 import contract.errors.PostConditionError;
-import contract.errors.PreconditionError;
+import contract.errors.PreConditionError;
 
 public class EngineContract extends EngineDecorator {
 
@@ -24,13 +24,13 @@ public class EngineContract extends EngineDecorator {
 	public EngineService init(int h, int w, int s, PlayerService p1, PlayerService p2) {
 		// \pre : init(h, w, s, p1, p2) \with h > 0 \and s > 0 \and w > s \and p1 != p2 
 		if (!(h > 0))
-			throw new PreconditionError("h <= 0");
+			throw new PreConditionError("h <= 0");
 		if (!(s > 0))
-			throw new PreconditionError("s <= 0");
+			throw new PreConditionError("s <= 0");
 		if (!(w > 0))
-			throw new PreconditionError("w <= 0");
+			throw new PreConditionError("w <= 0");
 		if (!(!p1.equals(p2)))
-			throw new PreconditionError("p1 == p2");
+			throw new PreConditionError("p1 == p2");
 
 		
 		super.init(h, w, s, p1, p2);

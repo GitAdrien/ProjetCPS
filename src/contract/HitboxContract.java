@@ -1,5 +1,7 @@
 package contract;
 
+import java.util.Random;
+
 import interfaceservice.HitboxService;
 import contract.decorator.HitboxDecorator;
 import contract.errors.PostConditionError;
@@ -12,9 +14,7 @@ public class HitboxContract extends HitboxDecorator {
 
 	
 	public void checkInvariant() {
-		// Collision status
-		// TODO
-	
+		//On ne peut rien tester
 	}
 	
 	@Override
@@ -46,7 +46,11 @@ public class HitboxContract extends HitboxDecorator {
 		
 		
 		super.moveTo(x, y);
-		
+		boolean belongsTo_centre_at_pre = belongsTo(positionX(), positionY());
+		boolean belongsTo_centre_100_at_pre = belongsTo(positionX() +100, positionY() +100);
+		boolean belongsTo_abs_at_pre = belongsTo(300, 0);
+		int positionX_at_pre = positionX();
+		int positionY_at_pre = positionY();
 		// post invariant
 		checkInvariant();
 		
@@ -56,10 +60,17 @@ public class HitboxContract extends HitboxDecorator {
 		// \post : PositionY(MoveTo(h, x, y)) = y
 		if (!(y == positionY()))
 			throw new PostConditionError("y != positionY");
-		// \post : \exists u, v, BelongsTo(MoveTo(h, x, y), u, v) = 
+		// \post : u, v, BelongsTo(MoveTo(h, x, y), u, v) = 
 		//							BelongsTo(h, u-(x-PositionX(h)), v-(y-PositionY(h))
+
+		if(! (belongsTo(positionX(), positionY()) == belongsTo_centre_at_pre))
+			throw new PostConditionError("belongsTo(positionX(), positionY()) != belongsTo_centre_at_pre");
 		
+		if(!(belongsTo(positionX() +100, positionY() + 100) == belongsTo_centre_100_at_pre))
+			throw new PostConditionError("belongsTo(positionX() +100, positionY() + 100) == belongsTo_centre_100_at_pre");
 		
+		if(! (belongsTo(300 +(x - positionX_at_pre), 0 + (y - positionY_at_pre)) == belongsTo_abs_at_pre))
+			throw new PostConditionError("belongsTo(300 +(x - positionX_at_pre), 0 + (y - positionY_at_pre)) != belongsTo_abs_at_pre");
 		// Vérifie si il y a collision.
 		// TODO
 		

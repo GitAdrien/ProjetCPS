@@ -20,7 +20,7 @@ public interface HitboxService {
 	/* Operators */
 	// \post : PositionX(MoveTo(h, x, y)) = x
 	// \post : PositionY(MoveTo(h, x, y)) = y
-	// \post : \exists u, v, BelongsTo(MoveTo(h, x, y), u, v) = 
+	// \post : u, v, BelongsTo(MoveTo(h, x, y), u, v) = 
 	//							BelongsTo(h, u-(x-PositionX(h)), v-(y-PositionY(h))
 	public HitboxService moveTo(int x, int y);	
 	

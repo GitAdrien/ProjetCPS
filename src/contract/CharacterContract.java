@@ -3,7 +3,7 @@ package contract;
 import contract.decorator.CharacterDecorator;
 import contract.errors.InvariantError;
 import contract.errors.PostConditionError;
-import contract.errors.PreconditionError;
+import contract.errors.PreConditionError;
 import interfaceservice.CharacterService;
 import interfaceservice.EngineService;
 import interfaceservice.HitboxService;
@@ -41,9 +41,9 @@ public class CharacterContract extends CharacterDecorator {
 	public CharacterService init(int l, int s, boolean f, EngineService e) {
 		// \pre init(l, s, f, e) \with l > 0 \and s > 0
 		if (!(l > 0))
-			throw new PreconditionError("l <= 0");
+			throw new PreConditionError("l <= 0");
 		if (!(s > 0))
-			throw new PreconditionError("s <= 0");
+			throw new PreConditionError("s <= 0");
 		
 		
 		super.init(l, s, f, e);
