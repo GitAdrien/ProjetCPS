@@ -140,7 +140,7 @@ public class CharacterContract extends CharacterDecorator {
 		// \post positionX(c) <= speed(c) \and
 		//			(\exists i \with Engine::player(engine(c), i) != c \implique  
 		//				non(Hitbox::collidesWith(hitbox(moveLeft(c)),charBox(Engine::player(engine(c),i))))
-		//			\implique positionX(moveLeft(c)) = positionX(c) - speed(c)
+		//			\implique positionX(moveLeft(c)) = 0
 		if (!(!newHb.collidesWith(other.charBox()) && (positionX() == (x_pre - speed())))) // TODO vérifier ça.
 				throw new PostConditionError("hasn't moved while there was no collision");
 		
@@ -148,7 +148,7 @@ public class CharacterContract extends CharacterDecorator {
 		// \post positionX(c) > speed(c) \and
 		//			(\exists i \with Engine::player(engine(c), i) != c \implique  
 		//				non(Hitbox::collidesWith(hitbox(moveLeft(c)),charBox(Engine::player(engine(c),i))))
-		//			\implique positionX(moveLeft(c)) = 0
+		//			\implique positionX(moveLeft(c)) = positionX(c) - speed(c)
 		if (!((x_pre - speed() > 0) && (positionX() == 0))) // TODO vérifier ça.
 			throw new PostConditionError("position x < 0 : out of bounds");
 		

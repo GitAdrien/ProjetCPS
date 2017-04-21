@@ -1,21 +1,21 @@
 package interfaceservice;
 
-import enums.Commande;
+import enums.SimpleCommand;
 
 public interface EngineService {
 	/* Observator */
 	public int height(); //const
 	public int width(); //const
 	
-	// \pre : character(e, i) \with i \in {1,2}
+	// \pre : character(e, i) \with i \in {0,1}
 	public CharacterService character(int i);
 	
-	// \pre : player(e, i) \with i \in {1,2}
+	// \pre : player(e, i) \with i \in {0,1}
 	public PlayerService player(int i);
 	public boolean gameOver();
 	
 	/* Invariants */
-	// \inv : (min) gameOver(e) = \exists i \in {1,2} Character::dead(player(e,i))
+	// \inv : (min) gameOver(e) = \exists i \in {0,1} Character::dead(player(e,i))
 	
 	/* Constructors */
 	// \pre : init(h, w, s, p1, p2) \with h > 0 \and s > 0 \and w > s \and p1 != p2 
@@ -37,10 +37,9 @@ public interface EngineService {
 	 * @param p2 player 2
 	 */
 	public EngineService init(int h, int w, int s, PlayerService p1, PlayerService p2);
-	
 	/* Operators */
 	// \pre : step(e) \with non(gameOver(e))
 	// \post : character(step(e, C1, C2), 1) = step(character(e, 1), C1)
 	// \post : character(step(e, C1, C2), 2) = step(character(e, 2), C2)
-	public EngineService step(Commande C1, Commande C2);	
+	public EngineService step(SimpleCommand C1, SimpleCommand C2);	
 }

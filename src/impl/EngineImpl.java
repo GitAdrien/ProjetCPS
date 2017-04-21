@@ -1,6 +1,6 @@
 package impl;
 
-import enums.Commande;
+import enums.SimpleCommand;
 import interfaceservice.CharacterService;
 import interfaceservice.EngineService;
 import interfaceservice.PlayerService;
@@ -50,14 +50,14 @@ public class EngineImpl implements EngineService {
 	}
 
 	@Override
-	public EngineService step(Commande c1, Commande c2) {
+	public EngineService step(SimpleCommand c1, SimpleCommand c2) {
 		interpretCommand(c1, characters[0]);
 		interpretCommand(c2, characters[1]);
 		
 		return this;
 	}
 	
-	private void interpretCommand(Commande c, CharacterService character) {
+	private void interpretCommand(SimpleCommand c, CharacterService character) {
 		switch (c) {
 		case LEFT:
 			character.moveLeft();

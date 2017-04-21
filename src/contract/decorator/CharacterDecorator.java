@@ -1,8 +1,12 @@
 package contract.decorator;
 
+import java.util.List;
+
+import enums.Command;
 import interfaceservice.CharacterService;
 import interfaceservice.EngineService;
 import interfaceservice.HitboxService;
+import interfaceservice.TechnicService;
 
 public class CharacterDecorator implements CharacterService {
 	private CharacterService delegate;
@@ -69,6 +73,21 @@ public class CharacterDecorator implements CharacterService {
 	@Override
 	public CharacterService switchSide() {
 		return delegate.switchSide();
+	}
+
+	@Override
+	public List<TechnicService> technics() {
+		return delegate.technics();
+	}
+
+	@Override
+	public Character step(Command com) {
+		return delegate.step(com);
+	}
+
+	@Override
+	public void addTechnic(TechnicService t) {
+		delegate.addTechnic(t);
 	}
 	
 	

@@ -1,8 +1,12 @@
 package impl;
 
+import java.util.List;
+
+import enums.Command;
 import interfaceservice.CharacterService;
 import interfaceservice.EngineService;
 import interfaceservice.HitboxService;
+import interfaceservice.TechnicService;
 
 public class CharacterImpl implements CharacterService {
 	private int life;
@@ -98,6 +102,24 @@ public class CharacterImpl implements CharacterService {
 	public CharacterService switchSide() {
 		faceRight = !faceRight;
 		return this;
+	}
+
+	@Override
+	public List<TechnicService> technics() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Character step(Command com) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void addTechnic(TechnicService t) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
