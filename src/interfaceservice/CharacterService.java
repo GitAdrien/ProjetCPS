@@ -64,7 +64,7 @@ public interface CharacterService {
 	//			(\exists i \with Engine::player(engine(c), i) != c \implique  
 	//				non(Hitbox::collidesWith(hitbox(moveRight(c)),charBox(Engine::player(engine(c),i))))
 	//			\implique positionX(moveRight(c)) = Engine::width(engine(c))
-	// \post faceRight(moveLeft(c)) = faceRight(c) \and life(moveLeft(c)) = life(c)
+	// \post faceRight(moveLeft(c)) = faceRight(c) \and life(moveRight(c)) = life(c)
 	// \post positionY(moveLeft(c)) = positionY(c)
 	public CharacterService moveRight();
 
