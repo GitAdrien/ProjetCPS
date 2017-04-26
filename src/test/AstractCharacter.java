@@ -1,5 +1,8 @@
 package test;
 
+import org.junit.After;
+import org.junit.Before;
+
 import interfaceservice.CharacterService;
 
 public abstract class AstractCharacter {
