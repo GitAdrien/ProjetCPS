@@ -7,6 +7,8 @@ import org.junit.Test;
 
 import contract.errors.PostConditionError;
 import contract.errors.PreConditionError;
+import enums.Command;
+import enums.SimpleCommand;
 import interfaceservice.CharacterService;
 import interfaceservice.EngineService;
 import interfaceservice.HitboxService;
@@ -279,5 +281,209 @@ public abstract class AstractCharacter {
 		}
 		
 	}
+	
+	
+	// fonction MoveRight
+	// POST
+	public void testPostMoveRight(){ //Collision avec un autre joueur
+		try {
+			charact.init(10, 10, true, engine);
+			int posX_at_pre = charact.positionX();
+			if (charact.engine().character(0).equals(charact))
+				other = charact.engine().character(1);
+			else
+				other = charact.engine().character(1);
+			if(charact.charBox().collidesWith(other.charBox()))
+				Assert.assertTrue(charact.moveRight().positionX() == posX_at_pre);
+		} catch (PostConditionError p) {
+			Assert.assertTrue(false);
+		}
+		
+	}
+	
+	@Test
+	public void testPostMoveRight2(){ //Collision avec le mur de gauche sans collison avec un autre joueur
+		try {
+			charact.init(10, 10, true, engine);
+			int posX_at_pre = charact.positionX();
+			if (charact.engine().character(0).equals(charact))
+				other = charact.engine().character(1);
+			else
+				other = charact.engine().character(1);
+			if(!charact.charBox().collidesWith(other.charBox()))
+				if(charact.positionX() <= charact.speed())
+				Assert.assertTrue(charact.moveRight().positionX() == posX_at_pre +charact.speed());
+		} catch (PostConditionError p) {
+			Assert.assertTrue(false);
+		}
+	}
+	
+	@Test
+	public void testPostMoveRight3(){ //ni collison avec un autre joueur, ni avec le mur de gauche
+		try {
+			charact.init(10, 10, true, engine);
+			int posX_at_pre = charact.positionX();
+			if (charact.engine().character(0).equals(charact))
+				other = charact.engine().character(1);
+			else
+				other = charact.engine().character(1);
+			if(!charact.charBox().collidesWith(other.charBox()))
+				if(charact.positionX() <= charact.speed())
+				Assert.assertTrue(charact.moveRight().positionX() == engine.width());
+		} catch (PostConditionError p) {
+			Assert.assertTrue(false);
+		}
+	}
+	
+	@Test
+	public void testPostMoveRightFaceRight(){ // bonne face
+		try {
+			charact.init(10, 10, true, engine);
+			charact.moveRight();
+			Assert.assertTrue(charact.faceRight());
+		} catch (PostConditionError p) {
+			Assert.assertTrue(false);
+		}
+		
+	}
+
+	@Test
+	public void testPostMoveRightFaceRightFail(){ // mauvaise face
+		try {
+			charact.init(10, 10, true, engine);
+			charact.moveRight();
+			Assert.assertTrue(!charact.faceRight());
+		} catch (PostConditionError p) {
+			Assert.assertTrue(true);
+		}
+		
+	}
+
+	@Test
+	public void testPostMoveRightLife(){ // vie pas modifié
+		try {
+			charact.init(10, 10, true, engine);
+			charact.moveRight();
+			Assert.assertTrue(charact.life() == 10);
+		} catch (PostConditionError p) {
+			Assert.assertTrue(false);
+		}
+		
+	}
+
+	@Test
+	public void testPostMoveRightLifeFail(){ // vie modifié
+		try {
+			charact.init(10, 10, true, engine);
+			charact.moveRight();
+			Assert.assertTrue(charact.life() != 10);
+		} catch (PostConditionError p) {
+			Assert.assertTrue(true);
+		}
+		
+	}
+	
+	@Test
+	public void testPostMoveRightPositionY(){ // positionY non modifié
+		try {
+			charact.init(10, 10, true, engine);
+			int posY_at_pre = charact.positionY();
+			charact.moveRight();
+			Assert.assertTrue(charact.positionY() == posY_at_pre);
+		} catch (PostConditionError p) {
+			Assert.assertTrue(false);
+		}
+		
+	}
+
+	@Test
+	public void testPostMoveRightPositionYFail(){ // positionY modifié
+		try {
+			charact.init(10, 10, true, engine);
+			int posY_at_pre = charact.positionY();
+			charact.moveRight();
+			Assert.assertTrue(charact.positionY() != posY_at_pre);
+		} catch (PostConditionError p) {
+			Assert.assertTrue(true);
+		}
+		
+	}
+	
+	//fonction switchSide
+	// POST
+	
+	@Test
+	public void testPostSwitchSideFaceRight(){
+		try {
+			charact.init(10, 10, true, engine);
+			Assert.assertTrue(charact.faceRight());
+		} catch (PostConditionError p) {
+			Assert.assertTrue(false);
+		}
+	}
+	
+	@Test
+	public void testPostSwitchSideFaceRight2(){
+		try {
+			charact.init(10, 10, false, engine);
+			Assert.assertTrue(!charact.faceRight());
+		} catch (PostConditionError p) {
+			Assert.assertTrue(false);
+		}
+	}
+	
+	@Test
+	public void testPostSwitchSideFaceRightFail(){
+		try {
+			charact.init(10, 10, true, engine);
+			Assert.assertTrue(!charact.faceRight());
+		} catch (PostConditionError p) {
+			Assert.assertTrue(true);
+		}
+	}
+	
+	@Test
+	public void testPostSwitchSideFaceRightFail2(){
+		try {
+			charact.init(10, 10, false, engine);
+			Assert.assertTrue(charact.faceRight());
+		} catch (PostConditionError p) {
+			Assert.assertTrue(true);
+		}
+	}
+	
+	//Fonction step
+	//Pre
+	
+	@Test
+	public void testPreStep(){
+		try {
+			Command com = "RIGHT"; //Je sais pas comment créer une commande
+			charact.init(10, 10, true, engine);
+			if(!charact.dead()){
+				charact.step(com);
+				Assert.assertTrue(true);
+			}
+				
+		} catch (PostConditionError p) {
+			Assert.assertTrue(false);
+		}
+	}
+	
+	@Test
+	public void testPreStep2(){
+		try {
+			Command com = "RIGHT"; //Je sais pas comment créer une commande
+			charact.init(10, 10, true, engine);
+			if(charact.dead()){
+				charact.step(com);
+			}
+		} catch (PostConditionError p) {
+			Assert.assertTrue(false);
+		}
+	}
+	
+	//POST
+	//TODO
 
 }
