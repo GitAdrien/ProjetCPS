@@ -20,7 +20,7 @@ public interface CharacterService {
 	/* Invariants */
 	// \inv : positionX(c) > 0 \and positionY(c) < Engine::width(engine)
 	// \inv : positionY(c) > 0 \and positionX(c) < Engine::height(engine)
-	// \inv : dead(c) = non(life > 0)
+	// \inv : dead(c) = non(life() > 0)
 
 	/* Constructors */
 	// \pre init(l, s, f, e) \with l > 0 \and s > 0
