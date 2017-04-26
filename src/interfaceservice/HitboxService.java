@@ -4,6 +4,8 @@ public interface HitboxService {
 	/* Observator */
 	public int positionX();
 	public int positionY();
+	public int width();
+	public int height();
 	public boolean belongsTo(int x, int y);
 	public boolean collidesWith(HitboxService h);
 	public boolean equalsTo(HitboxService h);
@@ -13,9 +15,12 @@ public interface HitboxService {
 	// \inv : (min) EqualsTo(h1, h2) = \exists x, y \in BelongsTo(h1, x, y) = BelongsTo(h2, x, y)
 
 	/* Constructors */
-	// \post PositionX(init(x, y)) = x
-	// \post PositionY(init(x, y)) = y
-	public HitboxService init(int x, int y);
+	// \pre init(x, y, w, h) \require w > 0 \end h > 0
+	// \post PositionX(init(x, y, w, h)) = x
+	// \post PositionY(init(x, y, w, h)) = y
+	// \post PositionY(init(x, y, w, h)) = w
+	// \post PositionY(init(x, y, w, h)) = h
+	public HitboxService init(int x, int y, int width, int height);
 
 	/* Operators */
 	// \post : PositionX(MoveTo(h, x, y)) = x
@@ -24,7 +29,13 @@ public interface HitboxService {
 	//							BelongsTo(h, u-(x-PositionX(h)), v-(y-PositionY(h))
 	public HitboxService moveTo(int x, int y);	
 	
+	// \pre  : setWidth(hb, w) \require w > 0
+	// \post : width(setWidth(hb, w)) = w
+	public HitboxService setWidth(int width);
 	
+	// \pre  : setHeight(hb, h) \require h > 0
+	// \post : width(setHeight(hb, h)) = h
+	public HitboxService setHeight(int height);
 	
-	public HitboxService clone();
+	public HitboxService copy();
 }

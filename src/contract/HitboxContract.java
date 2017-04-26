@@ -1,10 +1,9 @@
 package contract;
 
-import java.util.Random;
-
 import interfaceservice.HitboxService;
 import contract.decorator.HitboxDecorator;
 import contract.errors.PostConditionError;
+import contract.errors.PreConditionError;
 
 public class HitboxContract extends HitboxDecorator {
 
@@ -12,48 +11,54 @@ public class HitboxContract extends HitboxDecorator {
 		super(service);
 	}
 
-	
+
 	public void checkInvariant() {
 		//On ne peut rien tester
 	}
-	
+
 	@Override
-	public HitboxService init(int x, int y) {
-		// No pre
-		
-		super.init(x, y);
+	public HitboxService init(int x, int y, int width, int height) {
+		// \pre init(x, y, w, h) \require w > 0 \end h > 0
+		if (!(width > 0 && height > 0))
+			throw new PreConditionError("width or height <= 0");
+
+
+		super.init(x, y, width, height);
 
 		// Post-init invariant
 		checkInvariant();
-		
+
 		// \post PositionX(init(x, y)) = x
 		if (!(x == positionX()))
 			throw new PostConditionError("x != positionX");
 		// \post PositionY(init(x, y)) = y
 		if (!(y == positionY()))
 			throw new PostConditionError("y != positionY");
-		
+
 		return this;
 	}
-	
-	
+
+
 	@Override
 	public HitboxService moveTo(int x, int y) {
 		// No pre
-		
+
 		// pre invariant
 		checkInvariant();
-		
-		
+
+
 		super.moveTo(x, y);
+
+
 		boolean belongsTo_centre_at_pre = belongsTo(positionX(), positionY());
 		boolean belongsTo_centre_100_at_pre = belongsTo(positionX() +100, positionY() +100);
 		boolean belongsTo_abs_at_pre = belongsTo(300, 0);
 		int positionX_at_pre = positionX();
 		int positionY_at_pre = positionY();
+
 		// post invariant
 		checkInvariant();
-		
+
 		// \post : PositionX(MoveTo(h, x, y)) = x
 		if (!(x == positionX()))
 			throw new PostConditionError("x != positionX");
@@ -65,16 +70,64 @@ public class HitboxContract extends HitboxDecorator {
 
 		if(! (belongsTo(positionX(), positionY()) == belongsTo_centre_at_pre))
 			throw new PostConditionError("belongsTo(positionX(), positionY()) != belongsTo_centre_at_pre");
-		
+
 		if(!(belongsTo(positionX() +100, positionY() + 100) == belongsTo_centre_100_at_pre))
 			throw new PostConditionError("belongsTo(positionX() +100, positionY() + 100) == belongsTo_centre_100_at_pre");
-		
+
 		if(! (belongsTo(300 +(x - positionX_at_pre), 0 + (y - positionY_at_pre)) == belongsTo_abs_at_pre))
 			throw new PostConditionError("belongsTo(300 +(x - positionX_at_pre), 0 + (y - positionY_at_pre)) != belongsTo_abs_at_pre");
 		// Vérifie si il y a collision.
 		// TODO
+
+		return this;
+	}
+
+	@Override
+	public HitboxService setWidth(int width) {
+		// \pre  : setWidth(hb, w) \require w > 0
+		if (!(width > 0))
+			throw new PreConditionError("width <= 0");
+
+		// pre invariant
+		checkInvariant();
+
+		super.setWidth(width);
+
+		// post invariant
+		checkInvariant();
+
+		// \post : width(setWidth(hb, w)) = w
+		if (!(width() == width))
+			throw new PostConditionError("width != w");
 		
 		return this;
 	}
+
+	@Override
+	public HitboxService setHeight(int height) {
+		// \pre  : setHeight(hb, h) \require h > 0
+		if (!(height > 0))
+			throw new PreConditionError("height <= 0");
+
+		// pre invariant
+		checkInvariant();
+
+		super.setHeight(height);
+		
+		// post invariant
+		checkInvariant();
+
+		// \post : width(setHeight(hb, h)) = h
+		if (!(width() == height))
+			throw new PostConditionError("height != h");
+		
+		return this;
+	}
+
 	
+	@Override
+	public HitboxService clone() {
+		// TODO
+		return super.copy();
+	}
 }

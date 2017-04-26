@@ -1,19 +1,25 @@
 package impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import enums.Command;
+import enums.SimpleCommand;
 import interfaceservice.CharacterService;
 import interfaceservice.EngineService;
 import interfaceservice.HitboxService;
 import interfaceservice.TechnicService;
 
-public class CharacterImpl implements CharacterService {
+public class CharacterImpl extends Observable implements CharacterService{
 	private int life;
 	private EngineService engine;
 	private HitboxService hitbox;
 	private int speed;
 	private boolean faceRight;
+	private ArrayList<TechnicService> technics;
 	
 	
 	@Override
@@ -23,6 +29,7 @@ public class CharacterImpl implements CharacterService {
 		faceRight = f;
 		engine = e;
 		hitbox = new HitboxImpl();
+		technics = new ArrayList<>();
 		
 		return this;
 	}
@@ -80,6 +87,8 @@ public class CharacterImpl implements CharacterService {
 		
 		hitbox.moveTo(x, positionY());
 		
+		notifyObservers();
+		
 		return this;
 	}
 
@@ -95,31 +104,57 @@ public class CharacterImpl implements CharacterService {
 		
 		hitbox.moveTo(x, positionY());
 		
+		notifyObservers();
+		
 		return this;
 	}
 
 	@Override
 	public CharacterService switchSide() {
 		faceRight = !faceRight;
+		notifyObservers();
 		return this;
 	}
 
 	@Override
 	public List<TechnicService> technics() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Character step(Command com) {
-		// TODO Auto-generated method stub
-		return null;
+		return technics;
 	}
 
 	@Override
 	public void addTechnic(TechnicService t) {
-		// TODO Auto-generated method stub
+		technics.add(t);
+	}
+	
+	@Override
+	public Character step(Command com) {
+		if (com instanceof SimpleCommand) {
+			
+			switch ((SimpleCommand)com) {
+			case LEFT :
+				moveLeft();
+				break;
+			case RIGHT :
+				moveRight();
+				break;
+			case NEUTRAL :
+				Logger.getAnonymousLogger().log(Level.INFO, "Neutral");
+				break;
+				
+			//TODO
+				
+			default:
+				Logger.getAnonymousLogger().log(Level.INFO, com + " is not implemented yet.");
+				break;
+			}
+			
+		}
 		
+		
+		
+			
+		
+		return null;
 	}
 
 }

@@ -123,7 +123,7 @@ public class CharacterContract extends CharacterDecorator {
 				else
 					other = engine().character(0);
 
-				newHb = charBox().clone();
+				newHb = charBox().copy();
 
 				newHb.moveTo(x_pre - speed(), y_pre);
 
@@ -199,7 +199,7 @@ public class CharacterContract extends CharacterDecorator {
 		else
 			other = engine().character(0);
 
-		newHb = charBox().clone();
+		newHb = charBox().copy();
 
 		newHb.moveTo(x_pre - speed(), y_pre);
 

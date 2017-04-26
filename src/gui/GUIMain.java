@@ -8,6 +8,7 @@ import javafx.scene.Camera;
 import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -92,6 +93,11 @@ public class GUIMain extends Application {
 		camera = new PerspectiveCamera();
 		
 		scene.setCamera(camera);
+		
+		scene.addEventHandler(KeyEvent.KEY_PRESSED, key -> {
+			System.out.println(key.getText() + " detected");
+		});
+		
 		
 		primaryStage.setScene(scene);
 		
