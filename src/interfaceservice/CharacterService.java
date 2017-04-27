@@ -79,7 +79,7 @@ public interface CharacterService {
 	// TODO ajouté les commandes avancées 
 	public Character step(Command com);
 	
-	// \pre : addTechnic(c, t) \require t \not \in technics(c)
+	// \pre : addTechnic(c, t) \require t \not \in technics(c) //TODO je suis pas convaicu
 	// \post addTechnic(c, t) \implique t \in technics(c)
 	public void addTechnic(TechnicService t);
 	

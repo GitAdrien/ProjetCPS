@@ -7,7 +7,7 @@ import enums.Command;
 public interface TechnicService {
 	/* Observators */
 	public String name();
-	public List<Command> commands(); 
+	public List<Command> commands();
 	public int damage();
 	public HitboxService hitbox();
 	/* Invariants */

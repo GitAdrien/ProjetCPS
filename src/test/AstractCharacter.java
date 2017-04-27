@@ -1,5 +1,7 @@
 package test;
 
+import java.util.ArrayList;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -13,6 +15,7 @@ import interfaceservice.CharacterService;
 import interfaceservice.EngineService;
 import interfaceservice.HitboxService;
 import interfaceservice.PlayerService;
+import interfaceservice.TechnicService;
 
 public abstract class AstractCharacter {
 	private CharacterService charact;
@@ -26,34 +29,34 @@ public abstract class AstractCharacter {
 	public final CharacterService getCharacter() {
 		return charact;
 	}
-	
+
 	/**
 	 * @param Charact
 	 * set the Character
 	 */
 	public final void setCharacter(CharacterService character){
-			charact = character;
+		charact = character;
 	}
-	
+
 	@Before
 	public void beforeTests(){
 		engine.init(100, 1000, 100, p1.init(10, charact), p2.init(10, other.init(100, 10, false, engine)));
-		 
+
 	}
-	
+
 	@After
 	public final void afterTests(){
 		charact = null;
 	}
-	
-	
+
+
 	//PRE
 	@Test
 	public void testInit(){ // le character regarde à droite
 		charact.init(10, 10, true, engine);
 		Assert.assertTrue(true);
 	}
-	
+
 	@Test
 	public void testInit2(){ // le character regarde à gauche
 		charact.init(10, 10, false, engine);
@@ -68,7 +71,7 @@ public abstract class AstractCharacter {
 			Assert.assertTrue(true);
 		}
 	}
-	
+
 	@Test
 	public void testInitFail3(){ //speed inferieur à zero
 		try{
@@ -78,7 +81,7 @@ public abstract class AstractCharacter {
 			Assert.assertTrue(true);
 		}
 	}
-	
+
 	@Test
 	public void testInitFail4(){ //life egale zero
 		try{
@@ -88,7 +91,7 @@ public abstract class AstractCharacter {
 			Assert.assertTrue(true);
 		}
 	}
-	
+
 	@Test
 	public void testInitFail5(){ //speed egale zero
 		try{
@@ -98,9 +101,9 @@ public abstract class AstractCharacter {
 			Assert.assertTrue(true);
 		}
 	}
-	
+
 	//Post
-	
+
 	@Test
 	public void testPostInitLife(){
 		try{
@@ -111,7 +114,7 @@ public abstract class AstractCharacter {
 			Assert.assertTrue(false);
 		}
 	}
-	
+
 	@Test
 	public void testPostInitSpeed(){
 		try{
@@ -122,7 +125,7 @@ public abstract class AstractCharacter {
 			Assert.assertTrue(false);
 		}
 	}
-	
+
 	@Test
 	public void testPostInitFaceRight(){
 		try{
@@ -133,7 +136,7 @@ public abstract class AstractCharacter {
 			Assert.assertTrue(false);
 		}
 	}
-	
+
 	@Test
 	public void testPostInitFaceRight2(){
 		try{
@@ -154,8 +157,8 @@ public abstract class AstractCharacter {
 			Assert.assertTrue(false);
 		}
 	}
-	
-	
+
+
 	//Fonction moveLeft
 	//Post
 	@Test
@@ -172,9 +175,9 @@ public abstract class AstractCharacter {
 		} catch (PostConditionError p) {
 			Assert.assertTrue(false);
 		}
-		
+
 	}
-	
+
 	@Test
 	public void testPostMoveLeft2(){ //Collision avec le mur de gauche sans collison avec un autre joueur
 		try {
@@ -185,12 +188,12 @@ public abstract class AstractCharacter {
 				other = charact.engine().character(1);
 			if(!charact.charBox().collidesWith(other.charBox()))
 				if(charact.positionX() <= charact.speed())
-				Assert.assertTrue(charact.moveLeft().positionX() == 0);
+					Assert.assertTrue(charact.moveLeft().positionX() == 0);
 		} catch (PostConditionError p) {
 			Assert.assertTrue(false);
 		}
 	}
-	
+
 	@Test
 	public void testPostMoveLeft3(){ //ni collison avec un autre joueur, ni avec le mur de gauche
 		try {
@@ -202,12 +205,12 @@ public abstract class AstractCharacter {
 				other = charact.engine().character(1);
 			if(!charact.charBox().collidesWith(other.charBox()))
 				if(charact.positionX() <= charact.speed())
-				Assert.assertTrue(charact.moveLeft().positionX() == posX_at_pre - charact.speed());
+					Assert.assertTrue(charact.moveLeft().positionX() == posX_at_pre - charact.speed());
 		} catch (PostConditionError p) {
 			Assert.assertTrue(false);
 		}
 	}
-	
+
 	@Test
 	public void testPostMoveLeftFaceRight(){ // bonne face
 		try {
@@ -217,7 +220,7 @@ public abstract class AstractCharacter {
 		} catch (PostConditionError p) {
 			Assert.assertTrue(false);
 		}
-		
+
 	}
 
 	@Test
@@ -229,7 +232,7 @@ public abstract class AstractCharacter {
 		} catch (PostConditionError p) {
 			Assert.assertTrue(true);
 		}
-		
+
 	}
 
 	@Test
@@ -241,7 +244,7 @@ public abstract class AstractCharacter {
 		} catch (PostConditionError p) {
 			Assert.assertTrue(false);
 		}
-		
+
 	}
 
 	@Test
@@ -253,9 +256,9 @@ public abstract class AstractCharacter {
 		} catch (PostConditionError p) {
 			Assert.assertTrue(true);
 		}
-		
+
 	}
-	
+
 	@Test
 	public void testPostMoveLeftPositionY(){ // positionY non modifié
 		try {
@@ -266,7 +269,7 @@ public abstract class AstractCharacter {
 		} catch (PostConditionError p) {
 			Assert.assertTrue(false);
 		}
-		
+
 	}
 
 	@Test
@@ -279,10 +282,10 @@ public abstract class AstractCharacter {
 		} catch (PostConditionError p) {
 			Assert.assertTrue(true);
 		}
-		
+
 	}
-	
-	
+
+
 	// fonction MoveRight
 	// POST
 	public void testPostMoveRight(){ //Collision avec un autre joueur
@@ -298,9 +301,9 @@ public abstract class AstractCharacter {
 		} catch (PostConditionError p) {
 			Assert.assertTrue(false);
 		}
-		
+
 	}
-	
+
 	@Test
 	public void testPostMoveRight2(){ //Collision avec le mur de gauche sans collison avec un autre joueur
 		try {
@@ -312,12 +315,12 @@ public abstract class AstractCharacter {
 				other = charact.engine().character(1);
 			if(!charact.charBox().collidesWith(other.charBox()))
 				if(charact.positionX() <= charact.speed())
-				Assert.assertTrue(charact.moveRight().positionX() == posX_at_pre +charact.speed());
+					Assert.assertTrue(charact.moveRight().positionX() == posX_at_pre +charact.speed());
 		} catch (PostConditionError p) {
 			Assert.assertTrue(false);
 		}
 	}
-	
+
 	@Test
 	public void testPostMoveRight3(){ //ni collison avec un autre joueur, ni avec le mur de gauche
 		try {
@@ -329,12 +332,12 @@ public abstract class AstractCharacter {
 				other = charact.engine().character(1);
 			if(!charact.charBox().collidesWith(other.charBox()))
 				if(charact.positionX() <= charact.speed())
-				Assert.assertTrue(charact.moveRight().positionX() == engine.width());
+					Assert.assertTrue(charact.moveRight().positionX() == engine.width());
 		} catch (PostConditionError p) {
 			Assert.assertTrue(false);
 		}
 	}
-	
+
 	@Test
 	public void testPostMoveRightFaceRight(){ // bonne face
 		try {
@@ -344,7 +347,7 @@ public abstract class AstractCharacter {
 		} catch (PostConditionError p) {
 			Assert.assertTrue(false);
 		}
-		
+
 	}
 
 	@Test
@@ -356,7 +359,7 @@ public abstract class AstractCharacter {
 		} catch (PostConditionError p) {
 			Assert.assertTrue(true);
 		}
-		
+
 	}
 
 	@Test
@@ -368,7 +371,7 @@ public abstract class AstractCharacter {
 		} catch (PostConditionError p) {
 			Assert.assertTrue(false);
 		}
-		
+
 	}
 
 	@Test
@@ -380,9 +383,9 @@ public abstract class AstractCharacter {
 		} catch (PostConditionError p) {
 			Assert.assertTrue(true);
 		}
-		
+
 	}
-	
+
 	@Test
 	public void testPostMoveRightPositionY(){ // positionY non modifié
 		try {
@@ -393,7 +396,7 @@ public abstract class AstractCharacter {
 		} catch (PostConditionError p) {
 			Assert.assertTrue(false);
 		}
-		
+
 	}
 
 	@Test
@@ -406,12 +409,12 @@ public abstract class AstractCharacter {
 		} catch (PostConditionError p) {
 			Assert.assertTrue(true);
 		}
-		
+
 	}
-	
+
 	//fonction switchSide
 	// POST
-	
+
 	@Test
 	public void testPostSwitchSideFaceRight(){
 		try {
@@ -421,7 +424,7 @@ public abstract class AstractCharacter {
 			Assert.assertTrue(false);
 		}
 	}
-	
+
 	@Test
 	public void testPostSwitchSideFaceRight2(){
 		try {
@@ -431,7 +434,7 @@ public abstract class AstractCharacter {
 			Assert.assertTrue(false);
 		}
 	}
-	
+
 	@Test
 	public void testPostSwitchSideFaceRightFail(){
 		try {
@@ -441,7 +444,7 @@ public abstract class AstractCharacter {
 			Assert.assertTrue(true);
 		}
 	}
-	
+
 	@Test
 	public void testPostSwitchSideFaceRightFail2(){
 		try {
@@ -451,10 +454,10 @@ public abstract class AstractCharacter {
 			Assert.assertTrue(true);
 		}
 	}
-	
+
 	//Fonction step
 	//Pre
-	
+
 	@Test
 	public void testPreStep(){
 		try {
@@ -464,16 +467,16 @@ public abstract class AstractCharacter {
 				charact.step(com);
 				Assert.assertTrue(true);
 			}
-				
+
 		} catch (PostConditionError p) {
 			Assert.assertTrue(false);
 		}
 	}
-	
+
 	@Test
 	public void testPreStep2(){
 		try {
-			Command com = "RIGHT"; //Je sais pas comment créer une commande
+			Command com "RIGHT"; //Je sais pas comment créer une commande
 			charact.init(10, 10, true, engine);
 			if(charact.dead()){
 				charact.step(com);
@@ -482,8 +485,30 @@ public abstract class AstractCharacter {
 			Assert.assertTrue(false);
 		}
 	}
-	
-	//POST
-	//TODO
 
+	//POST
+
+	//Je ne sais pas comment tester : 	// \post : step(c, RIGHT) = moveRight(c)
+
+
+	//Fonction  addTechnic
+	//POST
+	@Test
+	public void testPreAddTechnic(){
+		try {
+			TechnicService t;
+			charact.init(100, 100, true, engine);
+			//TODO
+			Command com;
+			ArrayList<Command> coms = new ArrayList<>();
+			coms.add(com);
+			HitboxService h;
+			h.init(10, 10, 10, 10);
+			t.init("attaque1", coms, 10, h);
+			charact.addTechnic(t);
+			Assert.assertTrue(charact.technics().contains(t));
+		} catch (PostConditionError p) {
+			Assert.assertTrue(false);
+		}
+	}
 }
