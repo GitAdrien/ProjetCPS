@@ -1,0 +1,18 @@
+{
+    "player1" : {
+        "up" : "z",
+        "left" : "q",
+        "down" : "s",
+        "right" : "d",
+        "punch" : "alt",
+        "kick" : "space"
+    },
+    "player2" : {
+        "up" : "up",
+        "left" : "left",
+        "down" : "down",
+        "right" : "right",
+        "punch" : "1",
+        "kick" : "2"
+    }
+}

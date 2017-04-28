@@ -1,5 +1,8 @@
 package gui;
 
+import java.io.FileNotFoundException;
+
+import config.ControlScheme;
 import impl.EngineImpl;
 import interfaceservice.EngineService;
 import interfaceservice.PlayerService;
@@ -15,8 +18,9 @@ import javafx.stage.Stage;
 
 public class GUIMain extends Application {
 	private final static String WINDOW_TITLE = "Combattant de rue 2";
+	private final static String CONTROL_SCHEME_PATH = "keybind.json";
 	
-	
+	private ControlScheme controlScheme;
 	
 	//Model
 	private final static int ARENA_WIDTH = 800;
@@ -52,6 +56,12 @@ public class GUIMain extends Application {
 	}
 	
 	private void initModel() {
+		try {
+			ControlScheme.loadControlScheme(CONTROL_SCHEME_PATH);
+		} catch (FileNotFoundException e) {
+			// TODO handle this
+			e.printStackTrace();
+		}
 		engine = new EngineImpl();
 		engine.init(ARENA_HEIGHT, ARENA_WIDTH, SPACE_BETWEEN_PLAYERS, p1, p2);
 	}
@@ -94,10 +104,12 @@ public class GUIMain extends Application {
 		
 		scene.setCamera(camera);
 		
-		scene.addEventHandler(KeyEvent.KEY_PRESSED, key -> {
-			System.out.println(key.getText() + " detected");
-		});
+//		scene.addEventHandler(KeyEvent.KEY_PRESSED, key -> {
+//			System.out.println(key.getText() + " detected");
+//		});
 		
+		
+		scene.addEventHandler(KeyEvent.KEY_PRESSED, this::handleKeyEvent);
 		
 		primaryStage.setScene(scene);
 		
@@ -108,6 +120,12 @@ public class GUIMain extends Application {
 		
 	}
 	
+	
+	private void handleKeyEvent(KeyEvent key) {
+		System.out.println("Player 1 : " + ControlScheme.parseCommand_p1(key.getText()));
+		System.out.println("Player 2 : " + ControlScheme.parseCommand_p2(key.getText()));
+	
+	}
 	
 	private int getLifeBarWidth(double state) {
 		return (int) (((WINDOW_WIDTH - LIFE_BAR_MARGIN) / 2) * state);
