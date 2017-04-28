@@ -3,6 +3,7 @@ package interfaceservice;
 import java.util.List;
 
 import enums.Command;
+import enums.SimpleCommand;
 
 public interface PlayerService {
 	//choper des inputs
@@ -22,6 +23,11 @@ public interface PlayerService {
 	public PlayerService init(int w, CharacterService c);
 	
 	/* Operators */
+	
+	public SimpleCommand getLastCommand();
+	public void addCommand(SimpleCommand c);
+	
+	
 	// TODO
 	// TODO
 }

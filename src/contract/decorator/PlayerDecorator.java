@@ -3,6 +3,7 @@ package contract.decorator;
 import java.util.List;
 
 import enums.Command;
+import enums.SimpleCommand;
 import interfaceservice.CharacterService;
 import interfaceservice.PlayerService;
 
@@ -32,5 +33,14 @@ public class PlayerDecorator implements PlayerService {
 	public PlayerService init(int w, CharacterService c) {
 		return delegate.init(w, c);
 	}
-
+	
+	@Override
+	public SimpleCommand getLastCommand() {
+		return delegate.getLastCommand();
+	}
+	
+	@Override
+	public void addCommand(SimpleCommand c) {
+		delegate.addCommand(c);
+	}
 }

@@ -16,8 +16,8 @@ public class ControlScheme {
 	private final static String PLAYER_NODE = "player";
 	
 	
-	private static Map<String, Command> p1;
-	private static Map<String, Command> p2;
+	private static Map<String, SimpleCommand> p1;
+	private static Map<String, SimpleCommand> p2;
 	
 	
 	public static void loadControlScheme(String configFilePath) throws FileNotFoundException {
@@ -41,7 +41,7 @@ public class ControlScheme {
 	}
 	
 	private static void parsePlayer(JSONObject playerNode, int p) {
-		HashMap<String, Command> controls = new HashMap<>();
+		HashMap<String, SimpleCommand> controls = new HashMap<>();
 		Map<String, Object> node = playerNode.toMap();
 		SimpleCommand crtCmd;
 		for (String key : node.keySet()) {
@@ -77,15 +77,15 @@ public class ControlScheme {
 	}
 	
 	
-	public static Map<String, Command> getP1() {
+	public static Map<String, SimpleCommand> getP1() {
 		return p1;
 	}
 	
-	public static Map<String, Command> getP2() {
+	public static Map<String, SimpleCommand> getP2() {
 		return p2;
 	}
 	
-	private static Command parseCommand_aux(int player, String key) {
+	private static SimpleCommand parseCommand_aux(int player, String key) {
 		if (player < 0 || player > 2) {
 			System.out.println("Player number out of bound.");
 			return null;
@@ -102,11 +102,11 @@ public class ControlScheme {
 	}
 
 	
-	public static Command parseCommand_p1(String key) {
+	public static SimpleCommand parseCommand_p1(String key) {
 		return parseCommand_aux(0, key);
 	}
 	
-	public static Command parseCommand_p2(String key) {
+	public static SimpleCommand parseCommand_p2(String key) {
 		return parseCommand_aux(1, key);
 	}
 	

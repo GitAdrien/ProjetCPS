@@ -14,6 +14,7 @@ import interfaceservice.HitboxService;
 import interfaceservice.TechnicService;
 
 public class CharacterImpl extends Observable implements CharacterService{
+	
 	private int life;
 	private EngineService engine;
 	private HitboxService hitbox;
@@ -101,6 +102,7 @@ public class CharacterImpl extends Observable implements CharacterService{
 		else 
 			x = positionX() + speed;
 		
+		// TODO bug ici!
 		
 		hitbox.moveTo(x, positionY());
 		
@@ -133,12 +135,14 @@ public class CharacterImpl extends Observable implements CharacterService{
 			switch ((SimpleCommand)com) {
 			case LEFT :
 				moveLeft();
+				Logger.getAnonymousLogger().log(Level.INFO, "Moving left -> x:" + positionX());
 				break;
 			case RIGHT :
 				moveRight();
+				Logger.getAnonymousLogger().log(Level.INFO, "Moving right -> x:" + positionY());
 				break;
 			case NEUTRAL :
-				Logger.getAnonymousLogger().log(Level.INFO, "Neutral");
+//				Logger.getAnonymousLogger().log(Level.INFO, "Neutral");
 				break;
 				
 			//TODO

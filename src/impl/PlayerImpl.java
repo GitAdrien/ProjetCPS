@@ -1,39 +1,57 @@
 package impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import enums.Command;
+import enums.SimpleCommand;
 import interfaceservice.CharacterService;
 import interfaceservice.PlayerService;
 
 public class PlayerImpl implements PlayerService {
 	private int window;
-	
-	
+	private CharacterService character;
+	private List<Command> commands;
+	private SimpleCommand lastCommand;
 	
 	@Override
 	public PlayerService init(int w, CharacterService c) {
-		// TODO Auto-generated method stub
-		return null;
+		commands = new ArrayList<>();
+		lastCommand = SimpleCommand.NEUTRAL;
+		
+		character = c;
+		
+		return this;
 	}
 	
 	@Override
 	public int window() {
-		// TODO Auto-generated method stub
-		return 0;
+		return window;
 	}
 
 	@Override
 	public List<Command> commandsWithinWindow() {
-		// TODO Auto-generated method stub
-		return null;
+		return commands;
 	}
 
 	@Override
 	public CharacterService character() {
-		// TODO Auto-generated method stub
-		return null;
+		return character;
 	}
 
+	@Override
+	public SimpleCommand getLastCommand() {
+		SimpleCommand result = lastCommand;
+		
+		lastCommand = SimpleCommand.NEUTRAL;
+		return result;
+	}
+	
+	@Override
+	public void addCommand(SimpleCommand c) {
+		lastCommand = c;
+		
+		//TODO s'occuper de la window.
+	}
 
 }
