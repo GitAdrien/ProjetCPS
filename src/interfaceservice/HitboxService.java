@@ -15,14 +15,15 @@ public interface HitboxService {
 	// \inv : (min) EqualsTo(h1, h2) = \exists x, y \in BelongsTo(h1, x, y) = BelongsTo(h2, x, y)
 
 	/* Constructors */
-	// \pre init(x, y, w, h) \require w > 0 \end h > 0
+	// \pre init(x, y, w, h) \require w > 0 \and h > 0 \and x >= 0 \and y >= 0
 	// \post PositionX(init(x, y, w, h)) = x
 	// \post PositionY(init(x, y, w, h)) = y
-	// \post PositionY(init(x, y, w, h)) = w
-	// \post PositionY(init(x, y, w, h)) = h
+	// \post width(init(x, y, w, h)) = w
+	// \post height(init(x, y, w, h)) = h
 	public HitboxService init(int x, int y, int width, int height);
 
 	/* Operators */
+	// \pre : MoveTo(h, x, y) \require x>=0 \and y>=0
 	// \post : PositionX(MoveTo(h, x, y)) = x
 	// \post : PositionY(MoveTo(h, x, y)) = y
 	// \post : u, v, BelongsTo(MoveTo(h, x, y), u, v) = 
@@ -37,5 +38,7 @@ public interface HitboxService {
 	// \post : width(setHeight(hb, h)) = h
 	public HitboxService setHeight(int height);
 	
+	
+	//TODO : pre-post copy??
 	public HitboxService copy();
 }

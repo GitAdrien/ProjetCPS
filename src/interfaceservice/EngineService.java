@@ -27,7 +27,7 @@ public interface EngineService {
 	// \post : Character::positionX(character(init(h, w, s, p1, p2), 2)) = w//2 + s//2
 	// \post : Character::positionY(character(init(h, w, s, p1, p2), 1)) = 0
 	// \post : Character::positionY(character(init(h, w, s, p1, p2), 2)) = 0
-	// \post : Character::faceRight(char(init(h, w, s, p1, p2), 1))
+	// \post : Character::faceRight(character(init(h, w, s, p1, p2), 1))
 	// \post : Character::non(faceRight(char(init(h, w, s, p1, p2), 2)))
 	/**
 	 * @param h height

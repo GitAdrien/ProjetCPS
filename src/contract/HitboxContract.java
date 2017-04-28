@@ -17,7 +17,7 @@ public class HitboxContract extends HitboxDecorator {
 	}
 
 	@Override
-	public HitboxService init(int x, int y, int width, int height) {
+	public HitboxService init(int x, int y, int width, int height) { //TODO: service modifié!!!
 		// \pre init(x, y, w, h) \require w > 0 \end h > 0
 		if (!(width > 0 && height > 0))
 			throw new PreConditionError("width or height <= 0");
@@ -40,7 +40,7 @@ public class HitboxContract extends HitboxDecorator {
 
 
 	@Override
-	public HitboxService moveTo(int x, int y) {
+	public HitboxService moveTo(int x, int y) {//TODO: service modifié!!!
 		// No pre
 
 		// pre invariant
