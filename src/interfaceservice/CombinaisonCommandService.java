@@ -26,7 +26,7 @@ public interface CombinaisonCommandService {
 	/* Operators */
 	
 	// \post TODO 
-	public void parseCommands();
+	public void parseCommands(); // XXX retourner la liste de commandes parsées ?
 	
 	// \post addCommand(ccs, c) \implique c \in commands(ccs)
 	public void addCommand(SimpleCommand c);
