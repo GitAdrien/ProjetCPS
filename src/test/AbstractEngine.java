@@ -187,4 +187,50 @@ public abstract class AbstractEngine {
 			Assert.assertTrue(false);
 		}
 	}
+	
+	@Test
+	public void testInitPostPosPlayer(){ 
+		try{
+			engine.init(300, 1000, 100, p1, p2);
+			Assert.assertTrue(engine.character(1).positionX() == (1000/2) - (100/2));
+		}
+		catch(PostConditionError p){
+			Assert.assertTrue(false);
+		}
+	}
+	
+	@Test
+	public void testInitPostPosPlayer2(){ 
+		try{
+			engine.init(300, 1000, 100, p1, p2);
+			Assert.assertTrue(engine.character(2).positionX() == (1000/2) + (100/2));
+		}
+		catch(PostConditionError p){
+			Assert.assertTrue(false);
+		}
+	}
+	
+	@Test
+	public void testInitPostPosY(){ 
+		try{
+			engine.init(300, 1000, 100, p1, p2);
+			Assert.assertTrue(engine.character(1).positionY() == 0);
+		}
+		catch(PostConditionError p){
+			Assert.assertTrue(false);
+		}
+	}
+	
+	@Test
+	public void testInitPostPosY2(){ 
+		try{
+			engine.init(300, 1000, 100, p1, p2);
+			Assert.assertTrue(engine.character(2).positionY() == 0);
+		}
+		catch(PostConditionError p){
+			Assert.assertTrue(false);
+		}
+	}
+	
+	
 }
