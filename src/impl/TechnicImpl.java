@@ -6,7 +6,7 @@ import enums.Command;
 import interfaceservice.HitboxService;
 import interfaceservice.TechnicService;
 
-public class TechnnicImpl implements TechnicService {
+public class TechnicImpl implements TechnicService {
 	private String name;
 	private List<Command> commands;
 	private int damage;

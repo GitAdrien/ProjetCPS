@@ -1,5 +1,6 @@
 package test;
 
+import impl.CharacterImpl;
 import contract.CharacterContract;
 
 public class CharacterTest extends AbstractCharacter{
