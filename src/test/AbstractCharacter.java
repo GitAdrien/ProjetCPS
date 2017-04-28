@@ -25,7 +25,7 @@ import interfaceservice.HitboxService;
 import interfaceservice.PlayerService;
 import interfaceservice.TechnicService;
 
-public abstract class AstractCharacter {
+public abstract class AbstractCharacter {
 	private CharacterService charact;
 	private EngineService engine;
 	private CharacterService other;

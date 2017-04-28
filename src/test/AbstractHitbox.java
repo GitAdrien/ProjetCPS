@@ -363,10 +363,11 @@ public abstract class AbstractHitbox {
 	public void testsetHeightPost(){		// \post : width(setHeight(hb, h)) = h
 		try{
 			hitbox.init(10, 5, 20, 50);
-			Assert.assertTrue(hitbox.setHeight(10).width() == 10);
+			Assert.assertTrue(hitbox.setHeight(10).height() == 10);
 
 		}
 		catch(PostConditionError p){
+			System.out.println(p.getMessage());
 			Assert.assertTrue(false);
 		}
 	}

@@ -35,7 +35,7 @@ public abstract class AbstractPlayer {
 		charact = new CharacterContract(new CharacterImpl());
 		engine = new EngineContract(new EngineImpl());
 		p2 = new PlayerContract(new PlayerImpl());
-		//charact et player se morde la queue... comment ont faite...
+		//Possibilite d'erreurs
 		charact.init(100, 100, true, engine.init(1000, 2000, 200, player, p2));
 	}
 	

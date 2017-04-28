@@ -181,10 +181,7 @@ public abstract class AbstractEngine {
 	@Test
 	public void testInitPostWidthFail(){ 
 		try{
-			c1.init(100, 100, true, engine);
-			c2.init(100, 100, false, engine);
-			p1.init(10, c1);
-			p2.init(100, c2);
+			
 			engine.init(300, 1000, 100, p1, p2);
 			System.out.println(engine.width());
 			Assert.assertTrue(engine.width() != 1000);

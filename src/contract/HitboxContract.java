@@ -18,9 +18,9 @@ public class HitboxContract extends HitboxDecorator {
 
 	@Override
 	public HitboxService init(int x, int y, int width, int height) { //TODO: service modifié!!!
-		// \pre init(x, y, w, h) \require w > 0 \end h > 0
-		if (!(width > 0 && height > 0))
-			throw new PreConditionError("width or height <= 0");
+		// \pre init(x, y, w, h) \require w > 0 \and h > 0 \and x >= 0 \and y >= 0 
+		if (!(width > 0 && height > 0 && x >= 0 && y >= 0))
+			throw new PreConditionError("(width or height <= 0)or (x or y < 0)");
 
 
 		super.init(x, y, width, height);
@@ -41,8 +41,9 @@ public class HitboxContract extends HitboxDecorator {
 
 	@Override
 	public HitboxService moveTo(int x, int y) {//TODO: service modifié!!!
-		// No pre
-
+		//  pre moveTo(x, y) \require x >= 0 \and y >= 0
+		if(!(x >= 0 && y>=0))
+			throw new PreConditionError("x or y < 0");
 		// pre invariant
 		checkInvariant();
 
@@ -118,7 +119,7 @@ public class HitboxContract extends HitboxDecorator {
 		checkInvariant();
 
 		// \post : width(setHeight(hb, h)) = h
-		if (!(width() == height))
+		if (!(height() == height))
 			throw new PostConditionError("height != h");
 		
 		return this;
