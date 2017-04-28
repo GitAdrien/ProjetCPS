@@ -19,4 +19,9 @@ public enum ComplexeCommand implements Command {
 	public SimpleCommand getC2() {
 		return c2;
 	}
+	
+	@Override
+	public String toString() {
+		return c1 + "+" + c2;
+	}
 }
