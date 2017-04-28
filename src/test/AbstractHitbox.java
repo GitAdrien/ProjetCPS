@@ -7,8 +7,10 @@ import org.junit.Test;
 
 import com.sun.javafx.scene.traversal.Hueristic2D;
 
+import contract.HitboxContract;
 import contract.errors.PostConditionError;
 import contract.errors.PreConditionError;
+import impl.HitboxImpl;
 import interfaceservice.HitboxService;
 
 public abstract class AbstractHitbox {
@@ -24,7 +26,7 @@ public abstract class AbstractHitbox {
 
 	@Before
 	public void beforeTests(){
-		//TODO	
+		hitbox = new HitboxContract(new HitboxImpl());
 	}
 
 	@After

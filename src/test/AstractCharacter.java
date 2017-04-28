@@ -7,10 +7,18 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import contract.CharacterContract;
+import contract.EngineContract;
+import contract.HitboxContract;
+import contract.PlayerContract;
 import contract.errors.PostConditionError;
 import contract.errors.PreConditionError;
 import enums.Command;
 import enums.SimpleCommand;
+import impl.CharacterImpl;
+import impl.EngineImpl;
+import impl.HitboxImpl;
+import impl.PlayerImpl;
 import interfaceservice.CharacterService;
 import interfaceservice.EngineService;
 import interfaceservice.HitboxService;
@@ -40,6 +48,11 @@ public abstract class AstractCharacter {
 
 	@Before
 	public void beforeTests(){
+		charact = new CharacterContract(new CharacterImpl());
+		other = new CharacterContract(new CharacterImpl());
+		p1 = new PlayerContract(new PlayerImpl());
+		p2 = new PlayerContract(new PlayerImpl());
+		engine = new EngineContract(new EngineImpl());
 		engine.init(100, 1000, 100, p1.init(10, charact), p2.init(10, other.init(100, 10, false, engine)));
 
 	}
@@ -461,7 +474,7 @@ public abstract class AstractCharacter {
 	@Test
 	public void testPreStep(){
 		try {
-			Command com = "RIGHT"; //Je sais pas comment créer une commande
+			SimpleCommand com = SimpleCommand.RIGHT;
 			charact.init(10, 10, true, engine);
 			if(!charact.dead()){
 				charact.step(com);
@@ -476,7 +489,7 @@ public abstract class AstractCharacter {
 	@Test
 	public void testPreStep2(){
 		try {
-			Command com "RIGHT"; //Je sais pas comment créer une commande
+			SimpleCommand com = SimpleCommand.RIGHT; //Je sais pas comment créer une commande
 			charact.init(10, 10, true, engine);
 			if(charact.dead()){
 				charact.step(com);
@@ -496,13 +509,13 @@ public abstract class AstractCharacter {
 	@Test
 	public void testPreAddTechnic(){
 		try {
-			TechnicService t;
+			TechnicService t = new TechnicContract(new TechnicImpl());
 			charact.init(100, 100, true, engine);
 			//TODO
-			Command com;
+			SimpleCommand com = SimpleCommand.DOWN;
 			ArrayList<Command> coms = new ArrayList<>();
 			coms.add(com);
-			HitboxService h;
+			HitboxService h = new HitboxContract(new HitboxImpl());
 			h.init(10, 10, 10, 10);
 			t.init("attaque1", coms, 10, h);
 			charact.addTechnic(t);

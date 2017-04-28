@@ -19,19 +19,19 @@ public class CharacterContract extends CharacterDecorator {
 		// Position > 0
 		// \inv : positionX(c) > 0 \and positionY(c) < Engine::width(engine)
 		// \inv : positionY(c) > 0 \et positionX(c) < Engine::height(engine)
-		if (!(positionX() > 0))
-			throw new InvariantError("X <= 0");
-		if (!(positionY() > 0))
-			throw new InvariantError("Y <= 0");
+		if (!(positionX() >= 0))
+			throw new InvariantError("X < 0");
+		if (!(positionY() >= 0))
+			throw new InvariantError("Y < 0");
 		// Position within engine size
-		if (!(positionX() < engine().width()))
-			throw new InvariantError("X >= engine's width");
-		if (!(positionY() < engine().height()))
-			throw new InvariantError("X >= engine's height");
+		if (!(positionX() <= engine().width()))
+			throw new InvariantError("X >engine's width");
+		if (!(positionY() <= engine().height()))
+			throw new InvariantError("Y > engine's height");
 
 		// Death status
 		// \inv : dead(c) = non(life > 0)
-		if (!(dead() && !(life() > 0))) 
+		if (!(dead() != (life() > 0))) 
 			throw new InvariantError("Incoherent death status");
 
 	}

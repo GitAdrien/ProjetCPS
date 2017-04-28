@@ -4,7 +4,13 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 
+import contract.CharacterContract;
+import contract.EngineContract;
+import contract.PlayerContract;
 import contract.errors.PreConditionError;
+import impl.CharacterImpl;
+import impl.EngineImpl;
+import impl.PlayerImpl;
 import interfaceservice.CharacterService;
 import interfaceservice.EngineService;
 import interfaceservice.PlayerService;
@@ -25,6 +31,10 @@ public abstract class AbstractPlayer {
 	
 	@Before
 	public void beforeTests(){
+		player = new PlayerContract(new PlayerImpl());
+		charact = new CharacterContract(new CharacterImpl());
+		engine = new EngineContract(new EngineImpl());
+		p2 = new PlayerContract(new PlayerImpl());
 		//charact et player se morde la queue... comment ont faite...
 		charact.init(100, 100, true, engine.init(1000, 2000, 200, player, p2));
 	}
