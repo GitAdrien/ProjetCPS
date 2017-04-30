@@ -18,9 +18,9 @@ public class PlayerImpl implements PlayerService {
 	public PlayerService init(int w, CharacterService c) {
 		commands = new ArrayList<>();
 		lastCommand = SimpleCommand.NEUTRAL;
-		
+		window = w;
+		character = new CharacterImpl();
 		character = c;
-		
 		return this;
 	}
 	

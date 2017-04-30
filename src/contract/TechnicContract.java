@@ -22,7 +22,7 @@ public class TechnicContract extends TechnicDecorator {
 	@Override
 	public TechnicService init(String n, List<Command> c, int d, HitboxService h) {
 		// \pre  : n != \empty \and c != \empty \and d >= 0
-		if (!(n == null || n.equals("")))
+		if (!(n != null || !n.equals("")))
 			throw new PreConditionError("name is empty");
 		if (!(!c.isEmpty()))
 			throw new PreConditionError("c is empty");

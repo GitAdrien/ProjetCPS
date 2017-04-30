@@ -41,12 +41,15 @@ public class EngineImpl extends Observable implements EngineService {
 //		characters[1].charBox().init(w-CHAR_H_WIDTH, h-CHAR_H_HEIGHT, CHAR_H_WIDTH, CHAR_H_HEIGHT);
 		
 		int middle = w / 2;
+		//TODO
+		//characters[0].charBox().init((middle - (s/2)) - CHAR_H_WIDTH, h-CHAR_H_HEIGHT, CHAR_H_WIDTH, CHAR_H_HEIGHT);
+		//characters[1].charBox().init((middle + (s/2)), h/*-CHAR_H_HEIGHT*/, CHAR_H_WIDTH, CHAR_H_HEIGHT);
 		
-		characters[0].charBox().init((middle - (s/2)) - CHAR_H_WIDTH, h-CHAR_H_HEIGHT, CHAR_H_WIDTH, CHAR_H_HEIGHT);
-		characters[1].charBox().init((middle + (s/2)), h-CHAR_H_HEIGHT, CHAR_H_WIDTH, CHAR_H_HEIGHT);
+		characters[0].charBox().init((middle - (s/2)), 0, CHAR_H_WIDTH, CHAR_H_HEIGHT);
+		characters[1].charBox().init((middle + (s/2)), 0, CHAR_H_WIDTH, CHAR_H_HEIGHT);
 		
-		Logger.getAnonymousLogger().log(Level.INFO, "c1 x : " + ((middle - (s/2)) - CHAR_H_WIDTH));
-		Logger.getAnonymousLogger().log(Level.INFO, "c1 x : " + ((middle - (s/2))));
+		//Logger.getAnonymousLogger().log(Level.INFO, "c1 x : " + ((middle - (s/2)) - CHAR_H_WIDTH));
+		//Logger.getAnonymousLogger().log(Level.INFO, "c1 x : " + ((middle - (s/2))));
 		
 		
 		return this;

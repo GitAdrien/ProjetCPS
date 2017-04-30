@@ -149,21 +149,6 @@ public abstract class AbstractEngine {
 	}
 	
 	@Test
-	public void testInitPostHeightFail(){ 
-		try{
-			c1.init(100, 100, true, engine);
-			c2.init(100, 100, false, engine);
-			p1.init(10, c1);
-			p2.init(100, c2);
-			engine.init(300, 1000, 100, p1, p2);
-			Assert.assertTrue(engine.height() != 300);
-		}
-		catch(PostConditionError p){
-			Assert.assertTrue(false);
-		}
-	}
-	
-	@Test
 	public void testInitPostWidth(){ 
 		try{
 			c1.init(100, 100, true, engine);
@@ -172,19 +157,6 @@ public abstract class AbstractEngine {
 			p2.init(100, c2);
 			engine.init(300, 1000, 100, p1, p2);
 			Assert.assertTrue(engine.width() == 1000);
-		}
-		catch(PostConditionError p){
-			Assert.assertTrue(false);
-		}
-	}
-	
-	@Test
-	public void testInitPostWidthFail(){ 
-		try{
-			
-			engine.init(300, 1000, 100, p1, p2);
-			System.out.println(engine.width());
-			Assert.assertTrue(engine.width() != 1000);
 		}
 		catch(PostConditionError p){
 			Assert.assertTrue(false);
@@ -217,6 +189,7 @@ public abstract class AbstractEngine {
 			Assert.assertTrue(engine.player(1).equals(p2));
 		}
 		catch(PostConditionError p){
+			System.out.println(p.getMessage());
 			Assert.assertTrue(false);
 		}
 	}

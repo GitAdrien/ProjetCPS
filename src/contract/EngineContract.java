@@ -27,6 +27,8 @@ public class EngineContract extends EngineDecorator {
 			throw new PreConditionError("h <= 0");
 		if (!(s > 0))
 			throw new PreConditionError("s <= 0");
+		if(!(w > s))
+			throw new PreConditionError("w <= s");
 		if (!(w > 0))
 			throw new PreConditionError("w <= 0");
 		if (!(!p1.equals(p2)))
@@ -55,8 +57,8 @@ public class EngineContract extends EngineDecorator {
 		if (!(character(0).positionX() == (w/2 - s/2))) // XXX wtf
 			throw new PostConditionError("p1::positionX != w//2 - s//2");
 		// \post : Character::positionX(character(init(h, w, s, p1, p2), 2)) = w//2 + s//2
-		if (!(character(1).positionX() == (w/2 - s/2))) // XXX wtf
-			throw new PostConditionError("p2::positionX != w//2 - s//2");
+		if (!(character(1).positionX() == (w/2 + s/2))) // XXX wtf
+			throw new PostConditionError("p2::positionX != w//2 + s//2");
 		// \post : Character::positionY(character(init(h, w, s, p1, p2), 1)) = 0
 		if (!(character(0).positionY() == 0))
 			throw new PostConditionError("p1::positionY != 0");

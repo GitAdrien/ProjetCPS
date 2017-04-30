@@ -219,7 +219,7 @@ public abstract class AbstractCharacter {
 			else
 				other = charact.engine().character(1);
 			if(!charact.charBox().collidesWith(other.charBox()))
-				if(charact.positionX() <= charact.speed())
+				if(charact.positionX() > charact.speed())
 					Assert.assertTrue(charact.moveLeft().positionX() == posX_at_pre - charact.speed());
 		} catch (PostConditionError p) {
 			Assert.assertTrue(false);
@@ -243,9 +243,9 @@ public abstract class AbstractCharacter {
 		try {
 			charact.init(10, 10, true, engine);
 			charact.moveLeft();
-			Assert.assertTrue(!charact.faceRight());
+			Assert.assertTrue(charact.faceRight());
 		} catch (PostConditionError p) {
-			Assert.assertTrue(true);
+			Assert.assertTrue(false);
 		}
 
 	}
@@ -263,18 +263,6 @@ public abstract class AbstractCharacter {
 	}
 
 	@Test
-	public void testPostMoveLeftLifeFail(){ // vie modifié
-		try {
-			charact.init(10, 10, true, engine);
-			charact.moveLeft();
-			Assert.assertTrue(charact.life() != 10);
-		} catch (PostConditionError p) {
-			Assert.assertTrue(true);
-		}
-
-	}
-
-	@Test
 	public void testPostMoveLeftPositionY(){ // positionY non modifié
 		try {
 			charact.init(10, 10, true, engine);
@@ -286,20 +274,6 @@ public abstract class AbstractCharacter {
 		}
 
 	}
-
-	@Test
-	public void testPostMoveLeftPositionYFail(){ // positionY modifié
-		try {
-			charact.init(10, 10, true, engine);
-			int posY_at_pre = charact.positionY();
-			charact.moveLeft();
-			Assert.assertTrue(charact.positionY() != posY_at_pre);
-		} catch (PostConditionError p) {
-			Assert.assertTrue(true);
-		}
-
-	}
-
 
 	// fonction MoveRight
 	// POST
@@ -346,7 +320,7 @@ public abstract class AbstractCharacter {
 			else
 				other = charact.engine().character(1);
 			if(!charact.charBox().collidesWith(other.charBox()))
-				if(charact.positionX() <= charact.speed())
+				if(charact.positionX() > charact.speed())
 					Assert.assertTrue(charact.moveRight().positionX() == engine.width());
 		} catch (PostConditionError p) {
 			Assert.assertTrue(false);
@@ -370,9 +344,9 @@ public abstract class AbstractCharacter {
 		try {
 			charact.init(10, 10, true, engine);
 			charact.moveRight();
-			Assert.assertTrue(!charact.faceRight());
+			Assert.assertTrue(charact.faceRight());
 		} catch (PostConditionError p) {
-			Assert.assertTrue(true);
+			Assert.assertTrue(false);
 		}
 
 	}
@@ -390,18 +364,6 @@ public abstract class AbstractCharacter {
 	}
 
 	@Test
-	public void testPostMoveRightLifeFail(){ // vie modifié
-		try {
-			charact.init(10, 10, true, engine);
-			charact.moveRight();
-			Assert.assertTrue(charact.life() != 10);
-		} catch (PostConditionError p) {
-			Assert.assertTrue(true);
-		}
-
-	}
-
-	@Test
 	public void testPostMoveRightPositionY(){ // positionY non modifié
 		try {
 			charact.init(10, 10, true, engine);
@@ -410,19 +372,6 @@ public abstract class AbstractCharacter {
 			Assert.assertTrue(charact.positionY() == posY_at_pre);
 		} catch (PostConditionError p) {
 			Assert.assertTrue(false);
-		}
-
-	}
-
-	@Test
-	public void testPostMoveRightPositionYFail(){ // positionY modifié
-		try {
-			charact.init(10, 10, true, engine);
-			int posY_at_pre = charact.positionY();
-			charact.moveRight();
-			Assert.assertTrue(charact.positionY() != posY_at_pre);
-		} catch (PostConditionError p) {
-			Assert.assertTrue(true);
 		}
 
 	}
@@ -454,19 +403,9 @@ public abstract class AbstractCharacter {
 	public void testPostSwitchSideFaceRightFail(){
 		try {
 			charact.init(10, 10, true, engine);
-			Assert.assertTrue(!charact.faceRight());
-		} catch (PostConditionError p) {
-			Assert.assertTrue(true);
-		}
-	}
-
-	@Test
-	public void testPostSwitchSideFaceRightFail2(){
-		try {
-			charact.init(10, 10, false, engine);
 			Assert.assertTrue(charact.faceRight());
 		} catch (PostConditionError p) {
-			Assert.assertTrue(true);
+			Assert.assertTrue(false);
 		}
 	}
 

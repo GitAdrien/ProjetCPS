@@ -1,4 +1,4 @@
-package config;
+	package config;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -27,7 +27,7 @@ public class ControlScheme {
 
 		content = readFile(f);
 		root = new JSONObject(content);
-			
+			 œ
 		p1 = root.getJSONObject(PLAYER_NODE + "1");
 		p2 = root.getJSONObject(PLAYER_NODE + "2");
 		
