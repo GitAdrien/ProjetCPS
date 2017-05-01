@@ -4,7 +4,7 @@ import interfaceservice.CombinaisonCommandService;
 import contract.decorator.CombinaisonCommandDecorator;
 import contract.errors.PostConditionError;
 import contract.errors.PreConditionError;
-import enums.SimpleCommand;
+import enums.direction.SimpleDirectionCommand;
 
 public class CombinaisonCommandContract extends CombinaisonCommandDecorator {
 
@@ -47,7 +47,7 @@ public class CombinaisonCommandContract extends CombinaisonCommandDecorator {
 	
 	
 	@Override
-	public void addCommand(SimpleCommand c) {
+	public void addCommand(SimpleDirectionCommand c) {
 		
 		// Pre invariants
 		checkInvariant();

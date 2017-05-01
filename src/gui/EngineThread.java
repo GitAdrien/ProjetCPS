@@ -52,7 +52,7 @@ public class EngineThread implements Runnable {
 	public void run() {
 		
 		while (isOn && !engine.gameOver()) {
-			engine.step(p1.getActiveCommand(), p2.getActiveCommand());
+			engine.step();
 			try {
 				Thread.sleep(PAUSE_BETWEEN_FRAMES);
 			} catch (InterruptedException e) {

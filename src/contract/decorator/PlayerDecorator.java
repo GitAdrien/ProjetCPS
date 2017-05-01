@@ -2,8 +2,11 @@ package contract.decorator;
 
 import java.util.List;
 
+import enums.AttackCommand;
 import enums.Command;
-import enums.SimpleCommand;
+import enums.DirectionCommand;
+import enums.attack.SimpleAttackCommand;
+import enums.direction.SimpleDirectionCommand;
 import interfaceservice.CharacterService;
 import interfaceservice.InputManagerService;
 import interfaceservice.PlayerService;
@@ -36,13 +39,18 @@ public class PlayerDecorator implements PlayerService {
 	}
 	
 	@Override
-	public SimpleCommand getActiveCommand() {
-		return delegate.getActiveCommand();
+	public DirectionCommand getActiveDirection() {
+		return delegate.getActiveDirection();
 	}
 
 	@Override
 	public InputManagerService inputManager() {
 		return delegate.inputManager();
+	}
+
+	@Override
+	public AttackCommand getActiveAttack() {
+		return delegate.getActiveAttack();
 	}
 	
 }

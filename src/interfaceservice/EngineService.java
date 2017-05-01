@@ -1,6 +1,6 @@
 package interfaceservice;
 
-import enums.SimpleCommand;
+import enums.direction.SimpleDirectionCommand;
 
 public interface EngineService {
 	/* Observator */
@@ -41,5 +41,5 @@ public interface EngineService {
 	// \pre : step(e) \with non(gameOver(e))
 	// \post : character(step(e, C1, C2), 1) = step(character(e, 1), C1)
 	// \post : character(step(e, C1, C2), 2) = step(character(e, 2), C2)
-	public EngineService step(SimpleCommand C1, SimpleCommand C2);	
+	public EngineService step();	
 }

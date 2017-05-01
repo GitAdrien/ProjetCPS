@@ -81,13 +81,28 @@ public class CharacterDecorator implements CharacterService {
 	}
 
 	@Override
-	public Character step(Command com) {
+	public CharacterService step(Command com) {
 		return delegate.step(com);
 	}
 
 	@Override
 	public void addTechnic(TechnicService t) {
 		delegate.addTechnic(t);
+	}
+
+	@Override
+	public boolean crouched() {
+		return delegate.crouched();
+	}
+
+	@Override
+	public CharacterService crouch() {
+		return delegate.crouch();
+	}
+
+	@Override
+	public CharacterService standUp() {
+		return delegate.standUp();
 	}
 	
 	

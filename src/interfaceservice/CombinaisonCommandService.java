@@ -3,11 +3,11 @@ package interfaceservice;
 import java.util.List;
 
 import enums.Command;
-import enums.SimpleCommand;
+import enums.direction.SimpleDirectionCommand;
 
 public interface CombinaisonCommandService {
 	/* Observator */
-	public List<SimpleCommand> commands(); 
+	public List<SimpleDirectionCommand> commands(); 
 	public List<Command> complexeCommands();
 	public int player();
 	
@@ -29,6 +29,6 @@ public interface CombinaisonCommandService {
 	public void parseCommands(); // XXX retourner la liste de commandes parsées ?
 	
 	// \post addCommand(ccs, c) \implique c \in commands(ccs)
-	public void addCommand(SimpleCommand c);
+	public void addCommand(SimpleDirectionCommand c);
 	
 }

@@ -1,6 +1,6 @@
 package contract.decorator;
 
-import enums.SimpleCommand;
+import enums.direction.SimpleDirectionCommand;
 import interfaceservice.CharacterService;
 import interfaceservice.EngineService;
 import interfaceservice.PlayerService;
@@ -43,7 +43,7 @@ public class EngineDecorator implements EngineService {
 	}
 
 	@Override
-	public EngineService step(SimpleCommand C1, SimpleCommand C2) {
-		return delegate.step(C1, C2);
+	public EngineService step() {
+		return delegate.step();
 	}
 }

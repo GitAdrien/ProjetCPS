@@ -16,7 +16,7 @@ import contract.TechnicContract;
 import contract.errors.PostConditionError;
 import contract.errors.PreConditionError;
 import enums.Command;
-import enums.SimpleCommand;
+import enums.direction.SimpleDirectionCommand;
 import impl.CharacterImpl;
 import impl.EngineImpl;
 import impl.HitboxImpl;
@@ -425,7 +425,7 @@ public abstract class AbstractCharacter {
 	@Test
 	public void testPreStep(){
 		try {
-			SimpleCommand com = SimpleCommand.RIGHT;
+			SimpleDirectionCommand com = SimpleDirectionCommand.RIGHT;
 			charact.init(10, 10, true, engine);
 			if(!charact.dead()){
 				charact.step(com);
@@ -440,7 +440,7 @@ public abstract class AbstractCharacter {
 	@Test
 	public void testPreStep2(){
 		try {
-			SimpleCommand com = SimpleCommand.RIGHT; //Je sais pas comment créer une commande
+			SimpleDirectionCommand com = SimpleDirectionCommand.RIGHT; //Je sais pas comment créer une commande
 			charact.init(10, 10, true, engine);
 			if(charact.dead()){
 				charact.step(com);
@@ -463,7 +463,7 @@ public abstract class AbstractCharacter {
 			TechnicService t = new TechnicContract(new TechnicImpl());
 			charact.init(100, 100, true, engine);
 			//TODO
-			SimpleCommand com = SimpleCommand.DOWN;
+			SimpleDirectionCommand com = SimpleDirectionCommand.DOWN;
 			ArrayList<Command> coms = new ArrayList<>();
 			coms.add(com);
 			HitboxService h = new HitboxContract(new HitboxImpl());

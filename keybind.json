@@ -1,18 +1,18 @@
 {
     "player1" : {
-        "up" : "z",
-        "left" : "q",
-        "down" : "s",
-        "right" : "d",
-        "punch" : "alt",
-        "kick" : "space"
+        "up" : "Z",
+        "left" : "Q",
+        "down" : "S",
+        "right" : "D",
+        "punch" : "CONTROL",
+        "kick" : "SPACE"
     },
     "player2" : {
-        "up" : "up",
-        "left" : "left",
-        "down" : "down",
-        "right" : "right",
-        "punch" : "1",
-        "kick" : "2"
+        "up" : "UP",
+        "left" : "LEFT",
+        "down" : "DOWN",
+        "right" : "RIGHT",
+        "punch" : "NUMPAD1",
+        "kick" : "NUMPAD2"
     }
 }

@@ -1,6 +1,7 @@
 package contract.decorator;
 
-import enums.SimpleCommand;
+import enums.Command;
+import enums.direction.SimpleDirectionCommand;
 import interfaceservice.InputManagerService;
 
 public class InputManagerDecorator implements InputManagerService {
@@ -17,17 +18,17 @@ public class InputManagerDecorator implements InputManagerService {
 	}
 
 	@Override
-	public void setPressed(SimpleCommand cmd) {
+	public void setPressed(Command cmd) {
 		delegate.setPressed(cmd);
 	}
 
 	@Override
-	public void setReleased(SimpleCommand cmd) {
+	public void setReleased(Command cmd) {
 		delegate.setReleased(cmd);
 	}
 
 	@Override
-	public boolean isPressed(SimpleCommand cmd) {
+	public boolean isPressed(Command cmd) {
 		return delegate.isPressed(cmd);
 	}
 

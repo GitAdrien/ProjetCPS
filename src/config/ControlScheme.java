@@ -8,15 +8,17 @@ import java.util.Scanner;
 
 import org.json.JSONObject;
 
-import enums.SimpleCommand;
+import enums.Command;
+import enums.attack.SimpleAttackCommand;
+import enums.direction.SimpleDirectionCommand;
 
 
 public class ControlScheme {
 	private final static String PLAYER_NODE = "player";
 	
 	
-	private static Map<String, SimpleCommand> p1;
-	private static Map<String, SimpleCommand> p2;
+	private static Map<String, SimpleDirectionCommand> p1_dir, p2_dir;
+	private static Map<String, SimpleAttackCommand> p1_att, p2_att;
 	
 	
 	public static void loadControlScheme(String configFilePath) throws FileNotFoundException {
@@ -39,24 +41,30 @@ public class ControlScheme {
 	}
 	
 	private static void parsePlayer(JSONObject playerNode, int p) {
-		HashMap<String, SimpleCommand> controls = new HashMap<>();
+		HashMap<String, SimpleDirectionCommand> dirControls = new HashMap<>();
+		HashMap<String, SimpleAttackCommand> attControls = new HashMap<>();
 		Map<String, Object> node = playerNode.toMap();
-		SimpleCommand crtCmd;
+		SimpleDirectionCommand crtDirCmd;
+		SimpleAttackCommand crtAttCmd;
 		for (String key : node.keySet()) {
-			crtCmd = SimpleCommand.parseString(key);
+			crtDirCmd = SimpleDirectionCommand.parseString(key);
+			crtAttCmd = SimpleAttackCommand.parseString(key);
 			
-			if (crtCmd == null) {
-				System.out.println("Unkown command " + key);
-			} else {
-				controls.put((String) node.get(key), crtCmd);
-			}
+			if (crtDirCmd != null) 
+				dirControls.put((String) node.get(key), crtDirCmd);
+			
+			if (crtAttCmd != null)
+				attControls.put((String) node.get(key), crtAttCmd);
 			
 		}
 		
-		if (p == 1)
-			ControlScheme.p1 = controls;
-		else if (p == 2)
-			ControlScheme.p2 = controls;
+		if (p == 1) {
+			ControlScheme.p1_dir = dirControls;
+			ControlScheme.p1_att = attControls;
+		} else if (p == 2) {
+			ControlScheme.p2_dir = dirControls;
+			ControlScheme.p2_att = attControls;
+		}
 	}
 	
 	public static String readFile(File f) throws FileNotFoundException {
@@ -75,36 +83,45 @@ public class ControlScheme {
 	}
 	
 	
-	public static Map<String, SimpleCommand> getP1() {
-		return p1;
+	public static Map<String, SimpleDirectionCommand> getP1() {
+		return p1_dir;
 	}
 	
-	public static Map<String, SimpleCommand> getP2() {
-		return p2;
+	public static Map<String, SimpleDirectionCommand> getP2() {
+		return p2_dir;
 	}
 	
-	private static SimpleCommand parseCommand_aux(int player, String key) {
+	private static Command parseCommand_aux(int player, String key) {
 		if (player < 0 || player > 2) {
 			System.out.println("Player number out of bound.");
 			return null;
-		} else if (p1 == null || p2 == null) {
+		} else if (p1_dir == null || p2_dir == null) {
 			System.out.println("Command schemes has not been loaded yet.");
 			return null;
 		}
 		
+		Command result = null;
 		
-		if (player == 0)
-			return p1.get(key);
-		else
-			return p2.get(key);
+		if (player == 0) {
+			result = p1_dir.get(key);
+			if (result == null)
+				result = p1_att.get(key);
+		} else {
+			result = p2_dir.get(key);
+			if (result == null)
+				result = p2_att.get(key);
+		}
+
+	
+		return result;
 	}
 
 	
-	public static SimpleCommand parseCommand_p1(String key) {
+	public static Command parseCommand_p1(String key) {
 		return parseCommand_aux(0, key);
 	}
 	
-	public static SimpleCommand parseCommand_p2(String key) {
+	public static Command parseCommand_p2(String key) {
 		return parseCommand_aux(1, key);
 	}
 	

@@ -15,6 +15,7 @@ public interface CharacterService {
 	public boolean faceRight();
 	public boolean dead();
 	public List<TechnicService> technics();
+	public boolean crouched();
 	
 
 	/* Invariants */
@@ -72,12 +73,19 @@ public interface CharacterService {
 	// \post positionX(switchSide(c)) = positionX(c)
 	public CharacterService switchSide();
 
+	// TODO
+	public CharacterService crouch();
+	
+	//TODO
+	public CharacterService standUp();
+	
+	
 	// \pre : step(c) \require \not dead(c)
 	// \post : step(c, LEFT) = moveLeft(c)
 	// \post : step(c, RIGHT) = moveRight(c)
 	// \post : step(c, NEUTRAL) = c
 	// TODO ajouté les commandes avancées 
-	public Character step(Command com);
+	public CharacterService step(Command com);
 	
 	// \pre : addTechnic(c, t) \require t \not \in technics(c) //TODO je suis pas convaicu
 	// \post addTechnic(c, t) \implique t \in technics(c)

@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import enums.Command;
-import enums.SimpleCommand;
+import enums.direction.SimpleDirectionCommand;
 import interfaceservice.CombinaisonCommandService;
 
 public class CombinaisonCommandImpl implements CombinaisonCommandService {
 	private int player;
-	private List<SimpleCommand> commands;
+	private List<SimpleDirectionCommand> commands;
 	private List<Command> complexeCommands;
 	
 	
@@ -23,7 +23,7 @@ public class CombinaisonCommandImpl implements CombinaisonCommandService {
 	}
 
 	@Override
-	public List<SimpleCommand> commands() {
+	public List<SimpleDirectionCommand> commands() {
 		return commands;
 	}
 
@@ -44,7 +44,7 @@ public class CombinaisonCommandImpl implements CombinaisonCommandService {
 	}
 
 	@Override
-	public void addCommand(SimpleCommand c) {
+	public void addCommand(SimpleDirectionCommand c) {
 		commands.add(c);
 	}
 

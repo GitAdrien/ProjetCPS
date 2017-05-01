@@ -10,7 +10,7 @@ import contract.InputManagerContract;
 import contract.PlayerContract;
 import contract.errors.PostConditionError;
 import contract.errors.PreConditionError;
-import enums.SimpleCommand;
+import enums.direction.SimpleDirectionCommand;
 import impl.CharacterImpl;
 import impl.InputManagerImpl;
 import impl.PlayerImpl;
@@ -25,8 +25,8 @@ public abstract class AbstractEngine {
 	private PlayerService p2;
 	private CharacterService c1;
 	private CharacterService c2;
-	private SimpleCommand com1;
-	private SimpleCommand com2;
+	private SimpleDirectionCommand com1;
+	private SimpleDirectionCommand com2;
 	private InputManagerService im1;
 	private InputManagerService im2;
 	
@@ -329,11 +329,13 @@ public abstract class AbstractEngine {
 			c2.init(100, 100, false, engine);
 			p1.init(10, c1, im1.init());
 			p2.init(10, c2, im2.init());
-			com1 = SimpleCommand.RIGHT;
-			com2 = SimpleCommand.LEFT;	
+			com1 = SimpleDirectionCommand.RIGHT;
+			com2 = SimpleDirectionCommand.LEFT;	
+			im1.setPressed(com1);
+			im2.setPressed(com2);
 			engine.init(300, 1000, 100, p1, p2);
 			if(engine.gameOver()){
-				engine.step(com1, com2);
+				engine.step();
 				Assert.assertTrue(false);
 			}
 			
@@ -350,11 +352,14 @@ public abstract class AbstractEngine {
 			c2.init(100, 100, false, engine);
 			p1.init(10, c1, im1.init());
 			p2.init(10, c2, im2.init());
-			com1 = SimpleCommand.RIGHT;
-			com2 = SimpleCommand.LEFT;	
+			com1 = SimpleDirectionCommand.RIGHT;
+			com2 = SimpleDirectionCommand.LEFT;	
+			im1.setPressed(com1);
+			im2.setPressed(com2);
+			
 			engine.init(300, 1000, 100, p1, p2);
 			if(!engine.gameOver()){
-				engine.step(com1, com2);
+				engine.step();
 				Assert.assertTrue(true);
 			}
 			

@@ -1,10 +1,16 @@
 package impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import enums.AttackCommand;
 import enums.Command;
-import enums.SimpleCommand;
+import enums.DirectionCommand;
+import enums.attack.ComplexeAttackCommand;
+import enums.attack.SimpleAttackCommand;
+import enums.direction.ComplexeDirectionCommand;
+import enums.direction.SimpleDirectionCommand;
 import interfaceservice.CharacterService;
 import interfaceservice.InputManagerService;
 import interfaceservice.PlayerService;
@@ -39,6 +45,7 @@ public class PlayerImpl implements PlayerService {
 
 	@Override
 	public List<Command> commandsWithinWindow() {
+		nextFrame();
 		return commands;
 	}
 
@@ -48,17 +55,48 @@ public class PlayerImpl implements PlayerService {
 	}
 
 	@Override
-	public SimpleCommand getActiveCommand() {
-		frameCounter = (frameCounter + 1) % Integer.MAX_VALUE;
+	public DirectionCommand getActiveDirection() {
+		DirectionCommand result  = null;
+		
+		result = getComplexDirection();
+		
+		if (result == null)
+			result = getSimpleDirection();
+		
+		return result;
+	}
 
-		SimpleCommand result = SimpleCommand.NEUTRAL;
+	private ComplexeDirectionCommand getComplexDirection() {
+		ArrayList<SimpleDirectionCommand> activeDir = new ArrayList<>();
+		
+		Arrays.asList(SimpleDirectionCommand.values()).forEach(cmd -> {
+			if (inputManager.isPressed(cmd))
+				activeDir.add(cmd);
+		});
+		
+		if (activeDir.size() != 2 ) // XXX : Ne prend pas en compte quand il y a plus de trois input de direction simultanés.
+			return null;
+		
+		for (ComplexeDirectionCommand cdc : ComplexeDirectionCommand.values()) {
+			if (cdc.getC1() == activeDir.get(0) || cdc.getC2() == activeDir.get(0) &&
+					cdc.getC1() == activeDir.get(1) || cdc.getC2() == activeDir.get(1)) {
+				return cdc;
+			}
+		}
+		
+		return null;
+	}
+	
+	
+	private SimpleDirectionCommand getSimpleDirection() {
+		SimpleDirectionCommand result = SimpleDirectionCommand.NEUTRAL;
 
-		for (SimpleCommand cm : SimpleCommand.values()) {
+		for (SimpleDirectionCommand cm : SimpleDirectionCommand.values()) {
 			if (inputManager.isPressed(cm) && cm.getPriority() > result.getPriority()) {
 				result = cm;
 			}
 		}
-		if (!result.equals(SimpleCommand.NEUTRAL)) {
+		if (!result.equals(SimpleDirectionCommand.NEUTRAL)) {
 			if ((Integer.MAX_VALUE - lastInput) + frameCounter > window) {
 				commands.clear();
 			}
@@ -68,10 +106,66 @@ public class PlayerImpl implements PlayerService {
 		}
 		return result;
 	}
-
+	
 	@Override
 	public InputManagerService inputManager() {
 		return inputManager;
+	}
+	
+	private void nextFrame() {
+		frameCounter = (frameCounter + 1) % Integer.MAX_VALUE;
+	}
+
+	@Override
+	public AttackCommand getActiveAttack() {
+		AttackCommand result = null;
+		
+		result = getComplexAttack();
+		
+		if (result == null)
+			result = getSimpleAttack();
+		
+		return result;
+	}
+	
+	private ComplexeAttackCommand getComplexAttack() {
+		ArrayList<SimpleAttackCommand> activeAtt = new ArrayList<>();
+		
+		Arrays.asList(SimpleAttackCommand.values()).forEach(cmd -> {
+			if (inputManager.isPressed(cmd))
+				activeAtt.add(cmd);
+		});
+		
+		if (activeAtt.size() != 2 ) // XXX : Ne prend pas en compte quand il y a plus de trois input de direction simultanés.
+			return null;
+		
+		for (ComplexeAttackCommand cdc : ComplexeAttackCommand.values()) {
+			if (cdc.getC1() == activeAtt.get(0) || cdc.getC2() == activeAtt.get(0) &&
+					cdc.getC1() == activeAtt.get(1) || cdc.getC2() == activeAtt.get(1)) {
+				return cdc;
+			}
+		}
+		
+		return null;
+	}
+	
+	private SimpleAttackCommand getSimpleAttack() {
+		SimpleAttackCommand result = SimpleAttackCommand.NONE;
+
+		for (SimpleAttackCommand cm : SimpleAttackCommand.values()) {
+			if (inputManager.isPressed(cm) && cm.getPriority() > result.getPriority()) {
+				result = cm;
+			}
+		}
+		if (!result.equals(SimpleAttackCommand.NONE)) {
+			if ((Integer.MAX_VALUE - lastInput) + frameCounter > window) {
+				commands.clear();
+			}
+			
+			lastInput = frameCounter;
+			commands.add(0, result);
+		}
+		return result;
 	}
 
 }

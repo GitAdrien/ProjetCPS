@@ -3,20 +3,21 @@ package gui;
 import java.io.FileNotFoundException;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import config.ControlScheme;
-import enums.SimpleCommand;
+import enums.Command;
+import impl.CharacterImpl;
 import impl.EngineImpl;
 import impl.PlayerImpl;
 import interfaceservice.EngineService;
 import interfaceservice.PlayerService;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Camera;
 import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -37,13 +38,14 @@ public class GUIMain extends Application implements Observer {
 	
 	//VIEW
 	public final static Color AREAN_DEBUG_COLOR = Color.WHITE;
+	public final static Color TEXT_DEBUG_COLOR = Color.WHITE;
 	public final static Color P1_DEBUG_COLOR = Color.BLUE;
 	public final static Color P2_DEBUG_COLOR = Color.RED;
 	public final static Color LIFE_BAR_COLOR = Color.ORANGE;
 	public final static Color LIFE_BAR_STROKE_COLOR = Color.BLACK;
 	
 	public final static int WINDOW_WIDTH = 800;
-	public final static int WINDOW_HEIGHT = 600;
+	public final static int WINDOW_HEIGHT = 650;
 	public final static int LIFE_BAR_MARGIN = 15;
 	
 	
@@ -51,7 +53,7 @@ public class GUIMain extends Application implements Observer {
 	
 	private Rectangle p1Hitbox, p2Hitbox;
 	private Rectangle p1Life, p2Life;
-	
+	private Label label1, label2;
 	
 	private Scene scene;
 	private Camera camera;
@@ -77,6 +79,13 @@ public class GUIMain extends Application implements Observer {
 		EngineImpl ei = (EngineImpl) engineThreadRunnable.getEngine();
 		
 		ei.addObserver(this);
+
+		CharacterImpl ci = (CharacterImpl) ei.character(0);
+		ci.addObserver(this);
+		
+		ci = (CharacterImpl) ei.character(1);
+		ci.addObserver(this);
+	
 	}
 	
 	@Override
@@ -98,6 +107,12 @@ public class GUIMain extends Application implements Observer {
 		p1Hitbox = new Rectangle(e.character(0).positionX(), e.character(0).positionY(), e.character(0).charBox().width(), e.character(0).charBox().height());
 		p2Hitbox = new Rectangle(e.character(1).positionX(), e.character(1).positionY(), e.character(1).charBox().width(), e.character(1).charBox().height());
 		
+		label1 = new Label();
+		label2 = new Label();
+		
+		label1.setTextFill(TEXT_DEBUG_COLOR);
+		label2.setTextFill(TEXT_DEBUG_COLOR);
+		
 		p1Hitbox.setFill(P1_DEBUG_COLOR);
 		p2Hitbox.setFill(P2_DEBUG_COLOR);
 		
@@ -114,6 +129,10 @@ public class GUIMain extends Application implements Observer {
 		g.getChildren().add(p1Hitbox);
 		g.getChildren().add(p2Hitbox);
 		
+		g.getChildren().add(label1);
+		g.getChildren().add(label2);
+		
+		
 		scene = new Scene(g);
 		camera = new PerspectiveCamera();
 		
@@ -128,11 +147,18 @@ public class GUIMain extends Application implements Observer {
 		primaryStage.setWidth(WINDOW_WIDTH);
 		primaryStage.setHeight(WINDOW_HEIGHT);
 		
+		engineThread = new Thread(engineThreadRunnable);
+		engineThread.start();
+
+//		engine.character(0).
+		
+		refreshPlayers();
+		
+		
+		
 		primaryStage.show();
 		
 		
-		engineThread = new Thread(engineThreadRunnable);
-		engineThread.start();
 		
 		primaryStage.setOnCloseRequest(window -> {
 			engineThreadRunnable.setOn(false);
@@ -142,7 +168,7 @@ public class GUIMain extends Application implements Observer {
 	
 	
 	private void keyPressedEvent(KeyEvent key) {
-		SimpleCommand c1, c2;
+		Command c1, c2;
 
 		c1 = ControlScheme.parseCommand_p1(key.getCode().name());
 		c2 = ControlScheme.parseCommand_p2(key.getCode().name());
@@ -154,7 +180,7 @@ public class GUIMain extends Application implements Observer {
 	}
 	
 	private void keyReleasedEvent(KeyEvent key) {
-		SimpleCommand c1, c2;
+		Command c1, c2;
 
 		c1 = ControlScheme.parseCommand_p1(key.getCode().name());
 		c2 = ControlScheme.parseCommand_p2(key.getCode().name());
@@ -171,22 +197,48 @@ public class GUIMain extends Application implements Observer {
 	
 	@Override
 	public void update(Observable o, Object arg) {
-//		Logger.getAnonymousLogger().log(Level.INFO, "update");
-		refreshPlayers();
+		Platform.runLater(this::refreshPlayers);
 	}
 
 	private void refreshPlayers() {
+		// Hitbox
 		p1Hitbox.setX(engine.character(0).positionX());
 		p1Hitbox.setY(engine.character(0).positionY());
+		p1Hitbox.setHeight(engine.character(0).charBox().height());
 		
 		p2Hitbox.setX(engine.character(1).positionX());
 		p2Hitbox.setY(engine.character(1).positionY());
+		p2Hitbox.setHeight(engine.character(1).charBox().height());
 		
-		Logger.getGlobal().log(Level.INFO, "1 y : " + engine.character(0).positionY() + "\n 2 y : " + engine.character(1).positionY());
+		// Debug text
+		label1.setText(getDebugText(engine.player(0)));
+		label2.setText(getDebugText(engine.player(1)));
+		
+		label1.setLayoutX(engine.character(0).positionX());
+		label1.setLayoutY(engine.character(0).positionY());
+		
+		label2.setLayoutX(engine.character(1).positionX());
+		label2.setLayoutY(engine.character(1).positionY());
 		
 	}
 	
-	
+	public String getDebugText(PlayerService player) {
+		String result = "";
+		
+		if (player.character().faceRight())
+			result += "->";
+		else 
+			result += "<-";
+		
+		result += "\n";
+		
+		result += "l:" + player.character().life() + "\n";
+		result += "d:" + player.character().dead() + "\n";
+		result += player.character().positionX() + "," + player.character().positionY();
+		
+			
+		return result;
+	}
 	
 	public static void main(String[] args) {
 		launch(args);

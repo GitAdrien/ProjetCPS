@@ -3,7 +3,7 @@ package contract.decorator;
 import java.util.List;
 
 import enums.Command;
-import enums.SimpleCommand;
+import enums.direction.SimpleDirectionCommand;
 import interfaceservice.CombinaisonCommandService;
 
 public class CombinaisonCommandDecorator implements CombinaisonCommandService {
@@ -14,7 +14,7 @@ public class CombinaisonCommandDecorator implements CombinaisonCommandService {
 	}
 
 	@Override
-	public List<SimpleCommand> commands() {
+	public List<SimpleDirectionCommand> commands() {
 		return delegate.commands();
 	}
 
@@ -39,7 +39,7 @@ public class CombinaisonCommandDecorator implements CombinaisonCommandService {
 	}
 
 	@Override
-	public void addCommand(SimpleCommand c) {
+	public void addCommand(SimpleDirectionCommand c) {
 		delegate.addCommand(c);
 	}
 	

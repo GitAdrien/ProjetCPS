@@ -7,7 +7,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import enums.Command;
-import enums.SimpleCommand;
+import enums.direction.ComplexeDirectionCommand;
+import enums.direction.SimpleDirectionCommand;
 import interfaceservice.CharacterService;
 import interfaceservice.EngineService;
 import interfaceservice.HitboxService;
@@ -22,6 +23,8 @@ public class CharacterImpl extends Observable implements CharacterService{
 	private boolean faceRight;
 	private ArrayList<TechnicService> technics;
 	
+	private boolean isCrouched;
+	
 	private HitboxService opponentHitbox;
 	
 	
@@ -34,6 +37,7 @@ public class CharacterImpl extends Observable implements CharacterService{
 		hitbox = new HitboxImpl();
 		technics = new ArrayList<>();
 		opponentHitbox = null;
+		isCrouched = false;
 		
 		return this;
 	}
@@ -115,8 +119,8 @@ public class CharacterImpl extends Observable implements CharacterService{
 		cpy.moveTo(positionX() + speed, cpy.positionY());
 
 		
-		if (positionX() + speed > engine.width())
-			x = engine.width();
+		if (positionX() + hitbox.width() + speed > engine.width())
+			x = engine.width() - hitbox.width();
 		else if (!opponentHitbox.collidesWith(cpy)) 
 			x = positionX() + speed;
 		
@@ -149,20 +153,53 @@ public class CharacterImpl extends Observable implements CharacterService{
 	}
 	
 	@Override
-	public Character step(Command com) {
-		if (com instanceof SimpleCommand) {
-			
-			switch ((SimpleCommand)com) {
+	public boolean crouched() {
+		return isCrouched;
+	}
+
+	@Override
+	public CharacterService crouch() {
+		if (!isCrouched) {
+			hitbox.moveTo(positionX(), positionY() + hitbox.height()/2);
+			hitbox.setHeight(hitbox.height()/2);
+			isCrouched = true;
+			setChanged();
+		}
+		
+		return this;
+	}
+
+	@Override
+	public CharacterService standUp() {
+		if (isCrouched) {
+			hitbox.moveTo(positionX(), positionY() - hitbox.height());
+			hitbox.setHeight(hitbox.height()*2);
+			isCrouched = false;
+			setChanged();
+		}
+		
+		return this;
+	}
+
+	
+	@Override
+	public CharacterService step(Command com) {
+		
+		if (com instanceof SimpleDirectionCommand) {
+			switch ((SimpleDirectionCommand)com) {
 			case LEFT :
+				handleCrouch();
 				moveLeft();
-				Logger.getAnonymousLogger().log(Level.INFO, "Moving left -> x:" + positionX());
 				break;
 			case RIGHT :
+				handleCrouch();
 				moveRight();
-				Logger.getAnonymousLogger().log(Level.INFO, "Moving right -> x:" + positionY());
 				break;
 			case NEUTRAL :
-//				Logger.getAnonymousLogger().log(Level.INFO, "Neutral");
+				handleCrouch();
+				break;
+			case DOWN :
+				crouch();
 				break;
 				
 			//TODO
@@ -170,25 +207,40 @@ public class CharacterImpl extends Observable implements CharacterService{
 			default:
 				Logger.getAnonymousLogger().log(Level.INFO, com + " is not implemented yet.");
 				break;
+			} 
+		} else if (com instanceof ComplexeDirectionCommand) {
+			switch ((ComplexeDirectionCommand)com) {
+			case DOWN_LEFT:
+				crouch();
+				break;
+			case DOWN_RIGHT:
+				crouch();
+				break;
+			default:
+				Logger.getAnonymousLogger().log(Level.INFO, com + " is not implemented yet.");
+				break;
 			}
-			
 		}
 		
-		return null;
+		notifyObservers();
+		
+		return this;
+	}
+	
+	private void handleCrouch() {
+		if (isCrouched) {
+			standUp();
+		}
 	}
 
 	
 	private void defineOpponent() {
-		System.out.println("engine : " + engine);
-		System.out.println("player : " + engine.player(0));
-		System.out.println("character : " + engine.player(0).character());
-		
-		
 		if (engine.character(0).charBox().equalsTo(hitbox))
 			opponentHitbox = engine.character(1).charBox();
 		else
 			opponentHitbox = engine.character(0).charBox();
 		
 	}
+
 
 }

@@ -2,8 +2,9 @@ package interfaceservice;
 
 import java.util.List;
 
+import enums.AttackCommand;
 import enums.Command;
-import enums.SimpleCommand;
+import enums.DirectionCommand;
 
 public interface PlayerService {
 	//choper des inputs
@@ -25,7 +26,9 @@ public interface PlayerService {
 	
 	/* Operators */
 	
-	public SimpleCommand getActiveCommand();
+	public DirectionCommand getActiveDirection();
+	
+	public AttackCommand getActiveAttack();
 	
 	
 	// TODO
