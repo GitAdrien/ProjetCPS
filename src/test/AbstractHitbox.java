@@ -5,8 +5,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.sun.javafx.scene.traversal.Hueristic2D;
-
 import contract.HitboxContract;
 import contract.errors.PostConditionError;
 import contract.errors.PreConditionError;

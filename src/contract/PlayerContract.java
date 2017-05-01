@@ -1,6 +1,7 @@
 package contract;
 
 import interfaceservice.CharacterService;
+import interfaceservice.InputManagerService;
 import interfaceservice.PlayerService;
 import contract.decorator.PlayerDecorator;
 import contract.errors.PostConditionError;
@@ -17,13 +18,13 @@ public class PlayerContract extends PlayerDecorator {
 	}
 	
 	@Override
-	public PlayerService init(int w, CharacterService c){
+	public PlayerService init(int w, CharacterService c, InputManagerService im){
 		// \pre : w >= 0
 		if(!(w >= 0))
 			throw new PreConditionError("w is not positive");
 		checkInvariant();
 		
-		super.init(w, c);
+		super.init(w, c, im);
 
 		checkInvariant();
 

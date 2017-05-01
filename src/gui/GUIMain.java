@@ -7,7 +7,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import config.ControlScheme;
-import enums.Command;
 import enums.SimpleCommand;
 import impl.EngineImpl;
 import impl.PlayerImpl;
@@ -32,7 +31,8 @@ public class GUIMain extends Application implements Observer {
 	private final static int ARENA_HEIGHT = 600;
 	private final static int SPACE_BETWEEN_PLAYERS = 500;
 	
-	private EngineThread engineThread;
+	private EngineThread engineThreadRunnable;
+	private Thread engineThread;
 	private EngineService engine;
 	
 	//VIEW
@@ -69,12 +69,12 @@ public class GUIMain extends Application implements Observer {
 		PlayerService p1 = new PlayerImpl();
 		PlayerService p2 = new PlayerImpl();
 		
-		engineThread = new EngineThread();
-		engineThread.init(ARENA_HEIGHT, ARENA_WIDTH, SPACE_BETWEEN_PLAYERS, p1, p2);
+		engineThreadRunnable = new EngineThread();
+		engineThreadRunnable.init(ARENA_HEIGHT, ARENA_WIDTH, SPACE_BETWEEN_PLAYERS, p1, p2);
 		
-		engine = engineThread.getEngine();
+		engine = engineThreadRunnable.getEngine();
 		
-		EngineImpl ei = (EngineImpl) engineThread.getEngine();
+		EngineImpl ei = (EngineImpl) engineThreadRunnable.getEngine();
 		
 		ei.addObserver(this);
 	}
@@ -87,7 +87,7 @@ public class GUIMain extends Application implements Observer {
 		
 		Group g = new Group();
 		
-		EngineService e = engineThread.getEngine();
+		EngineService e = engineThreadRunnable.getEngine();
 		
 		arenaBox = new Rectangle(e.width(), e.height());
 		arenaBox.setFill(AREAN_DEBUG_COLOR);
@@ -119,7 +119,9 @@ public class GUIMain extends Application implements Observer {
 		
 		scene.setCamera(camera);
 		
-		scene.addEventHandler(KeyEvent.KEY_PRESSED, this::handleKeyEvent);
+		scene.addEventHandler(KeyEvent.KEY_PRESSED, this::keyPressedEvent);
+		scene.addEventHandler(KeyEvent.KEY_RELEASED, this::keyReleasedEvent);
+		
 		
 		primaryStage.setScene(scene);
 		
@@ -129,22 +131,38 @@ public class GUIMain extends Application implements Observer {
 		primaryStage.show();
 		
 		
-		new Thread(engineThread).start();
+		engineThread = new Thread(engineThreadRunnable);
+		engineThread.start();
 		
+		primaryStage.setOnCloseRequest(window -> {
+			engineThreadRunnable.setOn(false);
+			engineThread.interrupt();
+		});
 	}
 	
 	
-	private void handleKeyEvent(KeyEvent key) {
+	private void keyPressedEvent(KeyEvent key) {
 		SimpleCommand c1, c2;
-		
-		c1 = ControlScheme.parseCommand_p1(key.getText());
-		c2 = ControlScheme.parseCommand_p2(key.getText());
+
+		c1 = ControlScheme.parseCommand_p1(key.getCode().name());
+		c2 = ControlScheme.parseCommand_p2(key.getCode().name());
 		
 		if (c1 != null)
-			engineThread.getEngine().player(0).addCommand(c1);
+			engineThreadRunnable.getEngine().player(0).inputManager().setPressed(c1);
 		if (c2 != null)
-			engineThread.getEngine().player(1).addCommand(c2);
+			engineThreadRunnable.getEngine().player(1).inputManager().setPressed(c2);
+	}
 	
+	private void keyReleasedEvent(KeyEvent key) {
+		SimpleCommand c1, c2;
+
+		c1 = ControlScheme.parseCommand_p1(key.getCode().name());
+		c2 = ControlScheme.parseCommand_p2(key.getCode().name());
+		
+		if (c1 != null)
+			engineThreadRunnable.getEngine().player(0).inputManager().setReleased(c1);
+		if (c2 != null)
+			engineThreadRunnable.getEngine().player(1).inputManager().setReleased(c2);
 	}
 	
 	private int getLifeBarWidth(double state) {
@@ -163,6 +181,9 @@ public class GUIMain extends Application implements Observer {
 		
 		p2Hitbox.setX(engine.character(1).positionX());
 		p2Hitbox.setY(engine.character(1).positionY());
+		
+		Logger.getGlobal().log(Level.INFO, "1 y : " + engine.character(0).positionY() + "\n 2 y : " + engine.character(1).positionY());
+		
 	}
 	
 	

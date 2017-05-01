@@ -11,6 +11,7 @@ public interface PlayerService {
 	public int window(); // zone pour commande spéciale
 	public List<Command> commandsWithinWindow();
 	public CharacterService character();
+	public InputManagerService inputManager();
 	
 	/* Invariants */
 	//TODO
@@ -20,12 +21,11 @@ public interface PlayerService {
 	// \post : window(init(w, c)) = w
 	// \post : character(init(w, c)) = c
 	// \post : commandsWithinWindow(init(w,c)) = \empty
-	public PlayerService init(int w, CharacterService c);
+	public PlayerService init(int w, CharacterService c, InputManagerService inputManager);
 	
 	/* Operators */
 	
-	public SimpleCommand getLastCommand();
-	public void addCommand(SimpleCommand c);
+	public SimpleCommand getActiveCommand();
 	
 	
 	// TODO

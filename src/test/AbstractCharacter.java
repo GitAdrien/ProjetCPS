@@ -10,6 +10,7 @@ import org.junit.Test;
 import contract.CharacterContract;
 import contract.EngineContract;
 import contract.HitboxContract;
+import contract.InputManagerContract;
 import contract.PlayerContract;
 import contract.TechnicContract;
 import contract.errors.PostConditionError;
@@ -19,11 +20,13 @@ import enums.SimpleCommand;
 import impl.CharacterImpl;
 import impl.EngineImpl;
 import impl.HitboxImpl;
+import impl.InputManagerImpl;
 import impl.PlayerImpl;
 import impl.TechnicImpl;
 import interfaceservice.CharacterService;
 import interfaceservice.EngineService;
 import interfaceservice.HitboxService;
+import interfaceservice.InputManagerService;
 import interfaceservice.PlayerService;
 import interfaceservice.TechnicService;
 
@@ -33,6 +36,10 @@ public abstract class AbstractCharacter {
 	private CharacterService other;
 	private PlayerService p1;
 	private PlayerService p2;
+	private InputManagerService im1;
+	private InputManagerService im2;
+	
+	
 	/**
 	 * @return the Character
 	 */
@@ -55,7 +62,10 @@ public abstract class AbstractCharacter {
 		p1 = new PlayerContract(new PlayerImpl());
 		p2 = new PlayerContract(new PlayerImpl());
 		engine = new EngineContract(new EngineImpl());
-		engine.init(100, 1000, 100, p1.init(10, charact), p2.init(10, other.init(100, 10, false, engine)));
+		im1 = new InputManagerContract(new InputManagerImpl());
+		im2 = new InputManagerContract(new InputManagerImpl());
+		
+		engine.init(100, 1000, 100, p1.init(10, charact, im1.init()), p2.init(10, other.init(100, 10, false, engine), im2.init()));
 
 	}
 

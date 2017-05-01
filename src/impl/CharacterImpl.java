@@ -22,6 +22,8 @@ public class CharacterImpl extends Observable implements CharacterService{
 	private boolean faceRight;
 	private ArrayList<TechnicService> technics;
 	
+	private HitboxService opponentHitbox;
+	
 	
 	@Override
 	public CharacterService init(int l, int s, boolean f, EngineService e) {
@@ -31,6 +33,7 @@ public class CharacterImpl extends Observable implements CharacterService{
 		engine = e;
 		hitbox = new HitboxImpl();
 		technics = new ArrayList<>();
+		opponentHitbox = null;
 		
 		return this;
 	}
@@ -78,35 +81,50 @@ public class CharacterImpl extends Observable implements CharacterService{
 
 	@Override
 	public CharacterService moveLeft() {
-		int x;
+		if (opponentHitbox == null)
+			defineOpponent();
+		
+		int x = positionX();
+		
+		
+		HitboxService cpy = hitbox.copy();
+		cpy.moveTo(positionX() - speed, cpy.positionY());
 		
 		if (positionX() - speed < 0)
 			x = 0;
-		else 
+		else if (!opponentHitbox.collidesWith(cpy)) 
 			x = positionX() - speed;
 		
 		
 		hitbox.moveTo(x, positionY());
 		
-		notifyObservers();
+		setChanged();
 		
 		return this;
 	}
 
+
 	@Override
 	public CharacterService moveRight() {
-		int x;
+		if (opponentHitbox == null)
+			defineOpponent();
+		
+		int x = positionX();
+		
+		HitboxService cpy = hitbox.copy();
+		cpy.moveTo(positionX() + speed, cpy.positionY());
+
 		
 		if (positionX() + speed > engine.width())
 			x = engine.width();
-		else 
+		else if (!opponentHitbox.collidesWith(cpy)) 
 			x = positionX() + speed;
 		
 		// TODO bug ici!
 		
 		hitbox.moveTo(x, positionY());
 		
-		notifyObservers();
+		setChanged();
 		
 		return this;
 	}
@@ -114,7 +132,9 @@ public class CharacterImpl extends Observable implements CharacterService{
 	@Override
 	public CharacterService switchSide() {
 		faceRight = !faceRight;
-		notifyObservers();
+
+		setChanged();
+		
 		return this;
 	}
 
@@ -154,11 +174,21 @@ public class CharacterImpl extends Observable implements CharacterService{
 			
 		}
 		
-		
-		
-			
-		
 		return null;
+	}
+
+	
+	private void defineOpponent() {
+		System.out.println("engine : " + engine);
+		System.out.println("player : " + engine.player(0));
+		System.out.println("character : " + engine.player(0).character());
+		
+		
+		if (engine.character(0).charBox().equalsTo(hitbox))
+			opponentHitbox = engine.character(1).charBox();
+		else
+			opponentHitbox = engine.character(0).charBox();
+		
 	}
 
 }

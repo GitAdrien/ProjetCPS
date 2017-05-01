@@ -5,6 +5,7 @@ import java.util.List;
 import enums.Command;
 import enums.SimpleCommand;
 import interfaceservice.CharacterService;
+import interfaceservice.InputManagerService;
 import interfaceservice.PlayerService;
 
 public class PlayerDecorator implements PlayerService {
@@ -30,17 +31,18 @@ public class PlayerDecorator implements PlayerService {
 	}
 
 	@Override
-	public PlayerService init(int w, CharacterService c) {
-		return delegate.init(w, c);
+	public PlayerService init(int w, CharacterService c, InputManagerService im) {
+		return delegate.init(w, c, im);
 	}
 	
 	@Override
-	public SimpleCommand getLastCommand() {
-		return delegate.getLastCommand();
+	public SimpleCommand getActiveCommand() {
+		return delegate.getActiveCommand();
+	}
+
+	@Override
+	public InputManagerService inputManager() {
+		return delegate.inputManager();
 	}
 	
-	@Override
-	public void addCommand(SimpleCommand c) {
-		delegate.addCommand(c);
-	}
 }
