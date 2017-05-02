@@ -1,16 +1,19 @@
 package gui;
 
+import factory.TechnicsFactory;
 import impl.EngineImpl;
 import impl.InputManagerImpl;
+import interfaceservice.CharacterService;
 import interfaceservice.EngineService;
+import interfaceservice.FrameCounterService;
 import interfaceservice.PlayerService;
 
 
 
 // TODO utiliser les contrats et non directement les impémentations.
 public class EngineThread implements Runnable {
-	private final static long PAUSE_BETWEEN_FRAMES = 50; // was 166
-	private final static int INPUT_WINDOW_LENGHT = 10;
+	private final static long PAUSE_BETWEEN_FRAMES = 25; // was 166
+	private final static int INPUT_WINDOW_LENGHT = 5;
 	
 	
 	private EngineService engine;
@@ -24,8 +27,8 @@ public class EngineThread implements Runnable {
 		isOn = true;
 	}
 	
-	public void init(int h, int w, int s, PlayerService p1, PlayerService p2) {
-		engine.init(h, w, s, p1, p2);
+	public void init(int h, int w, int s, PlayerService p1, PlayerService p2, FrameCounterService fc) {
+		engine.init(h, w, s, p1, p2, fc);
 		this.p1 = p1;
 		this.p2 = p2;
 		
@@ -37,6 +40,9 @@ public class EngineThread implements Runnable {
 		
 		p1.init(INPUT_WINDOW_LENGHT, engine.character(0), im1);
 		p2.init(INPUT_WINDOW_LENGHT, engine.character(1), im2);
+		
+		addTechnics(engine.character(0));
+		addTechnics(engine.character(1));
 		
 	}
 	
@@ -62,6 +68,10 @@ public class EngineThread implements Runnable {
 	}
 	
 	
+	private void addTechnics(CharacterService c) {
+		c.addTechnic(TechnicsFactory.newKick(0, (int) (c.charBox().height()*0.5)));
+		c.addTechnic(TechnicsFactory.newPunch(0, (int) (c.charBox().height()*0.15)));
+	}
 	
 	
 }

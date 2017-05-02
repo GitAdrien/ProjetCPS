@@ -104,6 +104,31 @@ public class CharacterDecorator implements CharacterService {
 	public CharacterService standUp() {
 		return delegate.standUp();
 	}
+
+	@Override
+	public boolean stunned() {
+		return delegate.stunned();
+	}
+
+	@Override
+	public boolean usingTechnic() {
+		return delegate.usingTechnic();
+	}
+
+	@Override
+	public HitboxService currentTechnicHitbox() {
+		return delegate.currentTechnicHitbox();
+	}
+
+	@Override
+	public CharacterService useTechnic(List<Command> commands) {
+		return delegate.useTechnic(commands);
+	}
+
+	@Override
+	public CharacterService takeDamages(int amount, int stun) {
+		return delegate.takeDamages(amount, stun);
+	}
 	
 	
 }

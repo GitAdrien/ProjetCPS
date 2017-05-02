@@ -7,12 +7,13 @@ import interfaceservice.EngineService;
 public class CharacterFactory {
 	private static int CHAR_LIFE = 100;
 	private static int CHAR_SPEED = 15;
-	private static int CHAR_H_WIDTH = 70;
-	private static int CHAR_H_HEIGHT = 100;
+	private static int CHAR_H_WIDTH = 100;
+	private static int CHAR_H_HEIGHT = 250;
 	
 	public static CharacterService newCharacterOnLeftSide(EngineService engine, int spacing) {
 		CharacterService result = new CharacterImpl();
 		
+	
 		result.init(CHAR_LIFE, CHAR_SPEED, true, engine);
 		int w = engine.width();
 		int h = engine.height();

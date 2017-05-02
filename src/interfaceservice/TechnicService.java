@@ -10,6 +10,9 @@ public interface TechnicService {
 	public List<Command> commands();
 	public int damage();
 	public HitboxService hitbox();
+	public int frame();
+	public int stun();
+	
 	/* Invariants */
 	
 	/* Constructors */
@@ -18,6 +21,6 @@ public interface TechnicService {
 	// \post : commands(init(n, c, d, h)) = c
 	// \post : damage(init(n, c, d, h)) = d
 	// \post : hitbox(init(n, c, d, h)) = h
-	public TechnicService init(String n, List<Command> c, int d, HitboxService h);
+	public TechnicService init(String n, List<Command> c, int d, int f, int s, HitboxService h);
 	
 }

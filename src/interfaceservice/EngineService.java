@@ -13,6 +13,8 @@ public interface EngineService {
 	// \pre : player(e, i) \with i \in {0,1}
 	public PlayerService player(int i);
 	public boolean gameOver();
+	public FrameCounterService frameCounter();
+	
 	
 	/* Invariants */
 	// \inv : (min) gameOver(e) = \exists i \in {0,1} Character::dead(player(e,i))
@@ -29,6 +31,7 @@ public interface EngineService {
 	// \post : Character::positionY(character(init(h, w, s, p1, p2), 2)) = 0
 	// \post : Character::faceRight(character(init(h, w, s, p1, p2), 1))
 	// \post : Character::non(faceRight(char(init(h, w, s, p1, p2), 2)))
+	// TODO
 	/**
 	 * @param h height
 	 * @param w width
@@ -36,7 +39,7 @@ public interface EngineService {
 	 * @param p1 player 1
 	 * @param p2 player 2
 	 */
-	public EngineService init(int h, int w, int s, PlayerService p1, PlayerService p2);
+	public EngineService init(int h, int w, int s, PlayerService p1, PlayerService p2, FrameCounterService fc);
 	/* Operators */
 	// \pre : step(e) \with non(gameOver(e))
 	// \post : character(step(e, C1, C2), 1) = step(character(e, 1), C1)

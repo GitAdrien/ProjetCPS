@@ -3,6 +3,7 @@ package contract.decorator;
 import enums.direction.SimpleDirectionCommand;
 import interfaceservice.CharacterService;
 import interfaceservice.EngineService;
+import interfaceservice.FrameCounterService;
 import interfaceservice.PlayerService;
 
 public class EngineDecorator implements EngineService {
@@ -38,12 +39,17 @@ public class EngineDecorator implements EngineService {
 	}
 
 	@Override
-	public EngineService init(int h, int w, int s, PlayerService p1, PlayerService p2) {
-		return delegate.init(h, w, s, p1, p2);
+	public EngineService init(int h, int w, int s, PlayerService p1, PlayerService p2, FrameCounterService fc) {
+		return delegate.init(h, w, s, p1, p2, fc);
 	}
 
 	@Override
 	public EngineService step() {
 		return delegate.step();
+	}
+
+	@Override
+	public FrameCounterService frameCounter() {
+		return delegate.frameCounter();
 	}
 }

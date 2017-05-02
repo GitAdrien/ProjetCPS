@@ -35,8 +35,18 @@ public class TechnicDecorator implements TechnicService {
 	}
 
 	@Override
-	public TechnicService init(String n, List<Command> c, int d, HitboxService h) {
-		return delegate.init(n, c, d, h);
+	public TechnicService init(String n, List<Command> c, int d, int f, int s, HitboxService h) {
+		return delegate.init(n, c, d, f, s, h);
+	}
+
+	@Override
+	public int frame() {
+		return delegate.frame();
+	}
+
+	@Override
+	public int stun() {
+		return delegate.stun();
 	}
 
 }

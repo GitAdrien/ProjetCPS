@@ -4,22 +4,24 @@ import java.util.Observable;
 
 import enums.AttackCommand;
 import enums.DirectionCommand;
-import enums.attack.SimpleAttackCommand;
-import enums.direction.SimpleDirectionCommand;
 import factory.CharacterFactory;
 import interfaceservice.CharacterService;
 import interfaceservice.EngineService;
+import interfaceservice.FrameCounterService;
 import interfaceservice.PlayerService;
 
 public class EngineImpl extends Observable implements EngineService {
+	private static int MAX_FRAME = 300000;
+	
 	private int width, height;
 	private CharacterService[] characters;
 	private PlayerService[] players;
+	private FrameCounterService frameCounter;
 
 
 
 	@Override
-	public EngineService init(int h, int w, int s, PlayerService p1, PlayerService p2) {
+	public EngineService init(int h, int w, int s, PlayerService p1, PlayerService p2, FrameCounterService fc) {
 		width = w;
 		height = h;
 
@@ -28,6 +30,10 @@ public class EngineImpl extends Observable implements EngineService {
 		
 		characters[0] = CharacterFactory.newCharacterOnLeftSide(this, s);
 		characters[1] = CharacterFactory.newCharacterOnRightSide(this, s);
+		
+		fc.init(MAX_FRAME);
+		
+		frameCounter = fc;
 		
 		return this;
 	}
@@ -59,11 +65,15 @@ public class EngineImpl extends Observable implements EngineService {
 
 	@Override
 	public EngineService step() {
+		
 		stepCharacter(0);
 		stepCharacter(1);
 		
+		frameCounter.nextFrame();
+		
+		
 		notifyObservers();
-
+		
 		return this;
 	}
 	
@@ -78,6 +88,13 @@ public class EngineImpl extends Observable implements EngineService {
 		characters[p].step(d);
 		characters[p].step(a);
 		
+		characters[p].useTechnic(players[p].commandsWithinWindow());
+		
+	}
+
+	@Override
+	public FrameCounterService frameCounter() {
+		return frameCounter;
 	}
 
 }

@@ -41,7 +41,7 @@ public abstract class AbstractPlayer {
 		p2 = new PlayerContract(new PlayerImpl());
 		im = new InputManagerContract(new InputManagerImpl());
 		//Possibilite d'erreurs
-		charact.init(100, 100, true, engine.init(1000, 2000, 200, player, p2));
+		charact.init(100, 100, true, engine.init(1000, 2000, 200, player, p2)); // TODO ajouter le frameCounter
 	}
 	
 	@After

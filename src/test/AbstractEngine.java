@@ -67,7 +67,7 @@ public abstract class AbstractEngine {
 			c2.init(100, 100, false, engine);
 			p1.init(10, c1, im1.init());
 			p2.init(100, c2, im2.init());
-			engine.init(300, 1000, 100, p1, p2);
+			engine.init(300, 1000, 100, p1, p2); // TODO ajoute le frame counter comme dans le before de test character
 			Assert.assertTrue(true);
 		}
 		catch(PreConditionError p){

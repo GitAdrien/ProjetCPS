@@ -8,6 +8,7 @@ import config.ControlScheme;
 import enums.Command;
 import impl.CharacterImpl;
 import impl.EngineImpl;
+import impl.FrameCounterImpl;
 import impl.PlayerImpl;
 import interfaceservice.EngineService;
 import interfaceservice.PlayerService;
@@ -43,6 +44,7 @@ public class GUIMain extends Application implements Observer {
 	public final static Color P2_DEBUG_COLOR = Color.RED;
 	public final static Color LIFE_BAR_COLOR = Color.ORANGE;
 	public final static Color LIFE_BAR_STROKE_COLOR = Color.BLACK;
+	public final static Color TECH_HITBOX_COLOR = Color.BLACK;
 	
 	public final static int WINDOW_WIDTH = 800;
 	public final static int WINDOW_HEIGHT = 650;
@@ -55,9 +57,13 @@ public class GUIMain extends Application implements Observer {
 	private Rectangle p1Life, p2Life;
 	private Label label1, label2;
 	
+	private Rectangle[] techHitboxes;
+	
 	private Scene scene;
 	private Camera camera;
 
+	private Group mainGroup;
+	
 	public GUIMain() {}
 	
 	private void initModel() {
@@ -71,8 +77,9 @@ public class GUIMain extends Application implements Observer {
 		PlayerService p1 = new PlayerImpl();
 		PlayerService p2 = new PlayerImpl();
 		
+		
 		engineThreadRunnable = new EngineThread();
-		engineThreadRunnable.init(ARENA_HEIGHT, ARENA_WIDTH, SPACE_BETWEEN_PLAYERS, p1, p2);
+		engineThreadRunnable.init(ARENA_HEIGHT, ARENA_WIDTH, SPACE_BETWEEN_PLAYERS, p1, p2, new FrameCounterImpl());
 		
 		engine = engineThreadRunnable.getEngine();
 		
@@ -95,6 +102,8 @@ public class GUIMain extends Application implements Observer {
 		initModel();
 		
 		Group g = new Group();
+		
+		mainGroup = g;
 		
 		EngineService e = engineThreadRunnable.getEngine();
 		
@@ -121,6 +130,17 @@ public class GUIMain extends Application implements Observer {
 		p1Life.setStroke(LIFE_BAR_STROKE_COLOR);
 		p2Life.setStroke(LIFE_BAR_STROKE_COLOR);
 		
+
+		techHitboxes = new Rectangle[2];
+		techHitboxes[0] = new Rectangle();
+		techHitboxes[0].setFill(TECH_HITBOX_COLOR);
+		techHitboxes[0].setVisible(false);
+		techHitboxes[1] = new Rectangle();
+		techHitboxes[1].setFill(TECH_HITBOX_COLOR);
+		techHitboxes[1].setVisible(false);
+		
+		
+		
 		g.getChildren().add(arenaBox);
 		
 		g.getChildren().add(p1Life);
@@ -132,6 +152,8 @@ public class GUIMain extends Application implements Observer {
 		g.getChildren().add(label1);
 		g.getChildren().add(label2);
 		
+		g.getChildren().add(techHitboxes[0]);
+		g.getChildren().add(techHitboxes[1]);
 		
 		scene = new Scene(g);
 		camera = new PerspectiveCamera();
@@ -220,6 +242,32 @@ public class GUIMain extends Application implements Observer {
 		label2.setLayoutX(engine.character(1).positionX());
 		label2.setLayoutY(engine.character(1).positionY());
 		
+		// Tech Hitbox
+		updatePlayerTechnicHitbox(0);
+		updatePlayerTechnicHitbox(1);
+		
+	}
+	
+	private void updatePlayerTechnicHitbox(int player) {
+		CharacterImpl c = (CharacterImpl) engine.character(player);
+		
+		if (c.usingTechnic()) {
+			System.out.println("gen tech");
+			techHitboxes[player].setX(c.currentTechnicHitbox().positionX());
+			techHitboxes[player].setY(c.currentTechnicHitbox().positionY());
+			techHitboxes[player].setWidth(c.currentTechnicHitbox().width());
+			techHitboxes[player].setHeight(c.currentTechnicHitbox().height());
+			techHitboxes[player].setVisible(true);
+			System.out.println("visible : " + techHitboxes[player].isVisible());
+			System.out.println("hit : " + c.currentTechnicHitbox().positionX() +", " +c.currentTechnicHitbox().positionY());
+			System.out.println("contains : " + mainGroup.getChildren().contains(techHitboxes[player]));
+			
+		} else {
+			if (techHitboxes[player].isVisible()) {
+				techHitboxes[player].setVisible(false);
+			}
+		}
+		
 	}
 	
 	public String getDebugText(PlayerService player) {
@@ -234,8 +282,9 @@ public class GUIMain extends Application implements Observer {
 		
 		result += "l:" + player.character().life() + "\n";
 		result += "d:" + player.character().dead() + "\n";
-		result += player.character().positionX() + "," + player.character().positionY();
-		
+		result += player.character().positionX() + "," + player.character().positionY() + "\n";
+		result += "tech:" + player.character().usingTechnic() + "\n";
+		result += "stun:" + player.character().stunned() + "\n";
 			
 		return result;
 	}

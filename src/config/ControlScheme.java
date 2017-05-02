@@ -34,10 +34,6 @@ public class ControlScheme {
 		parsePlayer(p1, 1);
 		parsePlayer(p2, 2);
 			
-			
-			
-		
-		
 	}
 	
 	private static void parsePlayer(JSONObject playerNode, int p) {

@@ -12,6 +12,7 @@ import enums.attack.SimpleAttackCommand;
 import enums.direction.ComplexeDirectionCommand;
 import enums.direction.SimpleDirectionCommand;
 import interfaceservice.CharacterService;
+import interfaceservice.FrameCounterService;
 import interfaceservice.InputManagerService;
 import interfaceservice.PlayerService;
 
@@ -20,19 +21,20 @@ public class PlayerImpl implements PlayerService {
 	private CharacterService character;
 	private List<Command> commands;
 	private InputManagerService inputManager;
-
-	private int frameCounter;
+	private FrameCounterService frameCounter;
+	
 	private int lastInput;
-
+	private DirectionCommand lastDirection;
+	private AttackCommand lastAttack;
+	
 	@Override
 	public PlayerService init(int w, CharacterService c, InputManagerService im) {
 		commands = new ArrayList<>();
 		window = w;
-		character = new CharacterImpl();
 		character = c;
 		inputManager = im;
+		frameCounter = c.engine().frameCounter();
 
-		frameCounter = 0;
 		lastInput = 0;
 
 		return this;
@@ -45,7 +47,9 @@ public class PlayerImpl implements PlayerService {
 
 	@Override
 	public List<Command> commandsWithinWindow() {
-		nextFrame();
+		if (frameCounter.difference(lastInput) > window) {
+			commands.clear();
+		}
 		return commands;
 	}
 
@@ -62,6 +66,18 @@ public class PlayerImpl implements PlayerService {
 		
 		if (result == null)
 			result = getSimpleDirection();
+		
+		if (!result.equals(SimpleDirectionCommand.NEUTRAL)) {
+			if (frameCounter.difference(lastInput) > window) {
+				commands.clear();
+			}
+			
+//			lastInput = frameCounter.frame();
+			if (result != lastDirection)
+				commands.add(0, result);
+		}
+		
+		lastDirection = result;
 		
 		return result;
 	}
@@ -84,6 +100,8 @@ public class PlayerImpl implements PlayerService {
 			}
 		}
 		
+		
+		
 		return null;
 	}
 	
@@ -96,14 +114,7 @@ public class PlayerImpl implements PlayerService {
 				result = cm;
 			}
 		}
-		if (!result.equals(SimpleDirectionCommand.NEUTRAL)) {
-			if ((Integer.MAX_VALUE - lastInput) + frameCounter > window) {
-				commands.clear();
-			}
-			
-			lastInput = frameCounter;
-			commands.add(0, result);
-		}
+		
 		return result;
 	}
 	
@@ -112,9 +123,6 @@ public class PlayerImpl implements PlayerService {
 		return inputManager;
 	}
 	
-	private void nextFrame() {
-		frameCounter = (frameCounter + 1) % Integer.MAX_VALUE;
-	}
 
 	@Override
 	public AttackCommand getActiveAttack() {
@@ -124,6 +132,20 @@ public class PlayerImpl implements PlayerService {
 		
 		if (result == null)
 			result = getSimpleAttack();
+		
+		
+		if (!result.equals(SimpleAttackCommand.NONE)) {
+			if (frameCounter.difference(lastInput) > window) {
+				commands.clear();
+			}
+			
+			lastInput = frameCounter.frame();
+			
+			if (lastAttack != result)
+				commands.add(0, result);
+		}
+		
+		lastAttack = result;
 		
 		return result;
 	}
@@ -157,14 +179,7 @@ public class PlayerImpl implements PlayerService {
 				result = cm;
 			}
 		}
-		if (!result.equals(SimpleAttackCommand.NONE)) {
-			if ((Integer.MAX_VALUE - lastInput) + frameCounter > window) {
-				commands.clear();
-			}
-			
-			lastInput = frameCounter;
-			commands.add(0, result);
-		}
+		
 		return result;
 	}
 

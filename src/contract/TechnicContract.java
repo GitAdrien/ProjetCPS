@@ -20,7 +20,7 @@ public class TechnicContract extends TechnicDecorator {
 	}
 	
 	@Override
-	public TechnicService init(String n, List<Command> c, int d, HitboxService h) {
+	public TechnicService init(String n, List<Command> c, int d, int f, int s, HitboxService h) {
 		// \pre  : n != \empty \and c != \empty \and d >= 0
 		if (!(n != null || !n.equals("")))
 			throw new PreConditionError("name is empty");
@@ -29,11 +29,13 @@ public class TechnicContract extends TechnicDecorator {
 		if (!(d >= 0))
 			throw new PreConditionError("d < 0");
 		
+		// TODO f et s
+		
 
 		// Pre invariants
 		checkInvariant();
 		
-		super.init(n, c, d, h);
+		super.init(n, c, d, f, s, h);
 		
 		
 		// Post invariants

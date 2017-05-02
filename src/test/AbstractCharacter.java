@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import contract.CharacterContract;
 import contract.EngineContract;
+import contract.FrameCounterContract;
 import contract.HitboxContract;
 import contract.InputManagerContract;
 import contract.PlayerContract;
@@ -19,18 +20,22 @@ import enums.Command;
 import enums.direction.SimpleDirectionCommand;
 import impl.CharacterImpl;
 import impl.EngineImpl;
+import impl.FrameCounterImpl;
 import impl.HitboxImpl;
 import impl.InputManagerImpl;
 import impl.PlayerImpl;
 import impl.TechnicImpl;
 import interfaceservice.CharacterService;
 import interfaceservice.EngineService;
+import interfaceservice.FrameCounterService;
 import interfaceservice.HitboxService;
 import interfaceservice.InputManagerService;
 import interfaceservice.PlayerService;
 import interfaceservice.TechnicService;
 
 public abstract class AbstractCharacter {
+	private final static int MAX_FRAME_VALUE = 5000; // Le frameCounter fonctionne avec un compteur circulaire, c'est juste la taille de la boucle
+	
 	private CharacterService charact;
 	private EngineService engine;
 	private CharacterService other;
@@ -38,7 +43,7 @@ public abstract class AbstractCharacter {
 	private PlayerService p2;
 	private InputManagerService im1;
 	private InputManagerService im2;
-	
+	private FrameCounterService fc;
 	
 	/**
 	 * @return the Character
@@ -64,8 +69,8 @@ public abstract class AbstractCharacter {
 		engine = new EngineContract(new EngineImpl());
 		im1 = new InputManagerContract(new InputManagerImpl());
 		im2 = new InputManagerContract(new InputManagerImpl());
-		
-		engine.init(100, 1000, 100, p1.init(10, charact, im1.init()), p2.init(10, other.init(100, 10, false, engine), im2.init()));
+		fc = new FrameCounterContract(new FrameCounterImpl());
+		engine.init(100, 1000, 100, p1.init(10, charact, im1.init()), p2.init(10, other.init(100, 10, false, engine), im2.init()), fc.init(MAX_FRAME_VALUE));
 
 	}
 
@@ -468,7 +473,7 @@ public abstract class AbstractCharacter {
 			coms.add(com);
 			HitboxService h = new HitboxContract(new HitboxImpl());
 			h.init(10, 10, 10, 10);
-			t.init("attaque1", coms, 10, h);
+			t.init("attaque1", coms, 10, h); // TODO mettre le recovery (frame) et la durée du stun.
 			charact.addTechnic(t);
 			Assert.assertTrue(charact.technics().contains(t));
 		} catch (PostConditionError p) {

@@ -16,6 +16,9 @@ public interface CharacterService {
 	public boolean dead();
 	public List<TechnicService> technics();
 	public boolean crouched();
+	public boolean stunned();
+	public boolean usingTechnic();
+	public HitboxService currentTechnicHitbox();
 	
 
 	/* Invariants */
@@ -76,9 +79,11 @@ public interface CharacterService {
 	// TODO
 	public CharacterService crouch();
 	
-	//TODO
+	// TODO
 	public CharacterService standUp();
 	
+	// TODO
+	public CharacterService useTechnic(List<Command> commands);
 	
 	// \pre : step(c) \require \not dead(c)
 	// \post : step(c, LEFT) = moveLeft(c)
@@ -87,8 +92,12 @@ public interface CharacterService {
 	// TODO ajouté les commandes avancées 
 	public CharacterService step(Command com);
 	
+	
 	// \pre : addTechnic(c, t) \require t \not \in technics(c) //TODO je suis pas convaicu
 	// \post addTechnic(c, t) \implique t \in technics(c)
 	public void addTechnic(TechnicService t);
+
+	// TODO
+	public CharacterService takeDamages(int amount, int stun);
 	
 }

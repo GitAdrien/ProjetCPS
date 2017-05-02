@@ -1,6 +1,7 @@
 package contract;
 
 import interfaceservice.EngineService;
+import interfaceservice.FrameCounterService;
 import interfaceservice.PlayerService;
 import contract.decorator.EngineDecorator;
 import contract.errors.InvariantError;
@@ -21,7 +22,7 @@ public class EngineContract extends EngineDecorator {
 
 	
 	@Override
-	public EngineService init(int h, int w, int s, PlayerService p1, PlayerService p2) {
+	public EngineService init(int h, int w, int s, PlayerService p1, PlayerService p2, FrameCounterService fc) {
 		// \pre : init(h, w, s, p1, p2) \with h > 0 \and s > 0 \and w > s \and p1 != p2 
 		if (!(h > 0))
 			throw new PreConditionError("h <= 0");
@@ -35,7 +36,7 @@ public class EngineContract extends EngineDecorator {
 			throw new PreConditionError("p1 == p2");
 
 		
-		super.init(h, w, s, p1, p2);
+		super.init(h, w, s, p1, p2, fc);
 
 		
 		// Post-init invariant
