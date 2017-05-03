@@ -11,6 +11,7 @@ import contract.InputManagerContract;
 import contract.PlayerContract;
 import contract.errors.PostConditionError;
 import contract.errors.PreConditionError;
+import enums.attack.SimpleAttackCommand;
 import enums.direction.SimpleDirectionCommand;
 import impl.CharacterImpl;
 import impl.FrameCounterImpl;
@@ -34,8 +35,8 @@ public abstract class AbstractEngine {
 	private InputManagerService im1;
 	private InputManagerService im2;
 	private FrameCounterService fc;
-	
-	
+
+
 	public final EngineService getEngine() {
 		return engine;
 	}
@@ -54,7 +55,7 @@ public abstract class AbstractEngine {
 		im1 = new InputManagerContract(new InputManagerImpl());
 		im2 = new InputManagerContract(new InputManagerImpl());
 		fc = new FrameCounterContract(new FrameCounterImpl());
-		
+
 	}
 
 	@After
@@ -97,7 +98,7 @@ public abstract class AbstractEngine {
 			Assert.assertTrue(true);
 		}
 	}
-	
+
 	@Test
 	public void testInitPreFail2(){ //w < s
 		try{
@@ -113,7 +114,7 @@ public abstract class AbstractEngine {
 			Assert.assertTrue(true);
 		}
 	}
-	
+
 	@Test
 	public void testInitPreFail3(){ // p1 == p2
 		try{
@@ -145,9 +146,9 @@ public abstract class AbstractEngine {
 			Assert.assertTrue(true);
 		}
 	}
-	
+
 	//POST
-	
+
 	@Test
 	public void testInitPostHeight(){ 
 		try{
@@ -163,7 +164,7 @@ public abstract class AbstractEngine {
 			Assert.assertTrue(false);
 		}
 	}
-	
+
 	@Test
 	public void testInitPostWidth(){ 
 		try{
@@ -179,7 +180,7 @@ public abstract class AbstractEngine {
 			Assert.assertTrue(false);
 		}
 	}
-	
+
 	@Test
 	public void testInitPostPlayer(){ 
 		try{
@@ -195,7 +196,7 @@ public abstract class AbstractEngine {
 			Assert.assertTrue(false);
 		}
 	}
-	
+
 	@Test
 	public void testInitPostPlayer2(){ 
 		try{
@@ -212,7 +213,7 @@ public abstract class AbstractEngine {
 			Assert.assertTrue(false);
 		}
 	}
-	
+
 	@Test
 	public void testInitPostPlayerFail(){ 
 		try{
@@ -228,7 +229,7 @@ public abstract class AbstractEngine {
 			Assert.assertTrue(false);
 		}
 	}
-	
+
 	@Test
 	public void testInitPostPlayerFail2(){ 
 		try{
@@ -244,7 +245,7 @@ public abstract class AbstractEngine {
 			Assert.assertTrue(false);
 		}
 	}
-	
+
 	@Test
 	public void testInitPostPosPlayer(){ 
 		try{
@@ -260,7 +261,7 @@ public abstract class AbstractEngine {
 			Assert.assertTrue(false);
 		}
 	}
-	
+
 	@Test
 	public void testInitPostPosPlayer2(){ 
 		try{
@@ -276,7 +277,7 @@ public abstract class AbstractEngine {
 			Assert.assertTrue(false);
 		}
 	}
-	
+
 	@Test
 	public void testInitPostPosY(){ 
 		try{
@@ -292,7 +293,7 @@ public abstract class AbstractEngine {
 			Assert.assertTrue(false);
 		}
 	}
-	
+
 	@Test
 	public void testInitPostPosY2(){ 
 		try{
@@ -308,7 +309,7 @@ public abstract class AbstractEngine {
 			Assert.assertTrue(false);
 		}
 	}
-	
+
 	@Test
 	public void testInitPostFaceRight(){ 
 		try{
@@ -324,7 +325,7 @@ public abstract class AbstractEngine {
 			Assert.assertTrue(false);
 		}
 	}
-	
+
 	@Test
 	public void testInitPostFaceRight2(){ 
 		try{
@@ -344,7 +345,7 @@ public abstract class AbstractEngine {
 
 	// Fonction Step
 	// PRE
-	
+
 	@Test
 	public void testStepPre(){ 
 		try{
@@ -362,13 +363,13 @@ public abstract class AbstractEngine {
 				engine.step();
 				Assert.assertTrue(false);
 			}
-			
+
 		}
 		catch(PreConditionError p){
 			Assert.assertTrue(true);
 		}
 	}
-	
+
 	@Test
 	public void testStepPre2(){ 
 		try{
@@ -382,19 +383,51 @@ public abstract class AbstractEngine {
 			com2 = SimpleDirectionCommand.LEFT;	
 			im1.setPressed(com1);
 			im2.setPressed(com2);
-			
+
 			if(!engine.gameOver()){
 				engine.step();
 				Assert.assertTrue(true);
 			}
-			
+
 		}
 		catch(PreConditionError p){
 			Assert.assertTrue(false);
 		}
 	}
-	
+
 	//POST
-	
+
 	//TODO : pas réussi à  tester les steps, je ne sais pas comment sauvgarder un état
+
+	//Scenario
+
+	@Test
+	public void testScenario(){
+		try{
+			SimpleAttackCommand com3;
+			fc.init(MAX_FRAME_VALUE);
+			engine.init(300, 1000, 100, p1, p2, fc);
+			c1.init(100, 100, 1, 20, true, engine);
+			c2.init(100, 100, 1, 20, false, engine);
+			p1.init(10, c1, im1.init());
+			p2.init(10, c2, im2.init());
+			com1 = SimpleDirectionCommand.RIGHT;
+			com2 = SimpleDirectionCommand.LEFT;	
+			com3 = SimpleAttackCommand.KICK;
+			im1.setPressed(com1);
+			im2.setPressed(com2);
+			int pos_x_at_pre = -1;
+			while(pos_x_at_pre != engine.character(0).positionX()){
+				pos_x_at_pre = engine.character(0).positionX();
+				engine.character(0).step(com1);
+			}
+			while(engine.character(1).dead()){
+				engine.character(0).step(com3);
+			}
+			Assert.assertTrue(true);
+		}
+		catch(Error e){
+			Assert.assertTrue(false);
+		}
+	}
 }
