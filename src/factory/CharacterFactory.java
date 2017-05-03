@@ -18,11 +18,10 @@ public class CharacterFactory {
 		int w = engine.width();
 		int h = engine.height();
 		int middle = w / 2;
-		
 		result.charBox().init((middle - (spacing/2)), h - CHAR_H_HEIGHT, CHAR_H_WIDTH, CHAR_H_HEIGHT);
-		
 		return result;
 	}
+	
 	
 	public static CharacterService newCharacterOnRightSide(EngineService engine, int spacing) {
 		CharacterService result = new CharacterImpl();

@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 import enums.Command;
 import enums.direction.ComplexeDirectionCommand;
 import enums.direction.SimpleDirectionCommand;
+import factory.CharacterFactory;
 import interfaceservice.CharacterService;
 import interfaceservice.EngineService;
 import interfaceservice.HitboxService;
@@ -48,7 +49,7 @@ public class CharacterImpl extends Observable implements CharacterService{
 		speed = s;
 		faceRight = f;
 		engine = e;
-		hitbox = new HitboxImpl();
+		hitbox = new HitboxImpl(); // la hitbox n'est pas initialisé
 		technics = new ArrayList<>();
 		opponent = null;
 		opponentHitbox = null;
