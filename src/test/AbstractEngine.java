@@ -71,8 +71,8 @@ public abstract class AbstractEngine {
 		try{
 			fc.init(MAX_FRAME_VALUE);
 			engine.init(300, 1000, 100, p1, p2, fc);
-			c1.init(100, 100, true, engine);
-			c2.init(100, 100, false, engine);
+			c1.init(100, 100, 1, 20,true, engine);
+			c2.init(100, 100, 1, 20,false, engine);
 			p1.init(10, c1, im1.init());
 			p2.init(100, c2, im2.init());
 			Assert.assertTrue(true);
@@ -87,8 +87,8 @@ public abstract class AbstractEngine {
 		try{
 			fc.init(MAX_FRAME_VALUE);
 			engine.init(-1, 1000, 100, p1, p2, fc);
-			c1.init(100, 100, true, engine);
-			c2.init(100, 100, false, engine);
+			c1.init(100, 100, 1, 20, true, engine);
+			c2.init(100, 100, 1, 20, false, engine);
 			p1.init(10, c1, im1.init());
 			p2.init(100, c2, im2.init());
 			Assert.assertTrue(false);
@@ -103,8 +103,8 @@ public abstract class AbstractEngine {
 		try{
 			fc.init(MAX_FRAME_VALUE);
 			engine.init(300, 5, 100, p1, p2, fc);
-			c1.init(100, 100, true, engine);
-			c2.init(100, 100, false, engine);
+			c1.init(100, 100, 1, 20, true, engine);
+			c2.init(100, 100, 1, 20, false, engine);
 			p1.init(10, c1, im1.init());
 			p2.init(10, c2, im2.init());
 			Assert.assertTrue(false);
@@ -119,8 +119,8 @@ public abstract class AbstractEngine {
 		try{
 			fc.init(MAX_FRAME_VALUE);
 			engine.init(300, 1000, 100, p2, p2, fc);
-			c1.init(100, 100, true, engine);
-			c2.init(100, 100, false, engine);
+			c1.init(100, 100, 1, 20, true, engine);
+			c2.init(100, 100, 1, 20, false, engine);
 			p1.init(10, c1, im1.init());
 			p2.init(10, c2, im2.init());
 			Assert.assertTrue(false);
@@ -135,8 +135,8 @@ public abstract class AbstractEngine {
 		try{
 			fc.init(MAX_FRAME_VALUE);
 			engine.init(300, -5, 100, p1, p2, fc);
-			c1.init(100, 100, true, engine);
-			c2.init(100, 100, false, engine);
+			c1.init(100, 100, 1, 20, true, engine);
+			c2.init(100, 100, 1, 20, false, engine);
 			p1.init(10, c1, im1.init());
 			p2.init(10, c2, im2.init());
 			Assert.assertTrue(false);
@@ -153,8 +153,8 @@ public abstract class AbstractEngine {
 		try{
 			fc.init(MAX_FRAME_VALUE);
 			engine.init(300, 1000, 100, p1, p2, fc);
-			c1.init(100, 100, true, engine);
-			c2.init(100, 100, false, engine);
+			c1.init(100, 100, 1, 20, true, engine);
+			c2.init(100, 100, 1, 20, false, engine);
 			p1.init(10, c1, im1.init());
 			p2.init(10, c2, im2.init());
 			Assert.assertTrue(engine.height() == 300);
@@ -169,8 +169,8 @@ public abstract class AbstractEngine {
 		try{
 			fc.init(MAX_FRAME_VALUE);
 			engine.init(300, 1000, 100, p1, p2, fc);
-			c1.init(100, 100, true, engine);
-			c2.init(100, 100, false, engine);
+			c1.init(100, 100, 1, 20, true, engine);
+			c2.init(100, 100, 1, 20, false, engine);
 			p1.init(10, c1, im1.init());
 			p2.init(10, c2, im2.init());
 			Assert.assertTrue(engine.width() == 1000);
@@ -185,8 +185,8 @@ public abstract class AbstractEngine {
 		try{
 			fc.init(MAX_FRAME_VALUE);
 			engine.init(300, 1000, 100, p1, p2, fc);
-			c1.init(100, 100, true, engine);
-			c2.init(100, 100, false, engine);
+			c1.init(100, 100, 1, 20, true, engine);
+			c2.init(100, 100, 1, 20, false, engine);
 			p1.init(10, c1, im1.init());
 			p2.init(10, c2, im2.init());
 			Assert.assertTrue(engine.player(0) == p1);
@@ -201,8 +201,8 @@ public abstract class AbstractEngine {
 		try{
 			fc.init(MAX_FRAME_VALUE);
 			engine.init(300, 1000, 100, p1, p2, fc);
-			c1.init(100, 100, true, engine);
-			c2.init(100, 100, false, engine);
+			c1.init(100, 100, 1, 20, true, engine);
+			c2.init(100, 100, 1, 20, false, engine);
 			p1.init(10, c1, im1.init());
 			p2.init(10, c2, im2.init());
 			Assert.assertTrue(engine.player(1).equals(p2));
@@ -218,8 +218,8 @@ public abstract class AbstractEngine {
 		try{
 			fc.init(MAX_FRAME_VALUE);
 			engine.init(300, 1000, 100, p1, p2, fc);
-			c1.init(100, 100, true, engine);
-			c2.init(100, 100, false, engine);
+			c1.init(100, 100, 1, 20, true, engine);
+			c2.init(100, 100, 1, 20, false, engine);
 			p1.init(10, c1, im1.init());
 			p2.init(10, c2, im2.init());
 			Assert.assertTrue(!(engine.player(0) == p2));
@@ -234,8 +234,8 @@ public abstract class AbstractEngine {
 		try{
 			fc.init(MAX_FRAME_VALUE);
 			engine.init(300, 1000, 100, p1, p2, fc);
-			c1.init(100, 100, true, engine);
-			c2.init(100, 100, false, engine);
+			c1.init(100, 100, 1, 20, true, engine);
+			c2.init(100, 100, 1, 20, false, engine);
 			p1.init(10, c1, im1.init());
 			p2.init(10, c2, im2.init());
 			Assert.assertTrue(!(engine.player(1) == p1));
@@ -250,8 +250,8 @@ public abstract class AbstractEngine {
 		try{
 			fc.init(MAX_FRAME_VALUE);
 			engine.init(300, 1000, 100, p1, p2, fc);
-			c1.init(100, 100, true, engine);
-			c2.init(100, 100, false, engine);
+			c1.init(100, 100, 1, 20, true, engine);
+			c2.init(100, 100, 1, 20, false, engine);
 			p1.init(10, c1, im1.init());
 			p2.init(10, c2, im2.init());
 			Assert.assertTrue(engine.character(0).positionX() == (1000/2) - (100/2)); //joueurs 1
@@ -266,8 +266,8 @@ public abstract class AbstractEngine {
 		try{
 			fc.init(MAX_FRAME_VALUE);
 			engine.init(300, 1000, 100, p1, p2, fc);
-			c1.init(100, 100, true, engine);
-			c2.init(100, 100, false, engine);
+			c1.init(100, 100, 1, 20, true, engine);
+			c2.init(100, 100, 1, 20, false, engine);
 			p1.init(10, c1, im1.init());
 			p2.init(10, c2, im2.init());
 			Assert.assertTrue(engine.character(1).positionX() == (1000/2) + (100/2)); // joueurs 2
@@ -282,8 +282,8 @@ public abstract class AbstractEngine {
 		try{
 			fc.init(MAX_FRAME_VALUE);
 			engine.init(300, 1000, 100, p1, p2, fc);
-			c1.init(100, 100, true, engine);
-			c2.init(100, 100, false, engine);
+			c1.init(100, 100, 1, 20, true, engine);
+			c2.init(100, 100, 1, 20, false, engine);
 			p1.init(10, c1, im1.init());
 			p2.init(10, c2, im2.init());
 			Assert.assertTrue(engine.character(0).positionY() == engine.height() - 250);
@@ -298,8 +298,8 @@ public abstract class AbstractEngine {
 		try{
 			fc.init(MAX_FRAME_VALUE);
 			engine.init(300, 1000, 100, p1, p2, fc);
-			c1.init(100, 100, true, engine);
-			c2.init(100, 100, false, engine);
+			c1.init(100, 100, 1, 20, true, engine);
+			c2.init(100, 100, 1, 20, false, engine);
 			p1.init(10, c1, im1.init());
 			p2.init(10, c2, im2.init());
 			Assert.assertTrue(engine.character(1).positionY() == engine.height() - 250);
@@ -314,8 +314,8 @@ public abstract class AbstractEngine {
 		try{
 			fc.init(MAX_FRAME_VALUE);
 			engine.init(300, 1000, 100, p1, p2, fc);
-			c1.init(100, 100, true, engine);
-			c2.init(100, 100, false, engine);
+			c1.init(100, 100, 1, 20, true, engine);
+			c2.init(100, 100, 1, 20, false, engine);
 			p1.init(10, c1, im1.init());
 			p2.init(10, c2, im2.init());
 			Assert.assertTrue(engine.character(0).faceRight());
@@ -330,8 +330,8 @@ public abstract class AbstractEngine {
 		try{
 			fc.init(MAX_FRAME_VALUE);
 			engine.init(300, 1000, 100, p1, p2, fc);
-			c1.init(100, 100, true, engine);
-			c2.init(100, 100, false, engine);
+			c1.init(100, 100, 1, 20, true, engine);
+			c2.init(100, 100, 1, 20, false, engine);
 			p1.init(10, c1, im1.init());
 			p2.init(10, c2, im2.init());
 			Assert.assertTrue(!engine.character(1).faceRight());
@@ -350,8 +350,8 @@ public abstract class AbstractEngine {
 		try{
 			fc.init(MAX_FRAME_VALUE);
 			engine.init(300, 1000, 100, p1, p2, fc);
-			c1.init(100, 100, true, engine);
-			c2.init(100, 100, false, engine);
+			c1.init(100, 100, 1, 20, true, engine);
+			c2.init(100, 100, 1, 20, false, engine);
 			p1.init(10, c1, im1.init());
 			p2.init(10, c2, im2.init());
 			com1 = SimpleDirectionCommand.RIGHT;
@@ -374,8 +374,8 @@ public abstract class AbstractEngine {
 		try{
 			fc.init(MAX_FRAME_VALUE);
 			engine.init(300, 1000, 100, p1, p2, fc);
-			c1.init(100, 100, true, engine);
-			c2.init(100, 100, false, engine);
+			c1.init(100, 100, 1, 20, true, engine);
+			c2.init(100, 100, 1, 20, false, engine);
 			p1.init(10, c1, im1.init());
 			p2.init(10, c2, im2.init());
 			com1 = SimpleDirectionCommand.RIGHT;

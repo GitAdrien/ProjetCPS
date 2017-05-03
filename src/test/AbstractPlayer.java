@@ -48,7 +48,7 @@ public abstract class AbstractPlayer {
 		//Possibilite d'erreurs
 		fc = new FrameCounterContract(new FrameCounterImpl());
 		fc.init(30);
-		charact.init(100, 100, true, engine.init(1000, 2000, 200, player, p2, fc)); // TODO ajouter le frameCounter
+		charact.init(100, 100, 1, 20, true, engine.init(1000, 2000, 200, player, p2, fc)); // TODO ajouter le frameCounter
 	}
 	
 	@After

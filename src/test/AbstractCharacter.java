@@ -86,19 +86,19 @@ public abstract class AbstractCharacter {
 	//PRE
 	@Test
 	public void testInit(){ // le character regarde à droite
-		charact.init(10, 10, true, engine);
+		charact.init(10, 10, 1, 5, true, engine);
 		Assert.assertTrue(true);
 	}
 
 	@Test
 	public void testInit2(){ // le character regarde à gauche
-		charact.init(10, 10, false, engine);
+		charact.init(10, 10, 1, 5, false, engine);
 		Assert.assertTrue(true);
 	}
 	@Test
 	public void testInitFail2(){ //life inferieur à zero
 		try{
-			charact.init(-2, 10, true, engine);
+			charact.init(-2, 10, 1, 5,true, engine);
 		}
 		catch(PreConditionError p){
 			Assert.assertTrue(true);
@@ -108,7 +108,7 @@ public abstract class AbstractCharacter {
 	@Test
 	public void testInitFail3(){ //speed inferieur à zero
 		try{
-			charact.init(10, -2, true, engine);
+			charact.init(10, -2, 1, 5,  true, engine);
 		}
 		catch(PreConditionError p){
 			Assert.assertTrue(true);
@@ -118,7 +118,7 @@ public abstract class AbstractCharacter {
 	@Test
 	public void testInitFail4(){ //life egale zero
 		try{
-			charact.init(0, 10, true, engine);
+			charact.init(0, 10, 1, 5, true, engine);
 		}
 		catch(PreConditionError p){
 			Assert.assertTrue(true);
@@ -128,7 +128,7 @@ public abstract class AbstractCharacter {
 	@Test
 	public void testInitFail5(){ //speed egale zero
 		try{
-			charact.init(10, 0, true, engine);
+			charact.init(10, 0, 1, 5,  true, engine);
 		}
 		catch(PreConditionError p){
 			Assert.assertTrue(true);
@@ -140,7 +140,7 @@ public abstract class AbstractCharacter {
 	@Test
 	public void testPostInitLife(){
 		try{
-			charact.init(10, 10, true, engine);
+			charact.init(10, 10,1, 5, true, engine);
 			Assert.assertTrue(charact.life() == 10);
 		}
 		catch(PostConditionError p){
@@ -151,7 +151,7 @@ public abstract class AbstractCharacter {
 	@Test
 	public void testPostInitSpeed(){
 		try{
-			charact.init(10, 10, true, engine);
+			charact.init(10, 10, 1, 5, true, engine);
 			Assert.assertTrue(charact.speed() == 10);
 		}
 		catch(PostConditionError p){
@@ -162,7 +162,7 @@ public abstract class AbstractCharacter {
 	@Test
 	public void testPostInitFaceRight(){
 		try{
-			charact.init(10, 10, true, engine);
+			charact.init(10, 10, 1, 5, true, engine);
 			Assert.assertTrue(charact.faceRight());
 		}
 		catch(PostConditionError p){
@@ -173,7 +173,7 @@ public abstract class AbstractCharacter {
 	@Test
 	public void testPostInitFaceRight2(){
 		try{
-			charact.init(10, 10, false, engine);
+			charact.init(10, 10, 1, 5,false, engine);
 			Assert.assertTrue(!charact.faceRight());
 		}
 		catch(PostConditionError p){
@@ -183,7 +183,7 @@ public abstract class AbstractCharacter {
 	@Test
 	public void testPostInitEngine(){
 		try{
-			charact.init(10, 10, true, engine);
+			charact.init(10, 10, 1, 5,true, engine);
 			Assert.assertTrue(charact.engine() == engine);
 		}
 		catch(PostConditionError p){
@@ -197,7 +197,7 @@ public abstract class AbstractCharacter {
 	@Test
 	public void testPostMoveLeft(){ //Collision avec un autre joueur
 		try {
-			charact.init(10, 10, true, engine);
+			charact.init(10, 10, 1, 5, true, engine);
 			int posX_at_pre = charact.positionX();
 			if (charact.engine().character(0).equals(charact))
 				other = charact.engine().character(1);
@@ -214,7 +214,7 @@ public abstract class AbstractCharacter {
 	@Test
 	public void testPostMoveLeft2(){ //Collision avec le mur de gauche sans collison avec un autre joueur
 		try {
-			charact.init(10, 10, true, engine);
+			charact.init(10, 10, 1, 5, true, engine);
 			if (charact.engine().character(0).equals(charact))
 				other = charact.engine().character(1);
 			else
@@ -230,7 +230,7 @@ public abstract class AbstractCharacter {
 	@Test
 	public void testPostMoveLeft3(){ //ni collison avec un autre joueur, ni avec le mur de gauche
 		try {
-			charact.init(10, 10, true, engine);
+			charact.init(10, 10, 1, 5, true, engine);
 			int posX_at_pre = charact.positionX();
 			if (charact.engine().character(0).equals(charact))
 				other = charact.engine().character(1);
@@ -247,7 +247,7 @@ public abstract class AbstractCharacter {
 	@Test
 	public void testPostMoveLeftFaceRight(){ // bonne face
 		try {
-			charact.init(10, 10, true, engine);
+			charact.init(10, 10, 1, 5, true, engine);
 			charact.moveLeft();
 			Assert.assertTrue(charact.faceRight());
 		} catch (PostConditionError p) {
@@ -259,7 +259,7 @@ public abstract class AbstractCharacter {
 	@Test
 	public void testPostMoveLeftFaceRightFail(){ // mauvaise face
 		try {
-			charact.init(10, 10, true, engine);
+			charact.init(10, 10, 1, 5, true, engine);
 			charact.moveLeft();
 			Assert.assertTrue(charact.faceRight());
 		} catch (PostConditionError p) {
@@ -271,7 +271,7 @@ public abstract class AbstractCharacter {
 	@Test
 	public void testPostMoveLeftLife(){ // vie pas modifié
 		try {
-			charact.init(10, 10, true, engine);
+			charact.init(10, 10, 1, 5, true, engine);
 			charact.moveLeft();
 			Assert.assertTrue(charact.life() == 10);
 		} catch (PostConditionError p) {
@@ -283,7 +283,7 @@ public abstract class AbstractCharacter {
 	@Test
 	public void testPostMoveLeftPositionY(){ // positionY non modifié
 		try {
-			charact.init(10, 10, true, engine);
+			charact.init(10, 10, 1, 5, true, engine);
 			int posY_at_pre = charact.positionY();
 			charact.moveLeft();
 			Assert.assertTrue(charact.positionY() == posY_at_pre);
@@ -297,7 +297,7 @@ public abstract class AbstractCharacter {
 	// POST
 	public void testPostMoveRight(){ //Collision avec un autre joueur
 		try {
-			charact.init(10, 10, true, engine);
+			charact.init(10, 10, 1, 5, true, engine);
 			int posX_at_pre = charact.positionX();
 			if (charact.engine().character(0).equals(charact))
 				other = charact.engine().character(1);
@@ -314,7 +314,7 @@ public abstract class AbstractCharacter {
 	@Test
 	public void testPostMoveRight2(){ //Collision avec le mur de gauche sans collison avec un autre joueur
 		try {
-			charact.init(10, 10, true, engine);
+			charact.init(10, 10, 1, 5, true, engine);
 			int posX_at_pre = charact.positionX();
 			if (charact.engine().character(0).equals(charact))
 				other = charact.engine().character(1);
@@ -331,7 +331,7 @@ public abstract class AbstractCharacter {
 	@Test
 	public void testPostMoveRight3(){ //ni collison avec un autre joueur, ni avec le mur de gauche
 		try {
-			charact.init(10, 10, true, engine);
+			charact.init(10, 10, 1, 5, true, engine);
 			int posX_at_pre = charact.positionX();
 			if (charact.engine().character(0).equals(charact))
 				other = charact.engine().character(1);
@@ -348,7 +348,7 @@ public abstract class AbstractCharacter {
 	@Test
 	public void testPostMoveRightFaceRight(){ // bonne face
 		try {
-			charact.init(10, 10, true, engine);
+			charact.init(10, 10, 1, 5, true, engine);
 			charact.moveRight();
 			Assert.assertTrue(charact.faceRight());
 		} catch (PostConditionError p) {
@@ -360,7 +360,7 @@ public abstract class AbstractCharacter {
 	@Test
 	public void testPostMoveRightFaceRightFail(){ // mauvaise face
 		try {
-			charact.init(10, 10, true, engine);
+			charact.init(10, 10, 1, 5, true, engine);
 			charact.moveRight();
 			Assert.assertTrue(charact.faceRight());
 		} catch (PostConditionError p) {
@@ -372,7 +372,7 @@ public abstract class AbstractCharacter {
 	@Test
 	public void testPostMoveRightLife(){ // vie pas modifié
 		try {
-			charact.init(10, 10, true, engine);
+			charact.init(10, 10,1, 5, true, engine);
 			charact.moveRight();
 			Assert.assertTrue(charact.life() == 10);
 		} catch (PostConditionError p) {
@@ -384,7 +384,7 @@ public abstract class AbstractCharacter {
 	@Test
 	public void testPostMoveRightPositionY(){ // positionY non modifié
 		try {
-			charact.init(10, 10, true, engine);
+			charact.init(10, 10, 1, 5, true, engine);
 			int posY_at_pre = charact.positionY();
 			charact.moveRight();
 			Assert.assertTrue(charact.positionY() == posY_at_pre);
@@ -400,7 +400,7 @@ public abstract class AbstractCharacter {
 	@Test
 	public void testPostSwitchSideFaceRight(){
 		try {
-			charact.init(10, 10, true, engine);
+			charact.init(10, 10, 1, 5, true, engine);
 			Assert.assertTrue(charact.faceRight());
 		} catch (PostConditionError p) {
 			Assert.assertTrue(false);
@@ -410,7 +410,7 @@ public abstract class AbstractCharacter {
 	@Test
 	public void testPostSwitchSideFaceRight2(){
 		try {
-			charact.init(10, 10, false, engine);
+			charact.init(10, 10, 1, 5, false, engine);
 			Assert.assertTrue(!charact.faceRight());
 		} catch (PostConditionError p) {
 			Assert.assertTrue(false);
@@ -420,7 +420,7 @@ public abstract class AbstractCharacter {
 	@Test
 	public void testPostSwitchSideFaceRightFail(){
 		try {
-			charact.init(10, 10, true, engine);
+			charact.init(10, 10, 1, 5, true, engine);
 			Assert.assertTrue(charact.faceRight());
 		} catch (PostConditionError p) {
 			Assert.assertTrue(false);
@@ -434,7 +434,7 @@ public abstract class AbstractCharacter {
 	public void testPreStep(){
 		try {
 			SimpleDirectionCommand com = SimpleDirectionCommand.RIGHT;
-			charact.init(10, 10, true, engine);
+			charact.init(10, 10, 1, 5, true, engine);
 			if(!charact.dead()){
 				charact.step(com);
 				Assert.assertTrue(true);
@@ -449,7 +449,7 @@ public abstract class AbstractCharacter {
 	public void testPreStep2(){
 		try {
 			SimpleDirectionCommand com = SimpleDirectionCommand.RIGHT; //Je sais pas comment créer une commande
-			charact.init(10, 10, true, engine);
+			charact.init(10, 10, 1, 5, true, engine);
 			if(charact.dead()){
 				charact.step(com);
 			}
@@ -469,7 +469,7 @@ public abstract class AbstractCharacter {
 	public void testPreAddTechnic(){
 		try {
 			TechnicService t = new TechnicContract(new TechnicImpl());
-			charact.init(100, 100, true, engine);
+			charact.init(100, 100, 1, 5, true, engine);
 			//TODO
 			SimpleDirectionCommand com = SimpleDirectionCommand.DOWN;
 			ArrayList<Command> coms = new ArrayList<>();

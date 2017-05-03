@@ -66,7 +66,7 @@ public class CharacterImpl extends Observable implements CharacterService {
 		speed = s;
 		faceRight = f;
 		engine = e;
-		hitbox = new HitboxImpl(); // la hitbox n'est pas initialisé
+		hitbox = new HitboxImpl();
 		technics = new ArrayList<>();
 		opponent = null;
 		opponentHitbox = null;
