@@ -38,7 +38,7 @@ public class CharacterContract extends CharacterDecorator {
 
 
 	@Override
-	public CharacterService init(int l, int s, boolean f, EngineService e) {
+	public CharacterService init(int l, int s, int g, int js, boolean f, EngineService e) {
 		// \pre init(l, s, f, e) \with l > 0 \and s > 0
 		if (!(l > 0))
 			throw new PreConditionError("l <= 0");
@@ -46,7 +46,7 @@ public class CharacterContract extends CharacterDecorator {
 			throw new PreConditionError("s <= 0");
 
 
-		super.init(l, s, f, e);
+		super.init(l, s, g, js, f, e);
 
 		// Post-init invariant
 		checkInvariant();

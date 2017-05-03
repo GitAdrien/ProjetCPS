@@ -12,7 +12,7 @@ import interfaceservice.PlayerService;
 
 // TODO utiliser les contrats et non directement les impémentations.
 public class EngineThread implements Runnable {
-	private final static long PAUSE_BETWEEN_FRAMES = 25; // was 166
+	private final static long PAUSE_BETWEEN_FRAMES = 25; 
 	private final static int INPUT_WINDOW_LENGHT = 5;
 	
 	

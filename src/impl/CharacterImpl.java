@@ -15,19 +15,27 @@ import interfaceservice.EngineService;
 import interfaceservice.HitboxService;
 import interfaceservice.TechnicService;
 
-public class CharacterImpl extends Observable implements CharacterService{
-	private int life;
+public class CharacterImpl extends Observable implements CharacterService {
+	private final static int JUMP_NO_DIR = 0;
+	private final static int JUMP_LEFT = -1;
+	private final static int JUMP_RIGHT = 1;
+	
 	private EngineService engine;
 	private HitboxService hitbox;
 	private int speed;
 	private boolean faceRight;
 	private ArrayList<TechnicService> technics;
 
+	// Life
+	private int maxLife;
+	private int life;
+	
 	// State
 	private boolean isCrouched;
 	private boolean isUsingTechnic;
 	private boolean isStunned;
-
+	private boolean isJumping;
+	
 	// Tech
 	private int techStart;
 	private TechnicService activeTechnic;
@@ -42,10 +50,19 @@ public class CharacterImpl extends Observable implements CharacterService{
 	private int stunStart;
 	private int stunDuration;
 	
+	
+	// Jump
+	private int gravity;
+	private int jumpSpeed;
+	private int jumpForce_Y;
+	private int jumpDirection_X;
+	
 
 	@Override
-	public CharacterService init(int l, int s, boolean f, EngineService e) {
+	public CharacterService init(int l, int s, int g, int js, boolean f, EngineService e) {
 		life = l;
+		maxLife = l;
+		
 		speed = s;
 		faceRight = f;
 		engine = e;
@@ -58,6 +75,12 @@ public class CharacterImpl extends Observable implements CharacterService{
 		currentTechnicHitbox = null;
 		stunStart = 0;
 		stunDuration = 0;
+		
+		isJumping = false;
+		gravity = g;
+		jumpDirection_X = 0;
+		jumpForce_Y = 0;
+		jumpSpeed = js;
 		
 		return this;
 	}
@@ -211,10 +234,11 @@ public class CharacterImpl extends Observable implements CharacterService{
 
 	@Override
 	public CharacterService step(Command com) {
+		checkJump();
 		checkStun();
 		checkTechValidity();
 		checkHit();
-		
+		checkDirection();
 
 		if (com instanceof SimpleDirectionCommand) {
 			switch ((SimpleDirectionCommand)com) {
@@ -232,9 +256,9 @@ public class CharacterImpl extends Observable implements CharacterService{
 			case DOWN :
 				crouch();
 				break;
-
-				//TODO
-
+			case UP:
+				jump(JUMP_NO_DIR);
+				break;
 			default:
 				Logger.getAnonymousLogger().log(Level.INFO, com + " is not implemented yet.");
 				break;
@@ -246,6 +270,12 @@ public class CharacterImpl extends Observable implements CharacterService{
 				break;
 			case DOWN_RIGHT:
 				crouch();
+				break;
+			case UP_LEFT:
+				jump(JUMP_LEFT);
+				break;
+			case UP_RIGHT:
+				jump(JUMP_RIGHT);
 				break;
 			default:
 				Logger.getAnonymousLogger().log(Level.INFO, com + " is not implemented yet.");
@@ -299,7 +329,7 @@ public class CharacterImpl extends Observable implements CharacterService{
 	}
 
 	private boolean isMouvementDisabled() {
-		return isCrouched || isStunned || isUsingTechnic;
+		return isCrouched || isStunned || isUsingTechnic || isJumping;
 	}
 
 	@Override
@@ -341,18 +371,26 @@ public class CharacterImpl extends Observable implements CharacterService{
 			techStart = engine.frameCounter().frame();
 			currentTechnicHitbox = tech.hitbox().copy();
 
-			if (faceRight) {
-				currentTechnicHitbox.moveTo(hitbox.positionX() + (hitbox.width()/2),
-						hitbox.positionY() + currentTechnicHitbox.positionY());
-			} else {
-				currentTechnicHitbox.moveTo(hitbox.positionX() - (currentTechnicHitbox.width() - (hitbox.width()/2)),
-						hitbox.positionY() + currentTechnicHitbox.positionY());
-			}
+			refreshTechHitBox();
 			setChanged();
 		}
 		
 		
 		return this;
+	}
+	
+	private void refreshTechHitBox() {
+		if (!isUsingTechnic)
+			return;
+		
+		if (faceRight) {
+			currentTechnicHitbox.moveTo(hitbox.positionX() + (hitbox.width()/2),
+					hitbox.positionY() + activeTechnic.hitbox().positionY());
+		} else {
+			currentTechnicHitbox.moveTo(hitbox.positionX() - (currentTechnicHitbox.width() - (hitbox.width()/2)),
+					hitbox.positionY() + activeTechnic.hitbox().positionY());
+		}
+		setChanged();
 	}
 
 	private void checkTechValidity() {
@@ -383,6 +421,76 @@ public class CharacterImpl extends Observable implements CharacterService{
 		}
 	}
 	
+	private void checkJump() {
+		if (!isJumping)
+			return;
+		
+		defineOpponent();
+		
+		HitboxService nextHitbox = hitbox.copy();
+		int x, y;
+		nextHitbox.moveTo(hitbox.positionX() + jumpDirection_X, hitbox.positionY() - jumpForce_Y);
+
+		x = nextHitbox.positionX();
+		y = nextHitbox.positionY();
+		
+		if (nextHitbox.collidesWith(opponentHitbox)) {
+			if (faceRight) {
+				bumpRight();
+				opponent.bumpLeft();
+			} else {
+				bumpLeft();
+				opponent.bumpRight();
+			}
+		}
+		
+		if (y <= 0) {
+			jumpForce_Y = 0;
+			y = 0;
+		} else if (y + hitbox.height() >= engine.height()) {
+			isJumping = false;
+			jumpDirection_X = 0;
+			jumpForce_Y = 0;
+			y = engine.height() - hitbox.height();
+			System.out.println("end jump");
+		}
+		
+		if (x <= 0) {
+			x = 0;
+		} else if (x + hitbox.width() >= engine.width()) {
+			x = engine.width() - hitbox.width();
+		}
+		
+		nextHitbox.moveTo(x, y);
+
+		if (nextHitbox.collidesWith(opponentHitbox)) {
+			y = hitbox.positionY();
+			x = hitbox.positionX();
+			jumpDirection_X = 0;
+		} else {
+			jumpForce_Y -= gravity;
+		}
+		
+		hitbox.moveTo(x, y);
+		
+		refreshTechHitBox();
+		
+		setChanged();
+		
+	}
+	
+	private void checkDirection() {
+		defineOpponent();
+		
+		if (hitbox.positionX() > opponentHitbox.positionX()) {
+			faceRight = false;
+		} else {
+			faceRight = true;
+		}
+			
+		
+	}
+	
 	@Override
 	public HitboxService currentTechnicHitbox() {
 		return currentTechnicHitbox;
@@ -396,6 +504,71 @@ public class CharacterImpl extends Observable implements CharacterService{
 		stunDuration = stun;
 		return null;
 	}
-	
+
+	@Override
+	public boolean jumping() {
+		return isJumping;
+	}
+
+	@Override
+	public CharacterService jump(int direction) {
+		if (isJumping)
+			return this;
+		
+		isJumping = true;
+		jumpForce_Y = jumpSpeed;
+		
+		switch (direction) {
+		case -1:
+			jumpDirection_X = -speed;
+			break;
+		case 0:
+			jumpDirection_X = 0;
+			break;
+		case 1:
+			jumpDirection_X = speed;
+			break;
+		default:
+			Logger.getGlobal().log(Level.WARNING, "Invalid jump direction : " + direction);
+			break;
+		}
+		
+		return this;
+	}
+
+	@Override
+	public int gravity() {
+		return gravity;
+	}
+
+	@Override
+	public int jumpSpeed() {
+		return jumpSpeed;
+	}
+
+	@Override
+	public CharacterService bumpLeft() {
+		int x = hitbox.positionX() + (speed/2);
+		
+		if (x + hitbox.width() <= engine.width())
+			hitbox.moveTo(x, hitbox.positionY());
+		
+		return this;
+	}
+
+	@Override
+	public CharacterService bumpRight() {
+		int x = hitbox.positionX() - (speed/2);
+		
+		if (x >= 0)
+			hitbox.moveTo(x, hitbox.positionY());
+
+		return this;
+	}
+
+	@Override
+	public int maxLife() {
+		return maxLife;
+	}
 
 }

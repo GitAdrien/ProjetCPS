@@ -10,6 +10,7 @@ import impl.CharacterImpl;
 import impl.EngineImpl;
 import impl.FrameCounterImpl;
 import impl.PlayerImpl;
+import interfaceservice.CharacterService;
 import interfaceservice.EngineService;
 import interfaceservice.PlayerService;
 import javafx.application.Application;
@@ -43,6 +44,7 @@ public class GUIMain extends Application implements Observer {
 	public final static Color P1_DEBUG_COLOR = Color.BLUE;
 	public final static Color P2_DEBUG_COLOR = Color.RED;
 	public final static Color LIFE_BAR_COLOR = Color.ORANGE;
+	public final static Color BG_LIFE_BAR_COLOR = Color.GRAY;
 	public final static Color LIFE_BAR_STROKE_COLOR = Color.BLACK;
 	public final static Color TECH_HITBOX_COLOR = Color.BLACK;
 	
@@ -107,14 +109,19 @@ public class GUIMain extends Application implements Observer {
 		
 		EngineService e = engineThreadRunnable.getEngine();
 		
+		Rectangle p1LifeBarBackground = new Rectangle();
+		Rectangle p2LifeBarBackground = new Rectangle();
+		
 		arenaBox = new Rectangle(e.width(), e.height());
 		arenaBox.setFill(AREAN_DEBUG_COLOR);
 		
-		p1Life = new Rectangle(15, 15, getLifeBarWidth(0.5), 25);
-		p2Life = new Rectangle(getLifeBarWidth(1.5), 15, getLifeBarWidth(0.5), 25);
+		p1Life = new Rectangle(15, 15, getLifeBarWidth(1), 25);
+		p2Life = new Rectangle(getLifeBarWidth(1) + (LIFE_BAR_MARGIN*3), 15, getLifeBarWidth(1), 25);
 		
 		p1Hitbox = new Rectangle(e.character(0).positionX(), e.character(0).positionY(), e.character(0).charBox().width(), e.character(0).charBox().height());
 		p2Hitbox = new Rectangle(e.character(1).positionX(), e.character(1).positionY(), e.character(1).charBox().width(), e.character(1).charBox().height());
+		
+		
 		
 		label1 = new Label();
 		label2 = new Label();
@@ -130,6 +137,20 @@ public class GUIMain extends Application implements Observer {
 		p1Life.setStroke(LIFE_BAR_STROKE_COLOR);
 		p2Life.setStroke(LIFE_BAR_STROKE_COLOR);
 		
+		p1LifeBarBackground.setX(p1Life.getX());
+		p1LifeBarBackground.setY(p1Life.getY());
+		p1LifeBarBackground.setWidth(p1Life.getWidth());
+		p1LifeBarBackground.setHeight(p1Life.getHeight());
+		p1LifeBarBackground.setStroke(LIFE_BAR_STROKE_COLOR);
+		p1LifeBarBackground.setFill(BG_LIFE_BAR_COLOR);
+		
+		p2LifeBarBackground.setX(p2Life.getX());
+		p2LifeBarBackground.setY(p2Life.getY());
+		p2LifeBarBackground.setWidth(p2Life.getWidth());
+		p2LifeBarBackground.setHeight(p2Life.getHeight());
+		p2LifeBarBackground.setStroke(LIFE_BAR_STROKE_COLOR);
+		p2LifeBarBackground.setFill(BG_LIFE_BAR_COLOR);
+		
 
 		techHitboxes = new Rectangle[2];
 		techHitboxes[0] = new Rectangle();
@@ -142,6 +163,9 @@ public class GUIMain extends Application implements Observer {
 		
 		
 		g.getChildren().add(arenaBox);
+		
+		g.getChildren().add(p1LifeBarBackground);
+		g.getChildren().add(p2LifeBarBackground);
 		
 		g.getChildren().add(p1Life);
 		g.getChildren().add(p2Life);
@@ -214,7 +238,7 @@ public class GUIMain extends Application implements Observer {
 	}
 	
 	private int getLifeBarWidth(double state) {
-		return (int) (((WINDOW_WIDTH - LIFE_BAR_MARGIN) / 2) * state);
+		return (int) ((((WINDOW_WIDTH) / 2) - LIFE_BAR_MARGIN*2) * state);
 	}
 	
 	@Override
@@ -245,6 +269,9 @@ public class GUIMain extends Application implements Observer {
 		// Tech Hitbox
 		updatePlayerTechnicHitbox(0);
 		updatePlayerTechnicHitbox(1);
+		
+		updateLifeBar(p1Life, engine.character(0), false);
+		updateLifeBar(p2Life, engine.character(1), true);
 		
 	}
 	
@@ -285,8 +312,26 @@ public class GUIMain extends Application implements Observer {
 		result += player.character().positionX() + "," + player.character().positionY() + "\n";
 		result += "tech:" + player.character().usingTechnic() + "\n";
 		result += "stun:" + player.character().stunned() + "\n";
+		result += "jump:" + player.character().jumping() + "\n";
 			
 		return result;
+	}
+
+	
+	public void updateLifeBar(Rectangle lifeBar, CharacterService c, boolean toRight) {
+		double percent = (c.life() * 1.0) / (c.maxLife() * 1.0);
+		int width = getLifeBarWidth(percent);
+		
+		System.out.println("percent : " + percent);
+		
+		if (toRight) {
+			int oldW = (int) lifeBar.getWidth();
+			
+			lifeBar.setX(lifeBar.getX() + (oldW - width));
+		}
+		
+		lifeBar.setWidth(width);
+		
 	}
 	
 	public static void main(String[] args) {

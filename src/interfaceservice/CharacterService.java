@@ -11,13 +11,17 @@ public interface CharacterService {
 	public EngineService engine();
 	public HitboxService charBox();
 	public int life();
+	public int maxLife();
 	public int speed();
+	public int gravity();
+	public int jumpSpeed();
 	public boolean faceRight();
 	public boolean dead();
 	public List<TechnicService> technics();
 	public boolean crouched();
 	public boolean stunned();
 	public boolean usingTechnic();
+	public boolean jumping();
 	public HitboxService currentTechnicHitbox();
 	
 
@@ -36,10 +40,12 @@ public interface CharacterService {
 	/**
 	 * @param l life
 	 * @param s speed
+	 * @param g gravity : vitesse du saut en gros
+	 * @param js jumpSpeed
 	 * @param f faceRight
 	 * @param e engine
 	 */
-	public CharacterService init(int l, int s, boolean f, EngineService e);
+	public CharacterService init(int l, int s, int g, int js, boolean f, EngineService e);
 
 	/* Operators */
 	// \post : (\exists i \with Engine::player(engine(c),i) != c \and  
@@ -81,9 +87,19 @@ public interface CharacterService {
 	
 	// TODO
 	public CharacterService standUp();
+
+	// TODO direction : -1=gauche, 0=pas de direction, 1=droite
+	public CharacterService jump(int direction);
 	
 	// TODO
 	public CharacterService useTechnic(List<Command> commands);
+	
+	// TODO Permet de decaler le joueur en cas de collision avec un autre joueur.
+	public CharacterService bumpLeft();
+	
+	// TODO
+	public CharacterService bumpRight();
+	
 	
 	// \pre : step(c) \require \not dead(c)
 	// \post : step(c, LEFT) = moveLeft(c)

@@ -55,10 +55,6 @@ public class CharacterDecorator implements CharacterService {
 		return delegate.dead();
 	}
 
-	@Override
-	public CharacterService init(int l, int s, boolean f, EngineService e) {
-		return delegate.init(l, s, f, e);
-	}
 
 	@Override
 	public CharacterService moveLeft() {
@@ -128,6 +124,46 @@ public class CharacterDecorator implements CharacterService {
 	@Override
 	public CharacterService takeDamages(int amount, int stun) {
 		return delegate.takeDamages(amount, stun);
+	}
+
+	@Override
+	public int gravity() {
+		return delegate.gravity();
+	}
+
+	@Override
+	public int jumpSpeed() {
+		return delegate.jumpSpeed();
+	}
+
+	@Override
+	public boolean jumping() {
+		return delegate.jumping();
+	}
+
+	@Override
+	public CharacterService init(int l, int s, int g, int js, boolean f, EngineService e) {
+		return delegate.init(l, s, g, js, f, e);
+	}
+
+	@Override
+	public CharacterService jump(int direction) {
+		return delegate.jump(direction);
+	}
+
+	@Override
+	public CharacterService bumpLeft() {
+		return delegate.bumpLeft();
+	}
+
+	@Override
+	public CharacterService bumpRight() {
+		return delegate.bumpRight();
+	}
+
+	@Override
+	public int maxLife() {
+		return delegate.maxLife();
 	}
 	
 	
