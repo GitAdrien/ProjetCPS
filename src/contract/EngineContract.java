@@ -61,10 +61,10 @@ public class EngineContract extends EngineDecorator {
 		if (!(character(1).positionX() == (w/2 + s/2))) // XXX wtf
 			throw new PostConditionError("p2::positionX != w//2 + s//2");
 		// \post : Character::positionY(character(init(h, w, s, p1, p2), 1)) = 0
-		if (!(character(0).positionY() == 0))
+		if (!(character(0).positionY() == height() - 250/*charHeight*/))
 			throw new PostConditionError("p1::positionY != 0");
 		// \post : Character::positionY(character(init(h, w, s, p1, p2), 2)) = 0
-		if (!(character(1).positionY() == 0))
+		if (!(character(1).positionY() == height() - 250))
 			throw new PostConditionError("p2::positionY != 0");
 		// \post : Character::faceRight(char(init(h, w, s, p1, p2), 1))
 		if (!(character(0).faceRight()))

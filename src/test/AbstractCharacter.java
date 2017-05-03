@@ -70,7 +70,10 @@ public abstract class AbstractCharacter {
 		im1 = new InputManagerContract(new InputManagerImpl());
 		im2 = new InputManagerContract(new InputManagerImpl());
 		fc = new FrameCounterContract(new FrameCounterImpl());
-		engine.init(100, 1000, 100, p1.init(10, charact, im1.init()), p2.init(10, other.init(100, 10, false, engine), im2.init()), fc.init(MAX_FRAME_VALUE));
+		fc.init(MAX_FRAME_VALUE);
+		engine.init(100, 1000, 100, p1 ,p2 ,fc);
+		//p1.init(10, charact, im1.init());
+		//p2.init(10, other.init(100, 10, false, engine),im2.init());
 
 	}
 
@@ -473,7 +476,7 @@ public abstract class AbstractCharacter {
 			coms.add(com);
 			HitboxService h = new HitboxContract(new HitboxImpl());
 			h.init(10, 10, 10, 10);
-			t.init("attaque1", coms, 10, h); // TODO mettre le recovery (frame) et la durée du stun.
+			t.init("attaque1", coms,10 ,10, 10, h); // TODO mettre le recovery (frame) et la durée du stun.
 			charact.addTechnic(t);
 			Assert.assertTrue(charact.technics().contains(t));
 		} catch (PostConditionError p) {
