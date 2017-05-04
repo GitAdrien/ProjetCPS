@@ -4,6 +4,7 @@ import enums.Command;
 import enums.direction.SimpleDirectionCommand;
 
 public interface InputManagerService {
+	public boolean isPressed(Command cmd);
 	
 	public InputManagerService init();
 	
@@ -11,6 +12,5 @@ public interface InputManagerService {
 	
 	public void setReleased(Command cmd);
 	
-	public boolean isPressed(Command cmd);
 	
 }

@@ -165,6 +165,11 @@ public class CharacterDecorator implements CharacterService {
 	public int maxLife() {
 		return delegate.maxLife();
 	}
+
+	@Override
+	public CharacterService stepState() {
+		return delegate.stepState();
+	}
 	
 	
 }

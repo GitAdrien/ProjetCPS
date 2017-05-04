@@ -1,7 +1,6 @@
 package contract.decorator;
 
 import enums.Command;
-import enums.direction.SimpleDirectionCommand;
 import interfaceservice.InputManagerService;
 
 public class InputManagerDecorator implements InputManagerService {

@@ -90,6 +90,8 @@ public class EngineImpl extends Observable implements EngineService {
 		
 		characters[p].useTechnic(players[p].commandsWithinWindow());
 		
+		characters[p].stepState();
+		
 	}
 
 	@Override

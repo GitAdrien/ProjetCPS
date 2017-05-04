@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 import enums.Command;
 import enums.attack.SimpleAttackCommand;
-import enums.direction.SimpleDirectionCommand;
 import impl.TechnicImpl;
 import interfaceservice.HitboxService;
 import interfaceservice.TechnicService;

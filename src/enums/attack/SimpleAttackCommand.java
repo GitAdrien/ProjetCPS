@@ -1,7 +1,6 @@
 package enums.attack;
 
 import enums.AttackCommand;
-import enums.Command;
 
 public enum SimpleAttackCommand implements AttackCommand {
 	PUNCH("punch", 3), KICK("kick", 3), NONE("none", 0);

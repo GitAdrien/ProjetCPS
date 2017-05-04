@@ -7,7 +7,6 @@ import contract.decorator.EngineDecorator;
 import contract.errors.InvariantError;
 import contract.errors.PostConditionError;
 import contract.errors.PreConditionError;
-import factory.CharacterFactory;
 
 public class EngineContract extends EngineDecorator {
 

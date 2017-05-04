@@ -1,6 +1,5 @@
 package enums.direction;
 
-import enums.Command;
 import enums.DirectionCommand;
 
 public enum SimpleDirectionCommand implements DirectionCommand {

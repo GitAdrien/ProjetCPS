@@ -9,7 +9,6 @@ import java.util.logging.Logger;
 import enums.Command;
 import enums.direction.ComplexeDirectionCommand;
 import enums.direction.SimpleDirectionCommand;
-import factory.CharacterFactory;
 import interfaceservice.CharacterService;
 import interfaceservice.EngineService;
 import interfaceservice.HitboxService;
@@ -234,11 +233,6 @@ public class CharacterImpl extends Observable implements CharacterService {
 
 	@Override
 	public CharacterService step(Command com) {
-		checkJump();
-		checkStun();
-		checkTechValidity();
-		checkHit();
-		checkDirection();
 
 		if (com instanceof SimpleDirectionCommand) {
 			switch ((SimpleDirectionCommand)com) {
@@ -569,6 +563,17 @@ public class CharacterImpl extends Observable implements CharacterService {
 	@Override
 	public int maxLife() {
 		return maxLife;
+	}
+
+	@Override
+	public CharacterService stepState() {
+		checkJump();
+		checkStun();
+		checkTechValidity();
+		checkHit();
+		checkDirection();
+		
+		return this;
 	}
 
 }

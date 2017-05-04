@@ -1,6 +1,5 @@
 package contract.decorator;
 
-import enums.direction.SimpleDirectionCommand;
 import interfaceservice.CharacterService;
 import interfaceservice.EngineService;
 import interfaceservice.FrameCounterService;

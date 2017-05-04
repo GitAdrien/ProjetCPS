@@ -5,8 +5,6 @@ import java.util.List;
 import enums.AttackCommand;
 import enums.Command;
 import enums.DirectionCommand;
-import enums.attack.SimpleAttackCommand;
-import enums.direction.SimpleDirectionCommand;
 import interfaceservice.CharacterService;
 import interfaceservice.InputManagerService;
 import interfaceservice.PlayerService;

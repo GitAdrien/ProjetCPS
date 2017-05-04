@@ -17,7 +17,6 @@ public class EngineThread implements Runnable {
 	
 	
 	private EngineService engine;
-	private PlayerService p1, p2;
 	
 	private boolean isOn;
 	
@@ -29,8 +28,6 @@ public class EngineThread implements Runnable {
 	
 	public void init(int h, int w, int s, PlayerService p1, PlayerService p2, FrameCounterService fc) {
 		engine.init(h, w, s, p1, p2, fc);
-		this.p1 = p1;
-		this.p2 = p2;
 		
 		InputManagerImpl im1 = new InputManagerImpl();
 		InputManagerImpl im2 = new InputManagerImpl();
