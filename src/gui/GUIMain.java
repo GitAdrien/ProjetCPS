@@ -313,7 +313,8 @@ public class GUIMain extends Application implements Observer {
 		result += "tech:" + player.character().usingTechnic() + "\n";
 		result += "stun:" + player.character().stunned() + "\n";
 		result += "jump:" + player.character().jumping() + "\n";
-			
+		result += "block:" + player.character().blocking() + "\n";
+		
 		return result;
 	}
 
@@ -321,8 +322,6 @@ public class GUIMain extends Application implements Observer {
 	public void updateLifeBar(Rectangle lifeBar, CharacterService c, boolean toRight) {
 		double percent = (c.life() * 1.0) / (c.maxLife() * 1.0);
 		int width = getLifeBarWidth(percent);
-		
-		System.out.println("percent : " + percent);
 		
 		if (toRight) {
 			int oldW = (int) lifeBar.getWidth();

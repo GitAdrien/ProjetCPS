@@ -170,6 +170,16 @@ public class CharacterDecorator implements CharacterService {
 	public CharacterService stepState() {
 		return delegate.stepState();
 	}
+
+	@Override
+	public boolean blocking() {
+		return delegate.blocking();
+	}
+
+	@Override
+	public CharacterService block() {
+		return delegate.block();
+	}
 	
 	
 }

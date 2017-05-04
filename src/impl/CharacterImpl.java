@@ -34,6 +34,7 @@ public class CharacterImpl extends Observable implements CharacterService {
 	private boolean isUsingTechnic;
 	private boolean isStunned;
 	private boolean isJumping;
+	private boolean isBlocking;
 	
 	// Tech
 	private int techStart;
@@ -57,6 +58,7 @@ public class CharacterImpl extends Observable implements CharacterService {
 	private int jumpDirection_X;
 	
 
+	
 	@Override
 	public CharacterService init(int l, int s, int g, int js, boolean f, EngineService e) {
 		life = l;
@@ -80,6 +82,8 @@ public class CharacterImpl extends Observable implements CharacterService {
 		jumpDirection_X = 0;
 		jumpForce_Y = 0;
 		jumpSpeed = js;
+		
+		isBlocking = false;
 		
 		return this;
 	}
@@ -257,6 +261,14 @@ public class CharacterImpl extends Observable implements CharacterService {
 				Logger.getAnonymousLogger().log(Level.INFO, com + " is not implemented yet.");
 				break;
 			} 
+			
+			if (faceRight && (SimpleDirectionCommand)com == SimpleDirectionCommand.LEFT)
+				block();
+			else if (!faceRight && (SimpleDirectionCommand)com == SimpleDirectionCommand.RIGHT)
+				block();
+			else 
+				isBlocking = false;
+			
 		} else if (com instanceof ComplexeDirectionCommand) {
 			switch ((ComplexeDirectionCommand)com) {
 			case DOWN_LEFT:
@@ -275,8 +287,19 @@ public class CharacterImpl extends Observable implements CharacterService {
 				Logger.getAnonymousLogger().log(Level.INFO, com + " is not implemented yet.");
 				break;
 			}
+			
+			
+			ComplexeDirectionCommand cdc = (ComplexeDirectionCommand) com;
+			
+			if (faceRight && (cdc.getC1() == SimpleDirectionCommand.LEFT || cdc.getC2() == SimpleDirectionCommand.LEFT))
+				block();
+			else if (!faceRight && (cdc.getC1() == SimpleDirectionCommand.RIGHT || cdc.getC2() == SimpleDirectionCommand.RIGHT))
+				block();
+			else
+				isBlocking = false;
 		}
 
+		setChanged();
 		notifyObservers();
 
 		return this;
@@ -446,7 +469,6 @@ public class CharacterImpl extends Observable implements CharacterService {
 			jumpDirection_X = 0;
 			jumpForce_Y = 0;
 			y = engine.height() - hitbox.height();
-			System.out.println("end jump");
 		}
 		
 		if (x <= 0) {
@@ -492,7 +514,9 @@ public class CharacterImpl extends Observable implements CharacterService {
 
 	@Override
 	public CharacterService takeDamages(int amount, int stun) {
-		life -= amount;
+		if (!isBlocking)
+			life -= amount;
+		
 		isStunned = true;
 		stunStart = engine.frameCounter().frame();
 		stunDuration = stun;
@@ -572,6 +596,23 @@ public class CharacterImpl extends Observable implements CharacterService {
 		checkTechValidity();
 		checkHit();
 		checkDirection();
+		
+		return this;
+	}
+
+	@Override
+	public boolean blocking() {
+		return isBlocking;
+	}
+
+	@Override
+	public CharacterService block() {
+		if (!isStunned || !isUsingTechnic)
+			isBlocking = true;
+		else
+			isBlocking = false;
+		
+		setChanged();
 		
 		return this;
 	}

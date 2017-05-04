@@ -22,8 +22,8 @@ public interface CharacterService {
 	public boolean stunned();
 	public boolean usingTechnic();
 	public boolean jumping();
+	public boolean blocking();
 	public HitboxService currentTechnicHitbox();
-	
 
 	/* Invariants */
 	// \inv : positionX(c) > 0 \and positionY(c) < Engine::width(engine)
@@ -135,4 +135,7 @@ public interface CharacterService {
 	//TODO
 	public CharacterService takeDamages(int amount, int stun);
 	
+	
+	// TODO
+	public CharacterService block();
 }
