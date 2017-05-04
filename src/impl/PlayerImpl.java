@@ -126,6 +126,10 @@ public class PlayerImpl implements PlayerService {
 
 	@Override
 	public AttackCommand getActiveAttack() {
+		if (character.usingTechnic())
+			return SimpleAttackCommand.NONE;
+		
+		
 		AttackCommand result = null;
 		
 		result = getComplexAttack();

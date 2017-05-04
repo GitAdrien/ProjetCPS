@@ -13,6 +13,10 @@ public class TechnicsFactory {
 		return newTechnic("Punch coco", 5, 10, 10, HitboxFactory.newHitbox(x, y, 100, 50), SimpleAttackCommand.PUNCH);
 	}
 	
+	public static TechnicService newHeavyPunch(int x, int y) {
+		return newTechnic("Strong Punch coco", 20, 20, 10, HitboxFactory.newHitbox(x, y, 100, 50), SimpleAttackCommand.PUNCH, SimpleAttackCommand.PUNCH);
+	}
+	
 	public static TechnicService newKick(int x, int y) {
 		return newTechnic("Kick kat", 5, 10, 10, HitboxFactory.newHitbox(x, y, 125, 75), SimpleAttackCommand.KICK);
 	}

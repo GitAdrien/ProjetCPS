@@ -6,6 +6,7 @@ import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import enums.AttackCommand;
 import enums.Command;
 import enums.direction.ComplexeDirectionCommand;
 import enums.direction.SimpleDirectionCommand;
@@ -41,6 +42,7 @@ public class CharacterImpl extends Observable implements CharacterService {
 	private TechnicService activeTechnic;
 	private HitboxService currentTechnicHitbox;
 	private boolean hit;
+	private int lastSum;
 
 	// Opponent
 	private CharacterService opponent;
@@ -72,8 +74,11 @@ public class CharacterImpl extends Observable implements CharacterService {
 		opponent = null;
 		opponentHitbox = null;
 		isCrouched = false;
+
 		hit = false;
 		currentTechnicHitbox = null;
+		lastSum = 0;
+		
 		stunStart = 0;
 		stunDuration = 0;
 		
@@ -201,7 +206,7 @@ public class CharacterImpl extends Observable implements CharacterService {
 	public void addTechnic(TechnicService t) {
 		technics.add(t);
 		technics.sort((t1, t2) -> {
-			return Integer.compare(t1.commands().size(), t2.commands().size());
+			return Integer.compare(t2.commands().size(), t1.commands().size());
 		});
 	}
 
@@ -362,7 +367,11 @@ public class CharacterImpl extends Observable implements CharacterService {
 
 		for (TechnicService t : technics) {
 			tmpCmd = new ArrayList<Command>(commands);
-			tmpCmd.subList(0, t.commands().size()-1);
+			
+			if (t.commands().size() > commands.size())
+				continue;
+			
+			tmpCmd.subList(0, t.commands().size());
 
 			validTechnic = true;
 
@@ -383,13 +392,27 @@ public class CharacterImpl extends Observable implements CharacterService {
 
 
 		if (tech != null) {
-			isUsingTechnic = true;
-			activeTechnic = tech;
-			techStart = engine.frameCounter().frame();
-			currentTechnicHitbox = tech.hitbox().copy();
+			int sum = 0;
+			
+			for (Command command : commands) {
+				if (command instanceof AttackCommand)
+					sum++;
+			}
 
-			refreshTechHitBox();
-			setChanged();
+			
+			if (lastSum != sum) {
+				isUsingTechnic = true;
+				activeTechnic = tech;
+				techStart = engine.frameCounter().frame();
+				currentTechnicHitbox = tech.hitbox().copy();
+				
+				
+				lastSum = sum;
+				
+				refreshTechHitBox();
+				setChanged();
+			}
+			
 		}
 		
 		
@@ -417,10 +440,8 @@ public class CharacterImpl extends Observable implements CharacterService {
 		int dif = engine.frameCounter().difference(techStart);
 
 		if (dif > activeTechnic.frame()) {
-			activeTechnic = null;
 			isUsingTechnic = false;
 			hit = false;
-			currentTechnicHitbox = null;
 			setChanged();
 		}
 
