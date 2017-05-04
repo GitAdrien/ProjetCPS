@@ -412,32 +412,49 @@ public abstract class AbstractEngine {
 		try{
 			SimpleAttackCommand com3;
 			fc.init(MAX_FRAME_VALUE);
+			
 			engine.init(300, 1000, 100, p1, p2, fc);
 			p1.init(10, engine.character(0), im1.init());
 			p2.init(10, engine.character(1), im2.init());
+			
 			addTechnics(engine.character(0));
+			
 			com1 = SimpleDirectionCommand.RIGHT;
 			com2 = SimpleDirectionCommand.LEFT;	
 			com3 = SimpleAttackCommand.KICK;
+			
 			im1.setPressed(com1);
 			im2.setPressed(com2);
+			
 			int pos_x_at_pre = -1;
+			
+			im1.setPressed(com1);				
 			while(pos_x_at_pre != engine.character(0).positionX()){
 				pos_x_at_pre = engine.character(0).positionX();
-				im1.setPressed(com1);				
 				engine.step();
-				im1.setReleased(com1);
 			}
+			
 			im1.setReleased(com1);
+			
+			
+			
+			int i = 0;
+			
 			while(!engine.character(1).dead()){
-				im1.setPressed(com3);
+				i++;
+				
+				if (i%MAX_FRAME_VALUE == 0) {
+					im1.setPressed(com3);
+				} else {
+					im1.setReleased(com3);
+				}
+				
 				engine.step();
-				im1.setReleased(com3);
 			}
+			
 			Assert.assertTrue(true);
-		}
-		catch(Error e){engine.init(300, 1000, 100, p1, p2, fc);
-		Assert.assertTrue(false);
+		} catch(Error e) {
+			Assert.assertTrue(false);
 		}
 	}
 }
