@@ -60,12 +60,12 @@ public class EngineContract extends EngineDecorator {
 		// \post : Character::positionX(character(init(h, w, s, p1, p2), 2)) = w//2 + s//2
 		if (!(character(1).positionX() == (w/2 + s/2))) // XXX wtf
 			throw new PostConditionError("p2::positionX != w//2 + s//2");
-		// \post : Character::positionY(character(init(h, w, s, p1, p2), 1)) = 0
+		// \post : Character::positionY(character(init(h, w, s, p1, p2), 1)) = height(init(h, w, s, p1, p2), 1)) -hCharact
 		if (!(character(0).positionY() == (height() - 250 /*hauteur du personnage*/))) // je ne sais pas comment la récuperer..
-			throw new PostConditionError("p1::positionY != 0");
-		// \post : Character::positionY(character(init(h, w, s, p1, p2), 2)) = 0
+			throw new PostConditionError("p1::positionY pas au niveau du sol");
+		// \post : Character::positionY(character(init(h, w, s, p1, p2), 2)) = height(init(h, w, s, p1, p2), 1)) -hCharact
 		if (!(character(1).positionY() == (height() - 250/* hauteur du personnage*/)))
-			throw new PostConditionError("p2::positionY != 0");
+			throw new PostConditionError("p2::positionY pas au niveau du sol");
 		// \post : Character::faceRight(char(init(h, w, s, p1, p2), 1))
 		if (!(character(0).faceRight()))
 			throw new PostConditionError("!p1::faceRight");
@@ -76,6 +76,5 @@ public class EngineContract extends EngineDecorator {
 		
 		return this;
 	}
-	
-	// TODO
+//TODO	
 }

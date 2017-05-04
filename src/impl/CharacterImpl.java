@@ -389,7 +389,7 @@ public class CharacterImpl extends Observable implements CharacterService {
 				break;
 			}
 		}
-
+		System.out.println("ligne 393");
 
 		if (tech != null) {
 			
@@ -400,8 +400,12 @@ public class CharacterImpl extends Observable implements CharacterService {
 				if (command instanceof AttackCommand)
 					sum++;
 			}
-			
+			System.out.println(lastSum);
+			System.out.println(sum);
+			System.out.println(engine.frameCounter().difference(techStart));
+			System.out.println(engine.player(0).window());
 			if (lastSum != sum || (lastSum == sum && engine.frameCounter().difference(techStart) > engine.player(0).window())) {
+				System.out.println("est-ont passé?");
 				isUsingTechnic = true;
 				activeTechnic = tech;
 				techStart = engine.frameCounter().frame();

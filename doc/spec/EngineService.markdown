@@ -5,7 +5,7 @@ EngineService
 Integer, CharacterService, PlayerService, Boolean
 
 ## Observator
-    \const width:[EngineService] -> Integer
+     \const width:[EngineService] -> Integer
     \const height:[EngineService] -> Integer
 
     character:[EngineService] x Integer -> CharacterService
@@ -37,8 +37,8 @@ player(init(h, w, s, p1, p2), 1) = p1
 player(init(h, w, s, p1, p2), 2) = p2
 Character ::positionX(char(init(h, w, s, p1, p2), 1)) = w//2 − s//2
 Character ::positionX(char(init(h, w, s, p1, p2), 2)) = w//2 + s//2
-Character ::positionY(char(init(h, w, s, p1, p2), 1)) = 0
-Character ::positionY(char(init(h, w, s, p1, p2), 2)) = 0
+Character ::positionY(char(init(h, w, s, p1, p2), 1)) = height(init(h, w, s, p1, p2)) - hCharact
+Character ::positionY(char(init(h, w, s, p1, p2), 2)) = height(init(h, w, s, p1, p2)) - hCharact
 Character ::faceRight(char(init(h, w, s, p1, p2), 1))
 Character ::\no(faceRight(char(init(h, w, s, p1, p2), 2)))
 [step]:

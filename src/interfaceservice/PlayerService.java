@@ -15,7 +15,7 @@ public interface PlayerService {
 	public InputManagerService inputManager();
 	
 	/* Invariants */
-	//TODO
+	//window() > 0
 	
 	/* Constructors */
 	// \pre : w >= 0
