@@ -37,12 +37,6 @@ public class CombinaisonCommandImpl implements CombinaisonCommandService {
 		return player;
 	}
 
-
-	@Override
-	public void parseCommands() {
-		// TODO 
-	}
-
 	@Override
 	public void addCommand(SimpleDirectionCommand c) {
 		commands.add(c);

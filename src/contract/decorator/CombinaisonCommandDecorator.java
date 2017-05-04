@@ -34,11 +34,6 @@ public class CombinaisonCommandDecorator implements CombinaisonCommandService {
 	}
 
 	@Override
-	public void parseCommands() {
-		delegate.parseCommands();
-	}
-
-	@Override
 	public void addCommand(SimpleDirectionCommand c) {
 		delegate.addCommand(c);
 	}
