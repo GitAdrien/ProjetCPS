@@ -174,6 +174,8 @@ public class CharacterImpl extends Observable implements CharacterService {
 
 		HitboxService cpy = hitbox.copy();
 		cpy.moveTo(positionX() + speed, cpy.positionY());
+
+
 		if (positionX() + hitbox.width() + speed > engine.width())
 			x = engine.width() - hitbox.width();
 		else if (!opponentHitbox.collidesWith(cpy)) 
@@ -390,15 +392,16 @@ public class CharacterImpl extends Observable implements CharacterService {
 
 
 		if (tech != null) {
+			
+			
 			int sum = 0;
 			
 			for (Command command : commands) {
 				if (command instanceof AttackCommand)
 					sum++;
 			}
-
 			
-			if (lastSum != sum) {
+			if (lastSum != sum || (lastSum == sum && engine.frameCounter().difference(techStart) > engine.player(0).window())) {
 				isUsingTechnic = true;
 				activeTechnic = tech;
 				techStart = engine.frameCounter().frame();
