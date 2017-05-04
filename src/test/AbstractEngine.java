@@ -13,6 +13,7 @@ import contract.errors.PostConditionError;
 import contract.errors.PreConditionError;
 import enums.attack.SimpleAttackCommand;
 import enums.direction.SimpleDirectionCommand;
+import factory.TechnicsFactory;
 import impl.CharacterImpl;
 import impl.FrameCounterImpl;
 import impl.InputManagerImpl;
@@ -22,6 +23,7 @@ import interfaceservice.EngineService;
 import interfaceservice.FrameCounterService;
 import interfaceservice.InputManagerService;
 import interfaceservice.PlayerService;
+import interfaceservice.TechnicService;
 
 public abstract class AbstractEngine {
 	private final static int MAX_FRAME_VALUE = 5000;
@@ -44,7 +46,11 @@ public abstract class AbstractEngine {
 	public final void setEngine(EngineService setEngine){
 		engine = setEngine;
 	}
-
+	private void addTechnics(CharacterService c) {         
+		c.addTechnic(TechnicsFactory.newKick(0, (int) (c.charBox().height()*0.5)));  
+		System.out.println(c.charBox().height());
+		c.addTechnic(TechnicsFactory.newPunch(0, (int) (c.charBox().height()*0.15)));     
+	}
 	@Before
 	public void beforeTests(){
 		//engine = new EngineContract(new EngineImpl());
@@ -407,10 +413,9 @@ public abstract class AbstractEngine {
 			SimpleAttackCommand com3;
 			fc.init(MAX_FRAME_VALUE);
 			engine.init(300, 1000, 100, p1, p2, fc);
-			c1.init(100, 100, 1, 20, true, engine);
-			c2.init(100, 100, 1, 20, false, engine);
-			p1.init(10, c1, im1.init());
-			p2.init(10, c2, im2.init());
+			p1.init(10, engine.character(0), im1.init());
+			p2.init(10, engine.character(1), im2.init());
+			addTechnics(engine.character(0));
 			com1 = SimpleDirectionCommand.RIGHT;
 			com2 = SimpleDirectionCommand.LEFT;	
 			com3 = SimpleAttackCommand.KICK;
@@ -419,15 +424,20 @@ public abstract class AbstractEngine {
 			int pos_x_at_pre = -1;
 			while(pos_x_at_pre != engine.character(0).positionX()){
 				pos_x_at_pre = engine.character(0).positionX();
-				engine.character(0).step(com1);
+				im1.setPressed(com1);				
+				engine.step();
+				im1.setReleased(com1);
 			}
-			while(engine.character(1).dead()){
-				engine.character(0).step(com3);
+			im1.setReleased(com1);
+			while(!engine.character(1).dead()){
+				im1.setPressed(com3);
+				engine.step();
+				im1.setReleased(com3);
 			}
 			Assert.assertTrue(true);
 		}
-		catch(Error e){
-			Assert.assertTrue(false);
+		catch(Error e){engine.init(300, 1000, 100, p1, p2, fc);
+		Assert.assertTrue(false);
 		}
 	}
 }

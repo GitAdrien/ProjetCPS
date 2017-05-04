@@ -169,8 +169,6 @@ public class CharacterImpl extends Observable implements CharacterService {
 
 		HitboxService cpy = hitbox.copy();
 		cpy.moveTo(positionX() + speed, cpy.positionY());
-
-
 		if (positionX() + hitbox.width() + speed > engine.width())
 			x = engine.width() - hitbox.width();
 		else if (!opponentHitbox.collidesWith(cpy)) 
