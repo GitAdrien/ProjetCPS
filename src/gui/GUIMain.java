@@ -279,16 +279,11 @@ public class GUIMain extends Application implements Observer {
 		CharacterImpl c = (CharacterImpl) engine.character(player);
 		
 		if (c.usingTechnic()) {
-			System.out.println("gen tech");
 			techHitboxes[player].setX(c.currentTechnicHitbox().positionX());
 			techHitboxes[player].setY(c.currentTechnicHitbox().positionY());
 			techHitboxes[player].setWidth(c.currentTechnicHitbox().width());
 			techHitboxes[player].setHeight(c.currentTechnicHitbox().height());
 			techHitboxes[player].setVisible(true);
-			System.out.println("visible : " + techHitboxes[player].isVisible());
-			System.out.println("hit : " + c.currentTechnicHitbox().positionX() +", " +c.currentTechnicHitbox().positionY());
-			System.out.println("contains : " + mainGroup.getChildren().contains(techHitboxes[player]));
-			
 		} else {
 			if (techHitboxes[player].isVisible()) {
 				techHitboxes[player].setVisible(false);

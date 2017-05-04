@@ -13,7 +13,7 @@ import interfaceservice.PlayerService;
 // TODO utiliser les contrats et non directement les impémentations.
 public class EngineThread implements Runnable {
 	private final static long PAUSE_BETWEEN_FRAMES = 25; 
-	private final static int INPUT_WINDOW_LENGHT = 5;
+	private final static int INPUT_WINDOW_LENGHT = 25;
 	
 	
 	private EngineService engine;
@@ -68,6 +68,7 @@ public class EngineThread implements Runnable {
 	private void addTechnics(CharacterService c) {
 		c.addTechnic(TechnicsFactory.newKick(0, (int) (c.charBox().height()*0.5)));
 		c.addTechnic(TechnicsFactory.newPunch(0, (int) (c.charBox().height()*0.15)));
+		c.addTechnic(TechnicsFactory.newHeavyPunch(0, (int) (c.charBox().height()*0.15)));
 	}
 	
 	
