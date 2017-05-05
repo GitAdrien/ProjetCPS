@@ -5,10 +5,12 @@ PlayerService
 Integer, Command, CharacterService, InputManagerService, DirectionCommand, AttackCommand
 
 ## Observator
-    window:[PlayerService] -> Integer
+    const window:[PlayerService] -> Integer
     commandsWithinWindow:[PlayerService] -> List<Command>
     character[PlayerService] -> CharacterService
     inputManager[PlayerService] -> InputManagerService
+    lastInput[PlayerService] -> Integer
+    
 
 ## Constructors
     init:Integer x CharacterService x InputManagerService -> [PlayerService]
@@ -23,8 +25,8 @@ Integer, Command, CharacterService, InputManagerService, DirectionCommand, Attac
 
 [Invariant]
 
-    none
-
+    ((FrameCounterService::difference(EngineService::frameCounter(character(p)), lastInput(p)) > window) \and getActiveDirection(p) = NEUTRAL \and getActiveAttack(p) = NONE)
+    => commandsWithinWindow(p) = \empty
 [init]
 
     window(init(w, c, i)) = w
@@ -35,8 +37,8 @@ Integer, Command, CharacterService, InputManagerService, DirectionCommand, Attac
 
     InputManagerService::isPressed(inputManager(p), c1) \and
     InputManagerService::isPressed(inputManager(p), c2) \and
-    (\exists c, c \in ComplexeAttackCommand, (ComplexeAttackCommand::getC1(c, c1) \and ComplexeAttackCommand::getC2(c, c1)) \or
-    (ComplexeAttackCommand::getC2(c, c1) \and ComplexeAttackCommand::getC1(c, c1))) => getActiveAttack(p) = c
+    (\exists c, c \in ComplexeAttackCommand, (ComplexeAttackCommand::getC1(c, c1) \and ComplexeAttackCommand::getC2(c, c2)) \or
+    (ComplexeAttackCommand::getC2(c, c1) \and ComplexeAttackCommand::getC1(c, c2))) => getActiveAttack(p) = c
     InputManagerService::isPressed(inputManager(p), c) \and c \in AttackCommand => getActiveAttack(p) = c
 
 
@@ -44,6 +46,6 @@ Integer, Command, CharacterService, InputManagerService, DirectionCommand, Attac
 
     InputManagerService::isPressed(inputManager(p), c1) \and
     InputManagerService::isPressed(inputManager(p), c2) \and
-    (\exists c, c \in ComplexeDirectionCommand, (ComplexeDirectionCommand::getC1(c, c1) \and ComplexeDirectionCommand::getC2(c, c1)) \or
-    (ComplexeDirectionCommand::getC2(c, c1) \and ComplexeDirectionCommand::getC1(c, c1))) => getActiveDirection(p) = c
+    (\exists c, c \in ComplexeDirectionCommand, (ComplexeDirectionCommand::getC1(c, c1) \and ComplexeDirectionCommand::getC2(c, c2)) \or
+    (ComplexeDirectionCommand::getC2(c, c1) \and ComplexeDirectionCommand::getC1(c, c2))) => getActiveDirection(p) = c
     InputManagerService::isPressed(inputManager(p), c) \and c \in DirectionCommand => getActiveDirection(p) = c
