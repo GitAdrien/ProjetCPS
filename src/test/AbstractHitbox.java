@@ -317,7 +317,7 @@ public abstract class AbstractHitbox {
 	//Fonction setHeight
 	//PRE
 	@Test
-	public void testsetHeightPre(){ //h>0
+	public void testSetHeightPre(){ //h>0
 		try{
 			hitbox.init(10, 5, 20, 50);
 			hitbox.setHeight(10);
@@ -330,7 +330,7 @@ public abstract class AbstractHitbox {
 	}
 	
 	@Test
-	public void testsetHeightPreFail(){ //h=0
+	public void testSetHeightPreFail(){ //h=0
 		try{
 			hitbox.init(10, 5, 20, 50);
 			hitbox.setHeight(0);
@@ -343,7 +343,7 @@ public abstract class AbstractHitbox {
 	}
 
 	@Test
-	public void testsetHeightPreFail2(){ //h<0
+	public void testSetHeightPreFail2(){ //h<0
 		try{
 			hitbox.init(10, 5, 20, 50);
 			hitbox.setHeight(-5);
@@ -358,18 +358,76 @@ public abstract class AbstractHitbox {
 	//POST
 	
 	@Test
-	public void testsetHeightPost(){		// \post : width(setHeight(hb, h)) = h
+	public void testSetHeightPost(){		// \post : width(setHeight(hb, h)) = h
 		try{
 			hitbox.init(10, 5, 20, 50);
 			Assert.assertTrue(hitbox.setHeight(10).height() == 10);
 
 		}
 		catch(PostConditionError p){
-			System.out.println(p.getMessage());
 			Assert.assertTrue(false);
 		}
 	}
 	
-	//TODO : copy
+	//Step
+	//POST
+	
+	@Test
+	public void testCopyPost(){	// \post : positionX(h) = positionX(copy(h))
+		try{
+			hitbox.init(10, 5, 20, 50);
+			HitboxService copy = new HitboxContract(new HitboxImpl());
+			copy = hitbox.copy();
+			Assert.assertTrue(copy.positionX() == hitbox.positionX());
+		}
+		catch(PostConditionError p){
+			Assert.assertTrue(false);
+		}
+		
+	}
+	
+	@Test
+	public void testCopyPost2(){	// \post : positionY(h) = positionY(copy(h))
+		try{
+			hitbox.init(10, 5, 20, 50);
+			HitboxService copy = new HitboxContract(new HitboxImpl());
+			copy = hitbox.copy();
+			Assert.assertTrue(copy.positionY() == hitbox.positionY());
+		}
+		catch(PostConditionError p){
+			Assert.assertTrue(false);
+		}
+		
+	}
+	
+	@Test
+	public void testCopyPost3(){	// \post : width(h) = width(copy(h))
+		try{
+			hitbox.init(10, 5, 20, 50);
+			HitboxService copy = new HitboxContract(new HitboxImpl());
+			copy = hitbox.copy();
+			Assert.assertTrue(copy.width() == hitbox.width());
+		}
+		catch(PostConditionError p){
+			Assert.assertTrue(false);
+		}
+		
+	}
+	
+	@Test
+	public void testCopyPost4(){	// \post : height(h) = height(copy(h))
+		try{
+			hitbox.init(10, 5, 20, 50);
+			HitboxService copy = new HitboxContract(new HitboxImpl());
+			copy = hitbox.copy();
+			Assert.assertTrue(copy.height() == hitbox.height());
+		}
+		catch(PostConditionError p){
+			Assert.assertTrue(false);
+		}
+		
+	}
+	
+	
 }
 
