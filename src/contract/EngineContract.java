@@ -55,8 +55,8 @@ public class EngineContract extends EngineDecorator {
 		// \post : player(init(h, s, w, p1, p2), 2) = p2
 		if (!(p2.equals(player(1))))
 			throw new PostConditionError("p2 != player(1)");
-		// \post : Character::positionX(character(init(h, w, s, p1, p2), 1)) = w//2 - s//2
-		if (!(character(0).positionX() == (w/2 - s/2)))
+		// \post : Character::positionX(character(init(h, w, s, p1, p2), 1)) = w//2 - s//2 TODO width
+		if (!(character(0).positionX() == ((w/2 - s/2) - character(0).charBox().width())))
 			throw new PostConditionError("p1::positionX != w//2 - s//2");
 		// \post : Character::positionX(character(init(h, w, s, p1, p2), 2)) = w//2 + s//2
 		if (!(character(1).positionX() == (w/2 + s/2)))

@@ -21,17 +21,8 @@ public class CharacterFactory {
 		int w = engine.width();
 		int h = engine.height();
 		int middle = w / 2;
-		result.charBox().init((middle - (spacing/2)), h - CHAR_H_HEIGHT, CHAR_H_WIDTH, CHAR_H_HEIGHT);
+		result.charBox().init((middle - (spacing/2)) - CHAR_H_WIDTH, h - CHAR_H_HEIGHT, CHAR_H_WIDTH, CHAR_H_HEIGHT);
 		return result;
-	}
-	
-	public static CharacterImpl newCharacterImplOnLeftSide(EngineService engine, int spacing) {
-		return (CharacterImpl) (newCharacterOnLeftSide(engine, spacing));
-	}
-	
-	
-	public static CharacterImpl newCharacterImplOnRightSide(EngineService engine, int spacing) {
-		return (CharacterImpl) (newCharacterOnRightSide(engine, spacing));
 	}
 	
 	public static CharacterService newCharacterOnRightSide(EngineService engine, int spacing) {
@@ -45,5 +36,14 @@ public class CharacterFactory {
 		result.charBox().init((middle + (spacing/2)), h - CHAR_H_HEIGHT, CHAR_H_WIDTH, CHAR_H_HEIGHT);
 		
 		return result;
+	}
+
+	public static CharacterImpl newCharacterImplOnLeftSide(EngineService engine, int spacing) {
+		return (CharacterImpl) (newCharacterOnLeftSide(engine, spacing));
+	}
+	
+	
+	public static CharacterImpl newCharacterImplOnRightSide(EngineService engine, int spacing) {
+		return (CharacterImpl) (newCharacterOnRightSide(engine, spacing));
 	}
 }
