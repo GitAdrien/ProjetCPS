@@ -40,22 +40,20 @@ public class HitboxContract extends HitboxDecorator {
 
 
 	@Override
-	public HitboxService moveTo(int x, int y) {//TODO: service modifié!!!
+	public HitboxService moveTo(int x, int y) {
 		//  pre moveTo(x, y) \require x >= 0 \and y >= 0
 		if(!(x >= 0 && y>=0))
 			throw new PreConditionError("x or y < 0");
 		// pre invariant
 		checkInvariant();
 
-
-		super.moveTo(x, y);
-
-
 		boolean belongsTo_centre_at_pre = belongsTo(positionX(), positionY());
 		boolean belongsTo_centre_100_at_pre = belongsTo(positionX() +100, positionY() +100);
 		boolean belongsTo_abs_at_pre = belongsTo(300, 0);
 		int positionX_at_pre = positionX();
 		int positionY_at_pre = positionY();
+
+		super.moveTo(x, y);
 
 		// post invariant
 		checkInvariant();
@@ -77,9 +75,8 @@ public class HitboxContract extends HitboxDecorator {
 
 		if(! (belongsTo(300 +(x - positionX_at_pre), 0 + (y - positionY_at_pre)) == belongsTo_abs_at_pre))
 			throw new PostConditionError("belongsTo(300 +(x - positionX_at_pre), 0 + (y - positionY_at_pre)) != belongsTo_abs_at_pre");
-		// Vérifie si il y a collision.
-		// TODO
 
+		
 		return this;
 	}
 
@@ -127,7 +124,7 @@ public class HitboxContract extends HitboxDecorator {
 
 	
 	@Override
-	public HitboxService clone() {
+	public HitboxService copy() {
 		super.copy();
 		int x_at_pre = positionX();
 		int y_at_pre = positionY();
