@@ -447,7 +447,8 @@ public abstract class AbstractEngine {
 			}
 			
 			Assert.assertTrue(true);
-		} catch(Error e) {
+		} catch(Error p) {
+			System.out.println(p.getMessage());
 			Assert.assertTrue(false);
 		}
 	}
