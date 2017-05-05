@@ -39,6 +39,9 @@ public interface HitboxService {
 	public HitboxService setHeight(int height);
 	
 	
-	//TODO : pre-post copy??
+	// \post : positionX(h) = positionX(copy(h))
+	// \post : positionY(h) = positionY(copy(h))
+	// \post : width(h) = width(copy(h))
+	// \post : height(h) = height(copy(h))
 	public HitboxService copy();
 }

@@ -62,10 +62,10 @@ public class EngineContract extends EngineDecorator {
 		if (!(character(1).positionX() == (w/2 + s/2)))
 			throw new PostConditionError("p2::positionX != w//2 + s//2");
 		// \post : Character::positionY(character(init(h, w, s, p1, p2), 1)) = height(init(h, w, s, p1, p2), 1)) -hCharact
-		if (!(character(0).positionY() == (height() - 250 /*hauteur du personnage*/))) // je ne sais pas comment la récuperer..
+		if (!(character(0).positionY() == (height() - character(0).charBox().height()))) // je ne sais pas comment la récuperer..
 			throw new PostConditionError("p1::positionY pas au niveau du sol");
 		// \post : Character::positionY(character(init(h, w, s, p1, p2), 2)) = height(init(h, w, s, p1, p2), 1)) -hCharact
-		if (!(character(1).positionY() == (height() - 250/* hauteur du personnage*/)))
+		if (!(character(1).positionY() == (height() - character(1).charBox().height())))
 			throw new PostConditionError("p2::positionY pas au niveau du sol");
 		// \post : Character::faceRight(char(init(h, w, s, p1, p2), 1))
 		if (!(character(0).faceRight()))
@@ -77,6 +77,7 @@ public class EngineContract extends EngineDecorator {
 		
 		return this;
 	}
+	
 	public EngineService step() {
 		//  \pre : step(E) \requires \no(gameOver(E))
 		if(gameOver()){
@@ -84,9 +85,7 @@ public class EngineContract extends EngineDecorator {
 		}
 		super.step();
 		checkInvariant();
-		CharacterService c1  = this.character(0);
-		CharacterService c2 = this.character(1);
-		// Pas testable?
+		
 		return this;
 	}
 //TODO	

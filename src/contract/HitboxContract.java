@@ -128,7 +128,27 @@ public class HitboxContract extends HitboxDecorator {
 	
 	@Override
 	public HitboxService clone() {
-		// TODO
-		return super.copy();
+		super.copy();
+		int x_at_pre = positionX();
+		int y_at_pre = positionY();
+		int w_at_pre = width();
+		int h_at_pre = height();
+		checkInvariant();
+		// \post : positionX(h) = positionX(copy(h))
+		if(!(x_at_pre == positionX()))
+			throw new PostConditionError("positionX(h) != positionX(copy(h))");
+		
+		// \post : positionY(h) = positionY(copy(h))
+		if(!(y_at_pre == positionY()))
+			throw new PostConditionError("positionX(h) != positionX(copy(h))");
+
+		// \post : width(h) = width(copy(h))
+		if(!(w_at_pre == width()))
+			throw new PostConditionError("positionX(h) != positionX(copy(h))");
+
+		// \post : height(h) = height(copy(h))
+		if(!(h_at_pre == height()))
+			throw new PostConditionError("positionX(h) != positionX(copy(h))");
+		return this;
 	}
 }

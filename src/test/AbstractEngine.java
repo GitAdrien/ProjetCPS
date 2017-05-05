@@ -362,10 +362,7 @@ public abstract class AbstractEngine {
 			p2.init(10, c2, im2.init());
 			com1 = SimpleDirectionCommand.RIGHT;
 			com2 = SimpleDirectionCommand.LEFT;	
-			im1.setPressed(com1);
-			im2.setPressed(com2);
 			if(engine.gameOver()){
-				engine.step();
 				Assert.assertTrue(false);
 			}
 
@@ -386,11 +383,8 @@ public abstract class AbstractEngine {
 			p2.init(10, c2, im2.init());
 			com1 = SimpleDirectionCommand.RIGHT;
 			com2 = SimpleDirectionCommand.LEFT;	
-			im1.setPressed(com1);
-			im2.setPressed(com2);
 
 			if(!engine.gameOver()){
-				engine.step();
 				Assert.assertTrue(true);
 			}
 
