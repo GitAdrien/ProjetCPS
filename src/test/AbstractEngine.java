@@ -13,6 +13,7 @@ import contract.errors.PostConditionError;
 import contract.errors.PreConditionError;
 import enums.attack.SimpleAttackCommand;
 import enums.direction.SimpleDirectionCommand;
+import factory.CharacterFactory;
 import factory.TechnicsFactory;
 import impl.CharacterImpl;
 import impl.FrameCounterImpl;
@@ -256,11 +257,11 @@ public abstract class AbstractEngine {
 		try{
 			fc.init(MAX_FRAME_VALUE);
 			engine.init(300, 1000, 100, p1, p2, fc);
-			c1.init(100, 100, 1, 20, true, engine);
-			c2.init(100, 100, 1, 20, false, engine);
+			c1 = CharacterFactory.newCharacterOnLeftSide(engine, 100);
+			c2 = CharacterFactory.newCharacterOnRightSide(engine, 100);
 			p1.init(10, c1, im1.init());
 			p2.init(10, c2, im2.init());
-			Assert.assertTrue(engine.character(0).positionX() == (1000/2) - (100/2)); //joueurs 1
+			Assert.assertTrue(engine.character(0).positionX() == ((1000/2) - (100/2) - c1.charBox().width())); //joueurs 1
 		}
 		catch(PostConditionError p){
 			Assert.assertTrue(false);

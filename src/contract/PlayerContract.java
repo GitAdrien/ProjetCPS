@@ -4,8 +4,11 @@ import interfaceservice.CharacterService;
 import interfaceservice.InputManagerService;
 import interfaceservice.PlayerService;
 import contract.decorator.PlayerDecorator;
+import contract.errors.InvariantError;
 import contract.errors.PostConditionError;
 import contract.errors.PreConditionError;
+import enums.attack.SimpleAttackCommand;
+import enums.direction.SimpleDirectionCommand;
 
 public class PlayerContract extends PlayerDecorator {
 
@@ -14,7 +17,13 @@ public class PlayerContract extends PlayerDecorator {
 	}
 	
 	public void checkInvariant() {
-		//TODO
+		if(!((this.character().engine().frameCounter().difference(lastInput()) > window()) && 
+				getActiveDirection() == SimpleDirectionCommand.NEUTRAL && 
+				getActiveAttack() == SimpleAttackCommand.NONE))
+			if(!commandsWithinWindow().isEmpty())
+				throw new InvariantError("list is not empty");
+				
+			
 	}
 	
 	@Override
@@ -22,7 +31,7 @@ public class PlayerContract extends PlayerDecorator {
 		// \pre : w >= 0
 		if(!(w >= 0))
 			throw new PreConditionError("w is not positive");
-		checkInvariant();
+		//checkInvariant();
 		
 		super.init(w, c, im);
 

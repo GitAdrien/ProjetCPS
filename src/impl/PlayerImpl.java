@@ -187,4 +187,10 @@ public class PlayerImpl implements PlayerService {
 		return result;
 	}
 
+	@Override
+	public int lastInput() {
+
+		return lastInput;
+	}
+
 }

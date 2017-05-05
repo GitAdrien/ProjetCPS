@@ -50,5 +50,10 @@ public class PlayerDecorator implements PlayerService {
 	public AttackCommand getActiveAttack() {
 		return delegate.getActiveAttack();
 	}
+
+	@Override
+	public int lastInput() {
+		return delegate.lastInput();
+	}
 	
 }
