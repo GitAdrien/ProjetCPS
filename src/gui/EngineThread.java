@@ -1,36 +1,47 @@
 package gui;
 
+import contract.EngineContract;
+import contract.InputManagerContract;
+import contract.decorator.EngineDecorator;
 import factory.TechnicsFactory;
 import impl.EngineImpl;
 import impl.InputManagerImpl;
 import interfaceservice.CharacterService;
 import interfaceservice.EngineService;
 import interfaceservice.FrameCounterService;
+import interfaceservice.InputManagerService;
 import interfaceservice.PlayerService;
 
 
-
-// TODO utiliser les contrats et non directement les impémentations.
 public class EngineThread implements Runnable {
 	private final static long PAUSE_BETWEEN_FRAMES = 25; 
 	private final static int INPUT_WINDOW_LENGHT = 25;
 	
 	
 	private EngineService engine;
+	private EngineImpl engineI;
+	
+	
+	private InputManagerImpl im1I, im2I;
 	
 	private boolean isOn;
 	
 	
 	public EngineThread() {
-		engine = new EngineImpl();
+		engineI = new EngineImpl();
+		engine = new EngineDecorator(new EngineContract(engineI));
+		
 		isOn = true;
 	}
 	
 	public void init(int h, int w, int s, PlayerService p1, PlayerService p2, FrameCounterService fc) {
 		engine.init(h, w, s, p1, p2, fc);
 		
-		InputManagerImpl im1 = new InputManagerImpl();
-		InputManagerImpl im2 = new InputManagerImpl();
+		im1I = new InputManagerImpl();
+		im2I = new InputManagerImpl();
+		
+		InputManagerService im1 = new InputManagerContract(new InputManagerContract(im1I));
+		InputManagerService im2 = new InputManagerContract(new InputManagerContract(im2I));
 		
 		im1.init();
 		im2.init();
@@ -45,6 +56,10 @@ public class EngineThread implements Runnable {
 	
 	public EngineService getEngine() {
 		return engine;
+	}
+	
+	public EngineImpl getEngineI() {
+		return engineI;
 	}
 	
 	public void setOn(boolean isOn) {

@@ -2,6 +2,8 @@ package impl;
 
 import java.util.Observable;
 
+import contract.CharacterContract;
+import contract.decorator.CharacterDecorator;
 import enums.AttackCommand;
 import enums.DirectionCommand;
 import factory.CharacterFactory;
@@ -15,6 +17,7 @@ public class EngineImpl extends Observable implements EngineService {
 	
 	private int width, height;
 	private CharacterService[] characters;
+	private CharacterImpl[] charI;
 	private PlayerService[] players;
 	private FrameCounterService frameCounter;
 
@@ -28,8 +31,13 @@ public class EngineImpl extends Observable implements EngineService {
 		players = new PlayerService[]{p1, p2};
 		characters = new CharacterService[2];
 		
-		characters[0] = CharacterFactory.newCharacterOnLeftSide(this, s);
-		characters[1] = CharacterFactory.newCharacterOnRightSide(this, s);
+		charI = new CharacterImpl[2];
+		
+		charI[0] = CharacterFactory.newCharacterImplOnLeftSide(this, s);
+		charI[1] = CharacterFactory.newCharacterImplOnRightSide(this, s);
+		
+		characters[0] = new CharacterDecorator(new CharacterContract(charI[0]));
+		characters[1] = new CharacterDecorator(new CharacterContract(charI[1]));
 		
 		fc.init(MAX_FRAME);
 		
@@ -92,11 +100,20 @@ public class EngineImpl extends Observable implements EngineService {
 		
 		characters[p].stepState();
 		
+		
 	}
 
 	@Override
 	public FrameCounterService frameCounter() {
 		return frameCounter;
+	}
+	
+	public CharacterImpl getCharImpl(int c) {
+		if (c == 0 || c == 1)
+			return charI[c];
+		else 
+			return null;
+	
 	}
 
 }

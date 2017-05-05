@@ -5,6 +5,8 @@ import java.util.Observable;
 import java.util.Observer;
 
 import config.ControlScheme;
+import contract.PlayerContract;
+import contract.decorator.PlayerDecorator;
 import enums.Command;
 import impl.CharacterImpl;
 import impl.EngineImpl;
@@ -76,8 +78,12 @@ public class GUIMain extends Application implements Observer {
 			e.printStackTrace();
 		}
 		
-		PlayerService p1 = new PlayerImpl();
-		PlayerService p2 = new PlayerImpl();
+		PlayerImpl p1I = new PlayerImpl();
+		PlayerImpl p2I = new PlayerImpl();
+		
+		
+		PlayerService p1 = new PlayerDecorator(new PlayerContract(p1I));
+		PlayerService p2 = new PlayerDecorator(new PlayerContract(p2I));
 		
 		
 		engineThreadRunnable = new EngineThread();
@@ -85,14 +91,15 @@ public class GUIMain extends Application implements Observer {
 		
 		engine = engineThreadRunnable.getEngine();
 		
-		EngineImpl ei = (EngineImpl) engineThreadRunnable.getEngine();
+		EngineImpl ei = engineThreadRunnable.getEngineI();
 		
 		ei.addObserver(this);
-
-		CharacterImpl ci = (CharacterImpl) ei.character(0);
+		
+		
+		CharacterImpl ci = ei.getCharImpl(0);
 		ci.addObserver(this);
 		
-		ci = (CharacterImpl) ei.character(1);
+		ci =  ei.getCharImpl(1);
 		ci.addObserver(this);
 	
 	}
@@ -276,7 +283,7 @@ public class GUIMain extends Application implements Observer {
 	}
 	
 	private void updatePlayerTechnicHitbox(int player) {
-		CharacterImpl c = (CharacterImpl) engine.character(player);
+		CharacterImpl c = engineThreadRunnable.getEngineI().getCharImpl(player);
 		
 		if (c.usingTechnic()) {
 			techHitboxes[player].setX(c.currentTechnicHitbox().positionX());
@@ -327,6 +334,7 @@ public class GUIMain extends Application implements Observer {
 		lifeBar.setWidth(width);
 		
 	}
+	
 	
 	public static void main(String[] args) {
 		launch(args);

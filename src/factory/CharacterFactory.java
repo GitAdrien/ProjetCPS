@@ -25,6 +25,14 @@ public class CharacterFactory {
 		return result;
 	}
 	
+	public static CharacterImpl newCharacterImplOnLeftSide(EngineService engine, int spacing) {
+		return (CharacterImpl) (newCharacterOnLeftSide(engine, spacing));
+	}
+	
+	
+	public static CharacterImpl newCharacterImplOnRightSide(EngineService engine, int spacing) {
+		return (CharacterImpl) (newCharacterOnRightSide(engine, spacing));
+	}
 	
 	public static CharacterService newCharacterOnRightSide(EngineService engine, int spacing) {
 		CharacterService result = new CharacterImpl();
