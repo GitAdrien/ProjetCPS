@@ -41,7 +41,7 @@ public interface EngineService {
 	 */
 	public EngineService init(int h, int w, int s, PlayerService p1, PlayerService p2, FrameCounterService fc);
 	/* Operators */
-	// \pre : step(e) \with non(gameOver(e))
+	// \pre : step(e) \with no(gameOver(e))
 	// \post : character(step(e, C1, C2), 1) = step(character(e, 1), C1)
 	// \post : character(step(e, C1, C2), 2) = step(character(e, 2), C2)
 	public EngineService step();	

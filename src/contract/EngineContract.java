@@ -1,5 +1,6 @@
 package contract;
 
+import interfaceservice.CharacterService;
 import interfaceservice.EngineService;
 import interfaceservice.FrameCounterService;
 import interfaceservice.PlayerService;
@@ -55,10 +56,10 @@ public class EngineContract extends EngineDecorator {
 		if (!(p2.equals(player(1))))
 			throw new PostConditionError("p2 != player(1)");
 		// \post : Character::positionX(character(init(h, w, s, p1, p2), 1)) = w//2 - s//2
-		if (!(character(0).positionX() == (w/2 - s/2))) // XXX wtf
+		if (!(character(0).positionX() == (w/2 - s/2)))
 			throw new PostConditionError("p1::positionX != w//2 - s//2");
 		// \post : Character::positionX(character(init(h, w, s, p1, p2), 2)) = w//2 + s//2
-		if (!(character(1).positionX() == (w/2 + s/2))) // XXX wtf
+		if (!(character(1).positionX() == (w/2 + s/2)))
 			throw new PostConditionError("p2::positionX != w//2 + s//2");
 		// \post : Character::positionY(character(init(h, w, s, p1, p2), 1)) = height(init(h, w, s, p1, p2), 1)) -hCharact
 		if (!(character(0).positionY() == (height() - 250 /*hauteur du personnage*/))) // je ne sais pas comment la récuperer..
@@ -74,6 +75,18 @@ public class EngineContract extends EngineDecorator {
 			throw new PostConditionError("p2::faceRight");
 		
 		
+		return this;
+	}
+	public EngineService step() {
+		//  \pre : step(E) \requires \no(gameOver(E))
+		if(gameOver()){
+			throw new PreConditionError("Game Over");
+		}
+		super.step();
+		checkInvariant();
+		CharacterService c1  = this.character(0);
+		CharacterService c2 = this.character(1);
+		// Pas testable?
 		return this;
 	}
 //TODO	

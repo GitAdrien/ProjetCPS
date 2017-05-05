@@ -215,7 +215,6 @@ public abstract class AbstractEngine {
 			Assert.assertTrue(engine.player(1).equals(p2));
 		}
 		catch(PostConditionError p){
-			System.out.println(p.getMessage());
 			Assert.assertTrue(false);
 		}
 	}
