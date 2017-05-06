@@ -71,6 +71,7 @@ Integer, Boolean
 
 [setHeight]
 
+    height(setHeight(hb, h)) > 0
     height(setHeight(hb, h)) = h
 
 [equalsTo]
