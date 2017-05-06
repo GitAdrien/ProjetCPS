@@ -5,29 +5,28 @@ EngineService
 Integer, CharacterService, PlayerService, Boolean
 
 ## Observator
-    \const width:[EngineService] -> Integer
-    \const height:[EngineService] -> Integer
+    const width:[EngineService] -> Integer
+    const height:[EngineService] -> Integer
 
     character:[EngineService] x Integer -> CharacterService
-    \pre : character(e, i) \require
-        i \in {0,1}
+    pre : character(e, i) require
+        i in {0,1}
 
     player:[EngineService] x Integer -> PlayerService
-    \pre : player(e, i) \require
-        i \in {0,1}
+    pre : player(e, i) require
+        i in {0,1}
     gameOver:[EngineService] -> Boolean
     frameCounter:[EngineService] -> FrameCounterService
 
 ## Constructors
     init: int * int * int * Player * Player -> [Engine]
-    pre init(h,w,s,p1,p2) \requires h > 0 \and s > 0 \and w > s \and p1 != p2
+    pre init(h,w,s,p1,p2) requires h > 0 and s > 0 and w > s and p1 != p2
 
 ## Operators
     step: [Engine] * Command * Command -> [Engine]
     pre step(E) \requires \not(gameOver(E))
 
 ## Observations
-
 [Invariant]
 
     gameOver(E) = Character::dead(player(E, 0)) \or Character::dead(player(E, 1))

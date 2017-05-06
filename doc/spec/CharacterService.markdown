@@ -54,6 +54,7 @@ bool, int, Command, EngineService, TechnicService, HitboxService
 
     stepState: [CharacterService] -> [CharacterService]
     block: [CharacterService] -> [CharacterService]
+
 ## Observations:
 
 [invariant]

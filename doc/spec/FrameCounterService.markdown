@@ -10,22 +10,22 @@ Integer
 
 ## Constructors
     init: Integer -> [FrameCounterService]
-    \pre init(m) \require
+    pre init(m) require
         m > 0
 
 ## Operators
 
     nextFrame:[FrameCounterService] -> [FrameCounterService]
     difference2:[FrameCounterService] x Integer -> Integer
-    \pre difference(fc, i) \require
-        i >= 0 \and
+    pre difference(fc, i) require
+        i >= 0 and
         i < max(fc)
 
     difference1:[FrameCounterService] x Integer x Integer -> Integer
-    \pre difference(fc, i, j) \require
-        i >= 0 \and
-        i < max(fc) \and
-        j >= 0 \and
+    pre difference(fc, i, j) \require
+        i >= 0 and
+        i < max(fc) and
+        j >= 0 and
         j < max(fc)
 
 ## Observations

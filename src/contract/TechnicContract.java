@@ -5,6 +5,7 @@ import java.util.List;
 import interfaceservice.HitboxService;
 import interfaceservice.TechnicService;
 import contract.decorator.TechnicDecorator;
+import contract.errors.InvariantError;
 import contract.errors.PostConditionError;
 import contract.errors.PreConditionError;
 import enums.Command;
@@ -16,7 +17,9 @@ public class TechnicContract extends TechnicDecorator {
 	}
 	
 	public void checkInvariant() {
-		//TODO
+		//hitbox(t) != \empty
+		if(!(hitbox().width() > 0 && hitbox().height() > 0))
+			throw new InvariantError("hitbox is empty");
 	}
 	
 	@Override
@@ -28,13 +31,12 @@ public class TechnicContract extends TechnicDecorator {
 			throw new PreConditionError("c is empty");
 		if (!(d >= 0))
 			throw new PreConditionError("d < 0");
-		
-		// TODO f et s
+		if (!(f >= 0))
+			throw new PreConditionError("f < 0");
+		if (!(s >= 0))
+			throw new PreConditionError("s < 0");
 		
 
-		// Pre invariants
-		checkInvariant();
-		
 		super.init(n, c, d, f, s, h);
 		
 		

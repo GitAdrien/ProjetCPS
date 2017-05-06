@@ -18,24 +18,24 @@ Integer, Boolean
 ## Constructors
 
     init:Integer x Integer x Integer x Integer -> HitboxService
-    \pre init(x, y, w, h) \require
-        w > 0 \and
-        h > 0 \and
+    pre init(x, y, w, h) \require
+        w > 0 and
+        h > 0 
 
 
 ## Operators
 
     moveTo:[HitboxService] x Integer x Integer -> [HitboxService]
-    \pre moveTo(h, x, y) \require
+    pre moveTo(h, x, y) require
         x>=0 \and
         y>=0
 
     setWidth:[HitboxService] x Integer -> [HitboxService]
-    \pre setWidth(hb, w) \require
+    pre setWidth(hb, w) require
         w > 0
 
     setHeight:[HitboxService] x Integer -> [HitboxService]
-    \pre setHeight(hb, h) \require
+    pre setHeight(hb, h) require
         h > 0
 
     copy:[HitboxService] -> HitboxService
@@ -44,8 +44,8 @@ Integer, Boolean
 
 [Invariant]
 
-    (min) collidesWith(h1, h2) = \exists x, y \in belongsTo(h1, x, y) \and belongsTo(h2, x, y)
-    (min) equalsTo(h1, h2) = \exists x, y \in belongsTo(h1, x, y) = belongsTo(h2, x, y)
+    (min) collidesWith(h1, h2) = exists x, y in belongsTo(h1, x, y) \and belongsTo(h2, x, y)
+    (min) equalsTo(h1, h2) = exists x, y in belongsTo(h1, x, y) = belongsTo(h2, x, y)
     height(h) > 0
     witdh(h) > 0
 

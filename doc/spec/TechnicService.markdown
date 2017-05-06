@@ -12,7 +12,7 @@ String, Command, Integer, HitboxService
     stun:[TechnicService]  -> Integer
 ## Constructors
     init:String x List<Command> x Integer x Integer x Integer x HitboxService -> [TechnicService]
-    \pre init(n, c, d, f, s, h) \require
+    pre init(n, c, d, f, s, h) require
         n != \empty \and
         c != \empty \and
         h != \empty \and
@@ -29,7 +29,7 @@ None
 
 [Invariant]
 
-    hitbox(t) != \empty
+    hitbox(t) != empty
 
 [init]
 
