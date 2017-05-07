@@ -10,6 +10,7 @@ import org.junit.runners.Suite.SuiteClasses;
 		CharacterTest.class,
 		HitboxTest.class,
 		PlayerTest.class,
+		HitboxTestError.class,
 })
 public class WholeTestSuits {
 
