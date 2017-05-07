@@ -9,9 +9,7 @@ import contract.errors.PostConditionError;
 import contract.errors.PreConditionError;
 import enums.AttackCommand;
 import enums.DirectionCommand;
-import enums.attack.ComplexeAttackCommand;
 import enums.attack.SimpleAttackCommand;
-import enums.direction.ComplexeDirectionCommand;
 import enums.direction.SimpleDirectionCommand;
 
 public class PlayerContract extends PlayerDecorator {
@@ -55,43 +53,44 @@ public class PlayerContract extends PlayerDecorator {
 	
 	public DirectionCommand getActiveDirection(){
 		DirectionCommand res = super.getActiveDirection();
-		//FAUX : Difficlement testable en réalité : voir getActiveAttack
 		
-		//checkInvariant(); //appel de getActiveDirection dans le checkInvariant
-		
-		// \post: InputManagerService::isPressed(inputManager(p), c1) \and
-	    //	InputManagerService::isPressed(inputManager(p), c2) \and
-	    //	(\exists c, c \in ComplexeAttackCommand, (ComplexeAttackCommand::getC1(c, c1) \and ComplexeAttackCommand::getC2(c, c2)) \or
-	    //	(ComplexeAttackCommand::getC2(c, c1) \and ComplexeAttackCommand::getC1(c, c2))) => getActiveAttack(p) = c
-		SimpleDirectionCommand cmd = SimpleDirectionCommand.LEFT;
-		SimpleDirectionCommand cmd2 = SimpleDirectionCommand.RIGHT;
-
-		if(inputManager().isPressed(cmd) && inputManager().isPressed(cmd2) && (cmd == ComplexeDirectionCommand.DOWN_LEFT.getC1()) && (cmd2 == ComplexeDirectionCommand.DOWN_LEFT.getC2())){
-			if(!(res == ComplexeDirectionCommand.DOWN_LEFT))
-				throw new PostConditionError("error commands");
-		}
-	
-		if(inputManager().isPressed(cmd) && inputManager().isPressed(cmd2) && (cmd == ComplexeDirectionCommand.DOWN_LEFT.getC2()) && (cmd2 == ComplexeDirectionCommand.DOWN_LEFT.getC1())){
-			if(!(res == ComplexeDirectionCommand.DOWN_LEFT))
-				throw new PostConditionError("error commands");
-		}
-		cmd = SimpleDirectionCommand.DOWN;
-		cmd2 = SimpleDirectionCommand.LEFT;
-		if(inputManager().isPressed(cmd) && inputManager().isPressed(cmd2) && (cmd == ComplexeDirectionCommand.DOWN_LEFT.getC1()) && (cmd2 == ComplexeDirectionCommand.DOWN_LEFT.getC2())){
-			if(!(res == ComplexeDirectionCommand.DOWN_LEFT))
-				throw new PostConditionError("error commands");
-		}
-	
-		if(inputManager().isPressed(cmd) && inputManager().isPressed(cmd2) && (cmd == ComplexeDirectionCommand.DOWN_LEFT.getC2()) && (cmd2 == ComplexeDirectionCommand.DOWN_LEFT.getC1())){
-			if(!(res == ComplexeDirectionCommand.DOWN_LEFT))
-				throw new PostConditionError("error commands");
-		}
-		
-		// \post: InputManagerService::isPressed(inputManager(p), c) \and c \in DirectionCommand => getActiveDirection(p) = c
-		if(inputManager().isPressed(cmd)){
-			if(!(res == cmd))
-				throw new PostConditionError("error commands");
-		}
+//		//FAUX : Difficlement testable en réalité : voir getActiveAttack
+//		
+//		//checkInvariant(); //appel de getActiveDirection dans le checkInvariant
+//		
+//		// \post: InputManagerService::isPressed(inputManager(p), c1) \and
+//	    //	InputManagerService::isPressed(inputManager(p), c2) \and
+//	    //	(\exists c, c \in ComplexeAttackCommand, (ComplexeAttackCommand::getC1(c, c1) \and ComplexeAttackCommand::getC2(c, c2)) \or
+//	    //	(ComplexeAttackCommand::getC2(c, c1) \and ComplexeAttackCommand::getC1(c, c2))) => getActiveAttack(p) = c
+//		SimpleDirectionCommand cmd = SimpleDirectionCommand.LEFT;
+//		SimpleDirectionCommand cmd2 = SimpleDirectionCommand.RIGHT;
+//
+//		if(inputManager().isPressed(cmd) && inputManager().isPressed(cmd2) && (cmd == ComplexeDirectionCommand.DOWN_LEFT.getC1()) && (cmd2 == ComplexeDirectionCommand.DOWN_LEFT.getC2())){
+//			if(!(res == ComplexeDirectionCommand.DOWN_LEFT))
+//				throw new PostConditionError("error commands");
+//		}
+//	
+//		if(inputManager().isPressed(cmd) && inputManager().isPressed(cmd2) && (cmd == ComplexeDirectionCommand.DOWN_LEFT.getC2()) && (cmd2 == ComplexeDirectionCommand.DOWN_LEFT.getC1())){
+//			if(!(res == ComplexeDirectionCommand.DOWN_LEFT))
+//				throw new PostConditionError("error commands");
+//		}
+//		cmd = SimpleDirectionCommand.DOWN;
+//		cmd2 = SimpleDirectionCommand.LEFT;
+//		if(inputManager().isPressed(cmd) && inputManager().isPressed(cmd2) && (cmd == ComplexeDirectionCommand.DOWN_LEFT.getC1()) && (cmd2 == ComplexeDirectionCommand.DOWN_LEFT.getC2())){
+//			if(!(res == ComplexeDirectionCommand.DOWN_LEFT))
+//				throw new PostConditionError("error commands");
+//		}
+//	
+//		if(inputManager().isPressed(cmd) && inputManager().isPressed(cmd2) && (cmd == ComplexeDirectionCommand.DOWN_LEFT.getC2()) && (cmd2 == ComplexeDirectionCommand.DOWN_LEFT.getC1())){
+//			if(!(res == ComplexeDirectionCommand.DOWN_LEFT))
+//				throw new PostConditionError("error commands");
+//		}
+//		
+//		// \post: InputManagerService::isPressed(inputManager(p), c) \and c \in DirectionCommand => getActiveDirection(p) = c
+//		if(inputManager().isPressed(cmd)){
+//			if(!(res == cmd))
+//				throw new PostConditionError("error commands");
+//		}
 	return res;
 	}
 	

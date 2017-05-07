@@ -1,6 +1,5 @@
 package interfaceservice;
 
-import enums.direction.SimpleDirectionCommand;
 
 public interface EngineService {
 	/* Observator */

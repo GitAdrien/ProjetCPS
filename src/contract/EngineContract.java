@@ -1,6 +1,5 @@
 package contract;
 
-import interfaceservice.CharacterService;
 import interfaceservice.EngineService;
 import interfaceservice.FrameCounterService;
 import interfaceservice.PlayerService;

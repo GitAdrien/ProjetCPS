@@ -24,7 +24,6 @@ import interfaceservice.EngineService;
 import interfaceservice.FrameCounterService;
 import interfaceservice.InputManagerService;
 import interfaceservice.PlayerService;
-import interfaceservice.TechnicService;
 
 public abstract class AbstractEngine {
 	private final static int MAX_FRAME_VALUE = 5000;
@@ -448,7 +447,6 @@ public abstract class AbstractEngine {
 			
 			Assert.assertTrue(true);
 		} catch(Error p) {
-			System.out.println(p.getMessage());
 			Assert.assertTrue(false);
 		}
 	}

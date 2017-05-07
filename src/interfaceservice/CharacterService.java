@@ -15,14 +15,16 @@ public interface CharacterService {
 	public int speed(); //const
 	public int gravity();
 	public int jumpSpeed();
+	public List<TechnicService> technics();
+	
 	public boolean faceRight();
 	public boolean dead();
-	public List<TechnicService> technics();
 	public boolean crouched();
 	public boolean stunned();
 	public boolean usingTechnic();
 	public boolean jumping();
 	public boolean blocking();
+
 	public HitboxService currentTechnicHitbox();
 
 	/* Invariants */

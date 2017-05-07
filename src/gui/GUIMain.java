@@ -66,7 +66,6 @@ public class GUIMain extends Application implements Observer {
 	private Scene scene;
 	private Camera camera;
 
-	private Group mainGroup;
 	
 	public GUIMain() {}
 	
@@ -111,8 +110,6 @@ public class GUIMain extends Application implements Observer {
 		initModel();
 		
 		Group g = new Group();
-		
-		mainGroup = g;
 		
 		EngineService e = engineThreadRunnable.getEngine();
 		
@@ -203,15 +200,9 @@ public class GUIMain extends Application implements Observer {
 		engineThread = new Thread(engineThreadRunnable);
 		engineThread.start();
 
-//		engine.character(0).
-		
 		refreshPlayers();
 		
-		
-		
 		primaryStage.show();
-		
-		
 		
 		primaryStage.setOnCloseRequest(window -> {
 			engineThreadRunnable.setOn(false);

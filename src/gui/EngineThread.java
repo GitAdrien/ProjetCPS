@@ -74,9 +74,11 @@ public class EngineThread implements Runnable {
 			try {
 				Thread.sleep(PAUSE_BETWEEN_FRAMES);
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				System.out.println("Interrupt");
 			}
 		}
+		
+		System.out.println("End");
 	}
 	
 	

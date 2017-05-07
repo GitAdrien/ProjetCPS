@@ -11,7 +11,6 @@ import contract.CharacterContract;
 import contract.EngineContract;
 import contract.FrameCounterContract;
 import contract.HitboxContract;
-import contract.InputManagerContract;
 import contract.PlayerContract;
 import contract.TechnicContract;
 import contract.errors.PostConditionError;
@@ -22,14 +21,12 @@ import impl.CharacterImpl;
 import impl.EngineImpl;
 import impl.FrameCounterImpl;
 import impl.HitboxImpl;
-import impl.InputManagerImpl;
 import impl.PlayerImpl;
 import impl.TechnicImpl;
 import interfaceservice.CharacterService;
 import interfaceservice.EngineService;
 import interfaceservice.FrameCounterService;
 import interfaceservice.HitboxService;
-import interfaceservice.InputManagerService;
 import interfaceservice.PlayerService;
 import interfaceservice.TechnicService;
 
@@ -41,8 +38,6 @@ public abstract class AbstractCharacter {
 	private CharacterService other;
 	private PlayerService p1;
 	private PlayerService p2;
-	private InputManagerService im1;
-	private InputManagerService im2;
 	private FrameCounterService fc;
 	
 	/**
@@ -67,8 +62,6 @@ public abstract class AbstractCharacter {
 		p1 = new PlayerContract(new PlayerImpl());
 		p2 = new PlayerContract(new PlayerImpl());
 		engine = new EngineContract(new EngineImpl());
-		im1 = new InputManagerContract(new InputManagerImpl());
-		im2 = new InputManagerContract(new InputManagerImpl());
 		fc = new FrameCounterContract(new FrameCounterImpl());
 		fc.init(MAX_FRAME_VALUE);
 		engine.init(100, 1000, 100, p1 ,p2 ,fc);
@@ -332,7 +325,6 @@ public abstract class AbstractCharacter {
 	public void testPostMoveRight3(){ //ni collison avec un autre joueur, ni avec le mur de gauche
 		try {
 			charact.init(10, 10, 1, 5, true, engine);
-			int posX_at_pre = charact.positionX();
 			if (charact.engine().character(0).equals(charact))
 				other = charact.engine().character(1);
 			else
