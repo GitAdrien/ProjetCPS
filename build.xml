@@ -5,6 +5,7 @@
               directory with the processing instruction <?eclipse.ant.import?>
               as the first entry and export the buildfile again. --><project basedir="." default="build" name="ProjetCPS">
     <property environment="env"/>
+    <property name="junit.output.dir" value="junit"/>
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.8"/>
     <property name="source" value="1.8"/>
@@ -54,14 +55,25 @@
         <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
         <antcall target="build"/>
     </target>
-    <target name="ControlScheme">
-        <java classname="config.ControlScheme" failonerror="true" fork="yes">
+    <target name="WholeTestSuits">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="test.WholeTestSuits" todir="${junit.output.dir}"/>
             <classpath refid="ProjetCPS.classpath"/>
-        </java>
+        </junit>
     </target>
     <target name="GUIMain">
         <java classname="gui.GUIMain" failonerror="true" fork="yes">
             <classpath refid="ProjetCPS.classpath"/>
         </java>
+    </target>
+    <target name="junitreport">
+        <junitreport todir="${junit.output.dir}">
+            <fileset dir="${junit.output.dir}">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${junit.output.dir}"/>
+        </junitreport>
     </target>
 </project>
